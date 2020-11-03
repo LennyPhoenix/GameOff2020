@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/PlayerTMP-Gun.png-e7d80454cc0f57d09215fe6bd9c5529d.stex"
+path="res://.import/TMP.png-927301d735df86d5f300d797e389e9ed.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/PlayerTMP-Gun.png"
-dest_files=[ "res://.import/PlayerTMP-Gun.png-e7d80454cc0f57d09215fe6bd9c5529d.stex" ]
+source_file="res://Assets/Weapons/TMP.png"
+dest_files=[ "res://.import/TMP.png-927301d735df86d5f300d797e389e9ed.stex" ]
 
 [params]
 
