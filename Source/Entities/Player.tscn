@@ -7,7 +7,7 @@
 [ext_resource path="res://Assets/Lights/spot.png" type="Texture" id=5]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 8.0
+radius = 7.0
 
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 2
