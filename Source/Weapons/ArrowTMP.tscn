@@ -8,4 +8,6 @@
 position = Vector2( 0.5, 5 )
 texture = ExtResource( 3 )
 projectile = ExtResource( 2 )
-spawnOffset = Vector2( 6, 0 )
+
+[node name="SpawnOffset" parent="." index="0"]
+position = Vector2( 6.5, 0 )

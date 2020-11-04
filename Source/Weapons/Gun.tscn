@@ -4,3 +4,5 @@
 
 [node name="Gun" type="Sprite"]
 script = ExtResource( 1 )
+
+[node name="SpawnOffset" type="Node2D" parent="."]

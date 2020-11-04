@@ -6,9 +6,12 @@ public class Gun : Sprite
     [Export]
     public PackedScene projectile;
     [Export]
-    public Vector2 spawnOffset = Vector2.Zero;
+    public int accuracyAngle = 1;
+    [Export]
+    public int accuracySteps = 2;
 
     public Node2D projectiles;
+    public Node2D spawnOffset;
 
     public override void _Ready()
     {
@@ -17,6 +20,8 @@ public class Gun : Sprite
         Node app = GetTree().CurrentScene;
         Node2D groundEntities = app.GetNode<Node2D>("Planet").GetNode<Node2D>("GroundEntities");
         projectiles = groundEntities.GetNode<Node2D>("Projectiles");
+
+        spawnOffset = GetNode<Node2D>("SpawnOffset");
     }
 
     public override void _UnhandledInput(InputEvent @event)
@@ -33,8 +38,10 @@ public class Gun : Sprite
     {
         Projectile proj = (Projectile)projectile.Instance();
 
-        proj.GlobalPosition = GlobalPosition + spawnOffset.Rotated(GlobalRotation);
-        proj.GlobalRotation = GlobalRotation;
+        float accuracyModifier = (float)GD.RandRange(-accuracyAngle * accuracySteps, accuracyAngle * accuracySteps) / accuracySteps;
+
+        proj.GlobalPosition = spawnOffset.GlobalPosition;
+        proj.GlobalRotation = spawnOffset.GlobalRotation + Mathf.Deg2Rad(accuracyModifier);
 
         projectiles.AddChild(proj);
     }
