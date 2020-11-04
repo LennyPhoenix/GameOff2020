@@ -1,10 +1,68 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Source/Weapons/ArrowTMP.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Assets/PlayerTMP-Head.png" type="Texture" id=2]
-[ext_resource path="res://Assets/PlayerTMP-Body.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Entities/Player.png" type="Texture" id=2]
 [ext_resource path="res://Source/Entities/Player.cs" type="Script" id=4]
 [ext_resource path="res://Assets/Lights/spot.png" type="Texture" id=5]
+
+[sub_resource type="Animation" id=3]
+resource_name = "Idle"
+length = 0.25
+loop = true
+step = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath("Rotate/Head:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 0, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Rotate/Body:frame_coords")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "Move"
+loop = true
+step = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath("Rotate/Body:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25, 0.5, 0.75 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 0, 2 ), Vector2( 1, 2 ), Vector2( 2, 2 ), Vector2( 3, 2 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Rotate/Head:frame_coords")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ Vector2( 0, 3 ) ]
+}
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 7.0
@@ -12,6 +70,11 @@ radius = 7.0
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 2
 script = ExtResource( 4 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Idle"
+anims/Idle = SubResource( 3 )
+anims/Move = SubResource( 2 )
 
 [node name="Lights" type="Node2D" parent="."]
 
@@ -43,12 +106,19 @@ drag_margin_bottom = 0.05
 [node name="Rotate" type="Node2D" parent="."]
 
 [node name="Body" type="Sprite" parent="Rotate"]
-texture = ExtResource( 3 )
+texture = ExtResource( 2 )
+vframes = 4
+hframes = 4
+frame = 8
 
 [node name="Gun" parent="Rotate" instance=ExtResource( 1 )]
+position = Vector2( 1.5, 8 )
 
 [node name="Head" type="Sprite" parent="Rotate"]
 texture = ExtResource( 2 )
+vframes = 4
+hframes = 4
+frame = 12
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
