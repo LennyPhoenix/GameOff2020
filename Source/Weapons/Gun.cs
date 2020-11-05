@@ -3,11 +3,14 @@ using System;
 
 public class Gun : Sprite
 {
-    [Export]
+    [Signal] 
+    public delegate void Fired();
+
+    [Export] 
     public PackedScene projectile;
-    [Export]
+    [Export] 
     public int accuracyAngle = 1;
-    [Export]
+    [Export] 
     public int accuracySteps = 2;
 
     public Node2D projectiles;
@@ -44,5 +47,7 @@ public class Gun : Sprite
         proj.GlobalRotation = spawnOffset.GlobalRotation + Mathf.Deg2Rad(accuracyModifier);
 
         projectiles.AddChild(proj);
+
+        EmitSignal("Fired");
     }
 }
