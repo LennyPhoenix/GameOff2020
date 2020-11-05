@@ -1,17 +1,56 @@
 using Godot;
+using Godot.Collections;
 using System;
 using System.Security.Cryptography.X509Certificates;
 
+[Tool]
 public class DaylightCycle : CanvasModulate
 {
+    public Color dayColor = new Color("fcf7d7");
     [Export]
-    public Color dayColor = new Color("f7eeb1");
+    public Color DayColor
+    {
+        get { return dayColor; }
+        set { 
+            dayColor = value;
+            if (Engine.EditorHint && forward)
+            {
+                Color = value;
+            }
+        }
+    }
+
+    public Color nightColor = new Color("232544");
     [Export]
-    public Color nightColor = new Color("31345f");
+    public Color NightColor
+    {
+        get { return nightColor; }
+        set
+        {
+            nightColor = value;
+            if (Engine.EditorHint && !forward)
+            {
+                Color = value;
+            }
+        }
+    }
     [Export]
-    public float time = 100f;
+    public float cycleLength = 100f;
 
     public bool forward = true;
+    [Export]
+    public bool Forward
+    {
+        get { return forward;  }
+        set
+        {
+            forward = value;
+            if (Engine.EditorHint)
+            {
+                Color = forward ? dayColor : nightColor;
+            }
+        }
+    }
 
     public Tween tween;
 
@@ -19,9 +58,14 @@ public class DaylightCycle : CanvasModulate
     {
         base._Ready();
 
-        tween = GetNode<Tween>("Tween");
-
         Color = forward ? dayColor : nightColor;
+
+        if (Engine.EditorHint)
+        {
+            return;
+        }
+
+        tween = GetNode<Tween>("Tween");
 
         StartTween();
     }
@@ -51,7 +95,7 @@ public class DaylightCycle : CanvasModulate
         tween.InterpolateProperty(
             this, "color",
             start, end,
-            time,
+            cycleLength,
             Tween.TransitionType.Quart,
             Tween.EaseType.Out
         );
