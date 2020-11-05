@@ -1,6 +1,7 @@
 using Godot;
 using System;
 
+[Tool]
 public class Gun : Sprite
 {
     [Signal] public delegate void Fired();
@@ -20,6 +21,11 @@ public class Gun : Sprite
     {
         base._Ready();
 
+        if (Engine.EditorHint)
+        {
+            return;
+        }
+
         Node app = GetTree().CurrentScene;
         Node2D groundEntities = app.GetNode<Node2D>("Planet").GetNode<Node2D>("GroundEntities");
         Projectiles = groundEntities.GetNode<Node2D>("Projectiles");
@@ -27,9 +33,23 @@ public class Gun : Sprite
         SpawnOffset = GetNode<Node2D>("SpawnOffset");
     }
 
+    public override string _GetConfigurationWarning()
+    {
+        if (Projectile is null)
+        {
+            return "Projectile property is set to null.";
+        }
+        return "";
+    }
+
     public override void _UnhandledInput(InputEvent @event)
     {
         base._UnhandledInput(@event);
+
+        if (Engine.EditorHint)
+        {
+            return;
+        }
 
         if (@event.IsActionPressed("shoot"))
         {
