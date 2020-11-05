@@ -3,15 +3,11 @@ using System;
 
 public class Gun : Sprite
 {
-    [Signal] 
-    public delegate void Fired();
+    [Signal] public delegate void Fired();
 
-    [Export] 
-    public PackedScene projectile;
-    [Export] 
-    public int accuracyAngle = 1;
-    [Export] 
-    public int accuracySteps = 2;
+    [Export] public PackedScene projectile;
+    [Export] public int accuracyAngle = 1;
+    [Export] public int accuracySteps = 2;
 
     public Node2D projectiles;
     public Node2D spawnOffset;

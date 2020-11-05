@@ -7,8 +7,7 @@ using System.Security.Cryptography.X509Certificates;
 public class DaylightCycle : CanvasModulate
 {
     public Color dayColor = new Color("fcf7d7");
-    [Export]
-    public Color DayColor
+    [Export] public Color DayColor
     {
         get { return dayColor; }
         set { 
@@ -21,8 +20,7 @@ public class DaylightCycle : CanvasModulate
     }
 
     public Color nightColor = new Color("232544");
-    [Export]
-    public Color NightColor
+    [Export] public Color NightColor
     {
         get { return nightColor; }
         set
@@ -34,12 +32,10 @@ public class DaylightCycle : CanvasModulate
             }
         }
     }
-    [Export]
-    public float cycleLength = 100f;
+    [Export] public float cycleLength = 100f;
 
     public bool forward = true;
-    [Export]
-    public bool Forward
+    [Export] public bool Forward
     {
         get { return forward;  }
         set

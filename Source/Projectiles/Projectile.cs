@@ -3,10 +3,8 @@ using System;
 
 public class Projectile : Area2D
 {
-    [Export]
-    public Vector2 velocity = new Vector2(500f, 0f);
-    [Export]
-    public float lifetime = 1.5f;
+    [Export] public Vector2 velocity = new Vector2(500f, 0f);
+    [Export] public float lifetime = 1.5f;
 
     public Vector2 move;
 

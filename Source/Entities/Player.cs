@@ -12,24 +12,18 @@ public class Player : KinematicBody2D
     public State state;
 
     // Movement
-    [Export]
-    public float acceleration = 500f;
-    [Export]
-    public float maxSpeed = 60f;
-    [Export]
-    public float friction = 800f;
-    [Export]
-    public float cameraForwardMult = 40f;
+    [Export] public float acceleration = 500f;
+    [Export] public float maxSpeed = 60f;
+    [Export] public float friction = 800f;
+    [Export] public float cameraForwardMult = 40f;
 
     public float drag;
     public Vector2 velocity = Vector2.Zero;
     public Vector2 inputVec = Vector2.Zero;
 
     // Rotation
-    [Export]
-    public float rotationSpeed = 5f;
-    [Export]
-    public float rotationTimerStart = 0.3f;
+    [Export] public float rotationSpeed = 5f;
+    [Export] public float rotationTimerStart = 0.3f;
 
     public float rotationStart = 0f;
     public float rotationEnd = 0f;
