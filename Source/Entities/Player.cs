@@ -8,7 +8,6 @@ public class Player : KinematicBody2D
     {
         Idle,
         Move,
-        Turn,
     }
     public State state;
 
@@ -94,11 +93,6 @@ public class Player : KinematicBody2D
                     state = State.Move;
                 }
 
-                if (Mathf.Round(rotate.GlobalRotation * 2) / 2 != Mathf.Round(rotationEnd * 2) / 2)
-                {
-                    state = State.Turn;
-                }
-
                 break;
 
             case State.Move:
@@ -113,26 +107,7 @@ public class Player : KinematicBody2D
                 }
 
                 break;
-
-            case State.Turn:
-                animationPlayer.Play("Move");
-
-                if (Mathf.Round(rotate.GlobalRotation * 2) / 2 == Mathf.Round(rotationEnd * 2) / 2)
-                {
-                    state = State.Idle;
-                }
-
-                if (inputVec != Vector2.Zero)
-                {
-                    state = State.Move;
-                }
-
-                GD.Print(Mathf.Round(rotate.GlobalRotation * 2) / 2, Mathf.Round(rotationEnd * 2) / 2);
-
-                break;
         }
-
-        GD.Print(state);
     }
 
     public override void _PhysicsProcess(float delta)
@@ -156,9 +131,6 @@ public class Player : KinematicBody2D
 
                 velocity = MoveAndSlide(velocity);
 
-                break;
-
-            case State.Turn:
                 break;
         }
     }
