@@ -36,7 +36,7 @@ public class Player : KinematicBody2D
     public float rotationTimer;
 
     public Node2D rotate;
-    public Camera2D camera;
+    public ShakeCamera2D camera;
     public AnimationPlayer animationPlayer;
 
     public override void _Ready()
@@ -48,8 +48,13 @@ public class Player : KinematicBody2D
         rotationTimer = rotationTimerStart;
         
         rotate = GetNode<Node2D>("Rotate");
-        camera = GetNode<Camera2D>("Camera");
+        camera = GetNode<ShakeCamera2D>("Camera");
         animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+    }
+
+    public void _OnGunFired()
+    {
+        camera.Shake(.1f, 50f, .5f);
     }
 
     public override void _Process(float delta)
