@@ -5,12 +5,16 @@ public class Gun : Sprite
 {
     [Signal] public delegate void Fired();
 
-    [Export] public PackedScene projectile;
-    [Export] public int accuracyAngle = 1;
-    [Export] public int accuracySteps = 2;
+    [Export] public PackedScene Projectile;
+    [Export] public int AccuracyAngle = 1;
+    [Export] public int AccuracySteps = 2;
 
-    public Node2D projectiles;
-    public Node2D spawnOffset;
+    [Export] public float ShakeDuration = .1f;
+    [Export] public float ShakeFrequency = 50f;
+    [Export] public float ShakeAmplitude = 0.5f;
+
+    public Node2D Projectiles;
+    public Node2D SpawnOffset;
 
     public override void _Ready()
     {
@@ -18,9 +22,9 @@ public class Gun : Sprite
 
         Node app = GetTree().CurrentScene;
         Node2D groundEntities = app.GetNode<Node2D>("Planet").GetNode<Node2D>("GroundEntities");
-        projectiles = groundEntities.GetNode<Node2D>("Projectiles");
+        Projectiles = groundEntities.GetNode<Node2D>("Projectiles");
 
-        spawnOffset = GetNode<Node2D>("SpawnOffset");
+        SpawnOffset = GetNode<Node2D>("SpawnOffset");
     }
 
     public override void _UnhandledInput(InputEvent @event)
@@ -35,15 +39,21 @@ public class Gun : Sprite
 
     public void Shoot()
     {
-        Projectile proj = (Projectile)projectile.Instance();
+        Projectile proj = (Projectile)Projectile.Instance();
 
-        float accuracyModifier = (float)GD.RandRange(-accuracyAngle * accuracySteps, accuracyAngle * accuracySteps) / accuracySteps;
+        float accuracyModifier = (float)GD.RandRange(-AccuracyAngle * AccuracySteps, AccuracyAngle * AccuracySteps) / AccuracySteps;
 
-        proj.GlobalPosition = spawnOffset.GlobalPosition;
-        proj.GlobalRotation = spawnOffset.GlobalRotation + Mathf.Deg2Rad(accuracyModifier);
+        proj.GlobalPosition = SpawnOffset.GlobalPosition;
+        proj.GlobalRotation = SpawnOffset.GlobalRotation + Mathf.Deg2Rad(accuracyModifier);
 
-        projectiles.AddChild(proj);
+        Projectiles.AddChild(proj);
 
         EmitSignal("Fired");
+        GetTree().CallGroup(
+            "ShakeCamera", "Shake", 
+            ShakeDuration,
+            ShakeFrequency,
+            ShakeAmplitude
+        );
     }
 }

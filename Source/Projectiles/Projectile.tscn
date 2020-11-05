@@ -2,7 +2,9 @@
 
 [ext_resource path="res://Source/Projectiles/Projectile.cs" type="Script" id=1]
 
-[node name="Projectile" type="Area2D"]
+[node name="Projectile" type="Area2D" groups=[
+"Projectile",
+]]
 collision_layer = 8
 script = ExtResource( 1 )
 

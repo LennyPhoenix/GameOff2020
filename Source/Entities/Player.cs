@@ -9,46 +9,41 @@ public class Player : KinematicBody2D
         Idle,
         Move,
     }
-    public State state;
+    public State CurrentState;
 
     // Movement
-    [Export] public float acceleration = 500f;
-    [Export] public float maxSpeed = 60f;
-    [Export] public float friction = 800f;
-    [Export] public float cameraForwardMult = 40f;
+    [Export] public float Acceleration = 500f;
+    [Export] public float MaxSpeed = 60f;
+    [Export] public float Friction = 800f;
+    [Export] public float CameraForwardMult = 40f;
 
-    public float drag;
-    public Vector2 velocity = Vector2.Zero;
-    public Vector2 inputVec = Vector2.Zero;
+    public float Drag;
+    public Vector2 Velocity = Vector2.Zero;
+    public Vector2 InputVec = Vector2.Zero;
 
     // Rotation
-    [Export] public float rotationSpeed = 5f;
-    [Export] public float rotationTimerStart = 0.3f;
+    [Export] public float RotationSpeed = 5f;
+    [Export] public float RotationTimerStart = 0.3f;
 
-    public float rotationStart = 0f;
-    public float rotationEnd = 0f;
-    public float rotationTimer;
+    public float RotationStart = 0f;
+    public float RotationEnd = 0f;
+    public float RotationTimer;
 
-    public Node2D rotate;
-    public ShakeCamera2D camera;
-    public AnimationPlayer animationPlayer;
+    public Node2D RotateGroup;
+    public ShakeCamera2D Camera;
+    public AnimationPlayer AnimationPlayer;
 
     public override void _Ready()
     {
         base._Ready();
 
-        state = State.Idle;
+        CurrentState = State.Idle;
 
-        rotationTimer = rotationTimerStart;
+        RotationTimer = RotationTimerStart;
         
-        rotate = GetNode<Node2D>("Rotate");
-        camera = GetNode<ShakeCamera2D>("Camera");
-        animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
-    }
-
-    public void _OnGunFired()
-    {
-        camera.Shake(.1f, 50f, .5f);
+        RotateGroup = GetNode<Node2D>("Rotate");
+        Camera = GetNode<ShakeCamera2D>("Camera");
+        AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
     }
 
     public override void _Process(float delta)
@@ -56,53 +51,53 @@ public class Player : KinematicBody2D
         base._Process(delta);
 
         // Get Input
-        inputVec = Vector2.Zero;
-        inputVec.x += Input.GetActionStrength("right");
-        inputVec.x -= Input.GetActionStrength("left");
-        inputVec.y += Input.GetActionStrength("down");
-        inputVec.y -= Input.GetActionStrength("up");
-        inputVec = inputVec.Normalized();
+        InputVec = Vector2.Zero;
+        InputVec.x += Input.GetActionStrength("right");
+        InputVec.x -= Input.GetActionStrength("left");
+        InputVec.y += Input.GetActionStrength("down");
+        InputVec.y -= Input.GetActionStrength("up");
+        InputVec = InputVec.Normalized();
 
         // Rotate To Mouse
-        float target = GetGlobalMousePosition().AngleToPoint(rotate.GlobalPosition);
+        float target = GetGlobalMousePosition().AngleToPoint(RotateGroup.GlobalPosition);
 
-        if (target != rotationEnd)
+        if (target != RotationEnd)
         {
-            rotationStart = rotate.GlobalRotation;
-            rotationEnd = target;
-            rotationTimer = rotationTimerStart;
+            RotationStart = RotateGroup.GlobalRotation;
+            RotationEnd = target;
+            RotationTimer = RotationTimerStart;
         }
 
-        if (rotate.GlobalRotation != rotationEnd)
+        if (RotateGroup.GlobalRotation != RotationEnd)
         {
-            rotate.GlobalRotation = Mathf.LerpAngle(rotate.GlobalRotation, rotationEnd, rotationTimer);
+            RotateGroup.GlobalRotation = Mathf.LerpAngle(RotateGroup.GlobalRotation, RotationEnd, RotationTimer);
 
-            rotationTimer += delta * rotationSpeed;
+            RotationTimer += delta * RotationSpeed;
 
-            rotationTimer = Math.Min(rotationTimer, 1f);
+            RotationTimer = Math.Min(RotationTimer, 1f);
         }
 
-        switch (state)
+        switch (CurrentState)
         {
             case State.Idle:
-                animationPlayer.Play("Idle");
+                AnimationPlayer.Play("Idle");
 
-                if (inputVec != Vector2.Zero)
+                if (InputVec != Vector2.Zero)
                 {
-                    state = State.Move;
+                    CurrentState = State.Move;
                 }
 
                 break;
 
             case State.Move:
-                animationPlayer.Play("Move");
+                AnimationPlayer.Play("Move");
 
                 // Offset Camera
-                camera.Position = inputVec * cameraForwardMult;
+                Camera.Position = InputVec * CameraForwardMult;
 
-                if (inputVec == Vector2.Zero)
+                if (InputVec == Vector2.Zero)
                 {
-                    state = State.Idle;
+                    CurrentState = State.Idle;
                 }
 
                 break;
@@ -113,22 +108,22 @@ public class Player : KinematicBody2D
     {
         base._PhysicsProcess(delta);
 
-        switch (state)
+        switch (CurrentState)
         {
             case State.Idle:
                 break;
 
             case State.Move:
-                if (inputVec != Vector2.Zero)
+                if (InputVec != Vector2.Zero)
                 {
-                    velocity = velocity.MoveToward(inputVec * maxSpeed, acceleration * delta);
+                    Velocity = Velocity.MoveToward(InputVec * MaxSpeed, Acceleration * delta);
                 }
                 else
                 {
-                    velocity = velocity.MoveToward(Vector2.Zero, friction * delta);
+                    Velocity = Velocity.MoveToward(Vector2.Zero, Friction * delta);
                 }
 
-                velocity = MoveAndSlide(velocity);
+                Velocity = MoveAndSlide(Velocity);
 
                 break;
         }

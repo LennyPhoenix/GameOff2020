@@ -6,95 +6,85 @@ using System.Security.Cryptography.X509Certificates;
 [Tool]
 public class DaylightCycle : CanvasModulate
 {
-    public Color dayColor = new Color("fcf7d7");
+    private Color dayColor = new Color("fcf7d7");
     [Export] public Color DayColor
     {
-        get { return dayColor; }
-        set { 
+        get => dayColor;
+        set
+        {
             dayColor = value;
-            if (Engine.EditorHint && forward)
+            if (Engine.EditorHint && Forward)
             {
                 Color = value;
             }
         }
     }
 
-    public Color nightColor = new Color("232544");
+    private Color nightColor = new Color("232544");
     [Export] public Color NightColor
     {
-        get { return nightColor; }
+        get => nightColor;
         set
         {
             nightColor = value;
-            if (Engine.EditorHint && !forward)
+            if (Engine.EditorHint && !Forward)
             {
                 Color = value;
             }
         }
     }
-    [Export] public float cycleLength = 100f;
+    [Export] public float CycleLength = 100f;
 
-    public bool forward = true;
+    private bool forward = true;
     [Export] public bool Forward
     {
-        get { return forward;  }
+        get => forward;
         set
         {
             forward = value;
             if (Engine.EditorHint)
             {
-                Color = forward ? dayColor : nightColor;
+                Color = value ? DayColor : NightColor;
             }
         }
     }
 
-    public Tween tween;
+    public Tween Tween;
 
     public override void _Ready()
     {
         base._Ready();
 
-        Color = forward ? dayColor : nightColor;
+        Color = Forward ? DayColor : NightColor;
 
         if (Engine.EditorHint)
         {
             return;
         }
 
-        tween = GetNode<Tween>("Tween");
+        Tween = GetNode<Tween>("Tween");
 
         StartTween();
     }
 
     public void _OnTweenCompleted()
     {
-        forward = !forward;
+        Forward = !Forward;
         StartTween();
     }
 
     public void StartTween()
     {
-        Color start; 
-        Color end;
+        Color start = Forward ? DayColor : NightColor;
+        Color end = !Forward ? DayColor : NightColor;
 
-        if (forward)
-        {
-            start = dayColor;
-            end = nightColor;
-        }
-        else
-        {
-            start = nightColor;
-            end = dayColor;
-        }
-
-        tween.InterpolateProperty(
+        Tween.InterpolateProperty(
             this, "color",
             start, end,
-            cycleLength,
+            CycleLength,
             Tween.TransitionType.Quart,
             Tween.EaseType.Out
         );
-        tween.Start();
+        Tween.Start();
     }
 }
