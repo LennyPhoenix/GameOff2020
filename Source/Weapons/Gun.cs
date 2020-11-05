@@ -39,7 +39,7 @@ public class Gun : Sprite
         {
             return "Projectile property is set to null.";
         }
-        return "";
+        return base._GetConfigurationWarning();
     }
 
     public override void _UnhandledInput(InputEvent @event)
