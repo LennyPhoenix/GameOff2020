@@ -12,7 +12,7 @@ public class Planet : Node2D
     [Signal] public delegate void Generated();
 
     [Export] public Vector2 WorldSize = new Vector2(40, 24);
-    [Export] public Vector2 PerimeterSize = new Vector2(17, 11);
+    [Export] public Vector2 PerimeterSize = new Vector2(18, 11);
 
     public Vector2 Size 
     {
@@ -42,19 +42,18 @@ public class Planet : Node2D
 
     private void GeneratePerimeter(Tile tile, TileMap tileMap)
     {
-        for (int x = (int)-Size.x / 2; x < (int)Size.x / 2; x++)
+        for (int x = -(int)Size.x / 2; x < (int)Size.x / 2; x++)
         {
-            for (int y = (int)-Size.y / 2; y < (int)Size.y / 2; y++)
+            for (int y = -(int)Size.y / 2; y < (int)Size.y / 2; y++)
             {
-                WallTiles.SetCell(x, y, (int)tile);
-            }
-        }
-
-        for (int x = (int)-WorldSize.x / 2; x < (int)WorldSize.x / 2; x++)
-        {
-            for (int y = (int)-WorldSize.y / 2; y < (int)WorldSize.y / 2; y++)
-            {
-                WallTiles.SetCell(x, y, -1);
+                if (
+                    x < -(int)WorldSize.x / 2 || x >= (int)WorldSize.x / 2
+                    || y < -(int)WorldSize.y / 2 || y >= (int)WorldSize.y / 2
+                )
+                { 
+                    WallTiles.SetCell(x, y, (int)tile); 
+                }
+                
             }
         }
     }
@@ -62,9 +61,9 @@ public class Planet : Node2D
     private void GenerateWorld(Tile groundTile, TileMap tileMap)
     {
 
-        for (int x = (int)-Size.x / 2; x < (int)Size.x / 2; x++)
+        for (int x = -(int)WorldSize.x / 2 - 1; x < (int)WorldSize.x / 2 + 1; x++)
         {
-            for (int y = (int)-Size.y / 2; y < (int)Size.y / 2; y++)
+            for (int y = -(int)WorldSize.y / 2 - 1; y < (int)WorldSize.y / 2 + 1; y++)
             {
                 tileMap.SetCell(x, y, (int)groundTile);
             }
