@@ -12,6 +12,9 @@ export_presets.cfg
 .mono/
 data_*/
 
+# Exports
+Export/
+
 
 ### VS2019 ###
 
