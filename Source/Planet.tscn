@@ -1,12 +1,15 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Source/Entities/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/TileSet.tres" type="TileSet" id=2]
 [ext_resource path="res://Source/DaylightCycle.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Source/Planet.cs" type="Script" id=4]
 
+[sub_resource type="OpenSimplexNoise" id=1]
+
 [node name="Planet" type="Node2D"]
 script = ExtResource( 4 )
+Noise = SubResource( 1 )
 
 [node name="Ground" type="TileMap" parent="."]
 tile_set = ExtResource( 2 )
