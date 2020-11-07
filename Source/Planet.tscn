@@ -39,4 +39,3 @@ tile_data = PoolIntArray( -196612, 0, 0, -196611, 0, 0, -196610, 0, 0, -196609, 
 
 [node name="DaylightCycle" parent="." instance=ExtResource( 3 )]
 color = Color( 0.988235, 0.968627, 0.843137, 1 )
-CycleLength = 10.0
