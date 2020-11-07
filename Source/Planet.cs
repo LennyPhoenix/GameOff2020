@@ -4,12 +4,6 @@ using System;
 [Tool]
 public class Planet : Node2D
 {
-    public enum Tile
-    {
-        Ground,
-        Wall,
-    }
-
     [Signal] public delegate void Generated();
 
     [Export] public OpenSimplexNoise Noise;
@@ -50,13 +44,13 @@ public class Planet : Node2D
 
     public void Generate()
     {
-        GeneratePerimeter(Tile.Wall, WallTiles);
-        GenerateWorld(Tile.Ground, GroundTiles);
+        GeneratePerimeter(1, WallTiles);
+        GenerateWorld(0, GroundTiles);
 
         EmitSignal("Generated");
     }
 
-    private void GeneratePerimeter(Tile tile, TileMap tileMap)
+    private void GeneratePerimeter(int tileId, TileMap tileMap)
     {
         for (int x = -(int)Size.x / 2; x < (int)Size.x / 2; x++)
         {
@@ -67,21 +61,21 @@ public class Planet : Node2D
                     || y < -(int)WorldSize.y / 2 || y >= (int)WorldSize.y / 2
                 )
                 { 
-                    WallTiles.SetCell(x, y, (int)tile); 
+                    WallTiles.SetCell(x, y, tileId); 
                 }
                 
             }
         }
     }
 
-    private void GenerateWorld(Tile groundTile, TileMap tileMap)
+    private void GenerateWorld(int groundTileId, TileMap tileMap)
     {
 
-        for (int x = -(int)WorldSize.x / 2 - 1; x < (int)WorldSize.x / 2 + 1; x++)
+        for (int x = -(int)WorldSize.x / 2; x < (int)WorldSize.x / 2; x++)
         {
-            for (int y = -(int)WorldSize.y / 2 - 1; y < (int)WorldSize.y / 2 + 1; y++)
+            for (int y = -(int)WorldSize.y / 2; y < (int)WorldSize.y / 2; y++)
             {
-                tileMap.SetCell(x, y, (int)groundTile);
+                tileMap.SetCell(x, y, groundTileId);
             }
         }
     }
