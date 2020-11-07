@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/TMP.png-927301d735df86d5f300d797e389e9ed.stex"
+path="res://.import/TacticalPistol.png-531dd003855d4e3768840e78a3e6193a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Weapons/TMP.png"
-dest_files=[ "res://.import/TMP.png-927301d735df86d5f300d797e389e9ed.stex" ]
+source_file="res://Assets/Weapons/TacticalPistol.png"
+dest_files=[ "res://.import/TacticalPistol.png-531dd003855d4e3768840e78a3e6193a.stex" ]
 
 [params]
 

@@ -10,12 +10,16 @@ public class Gun : Sprite
     [Export] public int AccuracyAngle = 1;
     [Export] public int AccuracySteps = 2;
 
+    [Export] public bool Automatic = false;
+    [Export] public float ShotCooldown = .1f;
+
     [Export] public float ShakeDuration = .1f;
     [Export] public float ShakeFrequency = 50f;
     [Export] public float ShakeAmplitude = 0.5f;
 
     public Node2D Projectiles;
     public Node2D SpawnOffset;
+    public Timer Timer;
 
     public override void _Ready()
     {
@@ -31,6 +35,7 @@ public class Gun : Sprite
         Projectiles = groundEntities.GetNode<Node2D>("Projectiles");
 
         SpawnOffset = GetNode<Node2D>("SpawnOffset");
+        Timer = GetNode<Timer>("Timer");
     }
 
     public override string _GetConfigurationWarning()
@@ -51,7 +56,22 @@ public class Gun : Sprite
             return;
         }
 
-        if (@event.IsActionPressed("shoot"))
+        if (@event.IsActionPressed("shoot") && Timer.IsStopped())
+        {
+            Shoot();
+        }
+    }
+
+    public override void _Process(float delta)
+    {
+        base._Process(delta);
+
+        if (!Automatic)
+        {
+            return;
+        }
+
+        if (Input.IsActionPressed("shoot") && Timer.IsStopped())
         {
             Shoot();
         }
@@ -70,10 +90,12 @@ public class Gun : Sprite
 
         EmitSignal("Fired");
         GetTree().CallGroup(
-            "ShakeCamera", "Shake", 
+            "ShakeCamera", "Shake",
             ShakeDuration,
             ShakeFrequency,
             ShakeAmplitude
         );
+
+        Timer.Start(ShotCooldown);
     }
 }
