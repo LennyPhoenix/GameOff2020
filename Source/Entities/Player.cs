@@ -8,13 +8,15 @@ public class Player : KinematicBody2D
     {
         Idle,
         Move,
+        Sprint,
     }
     public State CurrentState;
 
     // Movement
     [Export] public float Acceleration = 500f;
     [Export] public float MaxSpeed = 60f;
-    [Export] public float Friction = 800f;
+    [Export] public float SprintMult = 2f;
+    [Export] public float Friction = 400f;
     [Export] public float CameraForwardMult = 40f;
 
     public float Drag;
@@ -82,11 +84,6 @@ public class Player : KinematicBody2D
             case State.Idle:
                 AnimationPlayer.Play("Idle");
 
-                if (InputVec != Vector2.Zero)
-                {
-                    CurrentState = State.Move;
-                }
-
                 break;
 
             case State.Move:
@@ -95,12 +92,32 @@ public class Player : KinematicBody2D
                 // Offset Camera
                 Camera.Position = InputVec * CameraForwardMult;
 
-                if (InputVec == Vector2.Zero)
-                {
-                    CurrentState = State.Idle;
-                }
+                break;
+
+            case State.Sprint:
+                AnimationPlayer.Play("Sprint");
+
+                // Offset Camera
+                Camera.Position = InputVec * CameraForwardMult * SprintMult;
 
                 break;
+        }
+
+        Vector2 rotationalVec = InputVec;
+        rotationalVec.y *= -1;
+        rotationalVec = rotationalVec.Rotated(target);
+
+        if (InputVec == Vector2.Zero)
+        {
+            CurrentState = State.Idle;
+        }
+        else if (Input.IsActionPressed("sprint") && rotationalVec.x > .3f)
+        {
+            CurrentState = State.Sprint;
+        }
+        else
+        {
+            CurrentState = State.Move;
         }
     }
 
@@ -111,21 +128,22 @@ public class Player : KinematicBody2D
         switch (CurrentState)
         {
             case State.Idle:
+                Velocity = Velocity.MoveToward(Vector2.Zero, Friction * delta);
+
                 break;
 
             case State.Move:
-                if (InputVec != Vector2.Zero)
-                {
-                    Velocity = Velocity.MoveToward(InputVec * MaxSpeed, Acceleration * delta);
-                }
-                else
-                {
-                    Velocity = Velocity.MoveToward(Vector2.Zero, Friction * delta);
-                }
-
-                Velocity = MoveAndSlide(Velocity);
+                Velocity = Velocity.MoveToward(InputVec * MaxSpeed, Acceleration * delta);
 
                 break;
+
+            case State.Sprint:
+                Velocity = Velocity.MoveToward(InputVec * MaxSpeed * SprintMult, Acceleration * SprintMult * delta);
+
+                break;
+
         }
+
+        Velocity = MoveAndSlide(Velocity);
     }
 }
