@@ -5,10 +5,10 @@
 [ext_resource path="res://Assets/Weapons/TacticalPistol.png" type="Texture" id=3]
 
 [node name="TacticalPistol" instance=ExtResource( 1 )]
-position = Vector2( 1, 8.5 )
+position = Vector2( 1.5, 8 )
 texture = ExtResource( 3 )
-Projectile = ExtResource( 2 )
 AccuracySteps = 3
+Projectile = ExtResource( 2 )
 
 [node name="SpawnOffset" parent="." index="1"]
-position = Vector2( 4, -1 )
+position = Vector2( 4.5, -0.5 )
