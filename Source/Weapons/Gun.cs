@@ -30,10 +30,7 @@ public class Gun : Sprite
             return;
         }
 
-        Node app = GetTree().CurrentScene;
-        Node2D groundEntities = app.GetNode<Node2D>("Planet").GetNode<Node2D>("GroundEntities");
-        Projectiles = groundEntities.GetNode<Node2D>("Projectiles");
-
+        Projectiles = GetTree().CurrentScene.GetNode<Node2D>("Planet/GroundEntities/Projectiles");
         SpawnOffset = GetNode<Node2D>("SpawnOffset");
         Timer = GetNode<Timer>("Timer");
     }
