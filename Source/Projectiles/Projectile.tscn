@@ -1,12 +1,17 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Source/Projectiles/Projectile.cs" type="Script" id=1]
+[ext_resource path="res://Source/MapWrapper.tscn" type="PackedScene" id=2]
 
 [node name="Projectile" type="Area2D" groups=[
 "Projectile",
 ]]
 collision_layer = 8
 script = ExtResource( 1 )
+
+[node name="MapWrapper" parent="." instance=ExtResource( 2 )]
+CameraPath = NodePath("")
+RootPath = NodePath("..")
 
 [node name="Sprite" type="Sprite" parent="."]
 

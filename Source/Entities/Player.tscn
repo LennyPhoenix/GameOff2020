@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Source/Weapons/TacticalPistol.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Entities/Player.png" type="Texture" id=2]
 [ext_resource path="res://Source/ShakeCamera2D.cs" type="Script" id=3]
 [ext_resource path="res://Source/Entities/Player.cs" type="Script" id=4]
 [ext_resource path="res://Assets/Lights/spot.png" type="Texture" id=5]
+[ext_resource path="res://Source/MapWrapper.tscn" type="PackedScene" id=6]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Idle"
@@ -89,7 +90,7 @@ tracks/2/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 1, 0 ), Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 resource_name = "Sprint"
 loop = true
 step = 0.25
@@ -130,18 +131,22 @@ tracks/2/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 1, 0 ), Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="CircleShape2D" id=3]
+[sub_resource type="CircleShape2D" id=4]
 radius = 7.0
 
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 2
 script = ExtResource( 4 )
 
+[node name="MapWrapper" parent="." instance=ExtResource( 6 )]
+CameraPath = NodePath("../Camera")
+RootPath = NodePath("..")
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Idle"
 anims/Idle = SubResource( 1 )
 anims/Move = SubResource( 2 )
-anims/Sprint = SubResource( 4 )
+anims/Sprint = SubResource( 3 )
 
 [node name="Lights" type="Node2D" parent="."]
 
@@ -161,18 +166,13 @@ range_item_cull_mask = 2
 shadow_item_cull_mask = 2
 
 [node name="Camera" type="Camera2D" parent="." groups=[
+"Camera",
 "ShakeCamera",
 ]]
 current = true
+zoom = Vector2( 5, 5 )
 limit_smoothed = true
-drag_margin_h_enabled = true
-drag_margin_v_enabled = true
 smoothing_enabled = true
-drag_margin_left = 0.08
-drag_margin_top = 0.15
-drag_margin_right = 0.08
-drag_margin_bottom = 0.15
-editor_draw_drag_margin = true
 script = ExtResource( 3 )
 
 [node name="Rotate" type="Node2D" parent="."]
@@ -181,7 +181,6 @@ script = ExtResource( 3 )
 texture = ExtResource( 2 )
 vframes = 6
 hframes = 4
-frame = 8
 
 [node name="Gun" parent="Rotate" instance=ExtResource( 1 )]
 
@@ -189,7 +188,7 @@ frame = 8
 texture = ExtResource( 2 )
 vframes = 6
 hframes = 4
-frame = 12
+frame = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 3 )
+shape = SubResource( 4 )
