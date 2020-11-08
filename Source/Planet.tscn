@@ -19,7 +19,6 @@ period = 24.0
 script = ExtResource( 4 )
 GroundNoise = SubResource( 1 )
 WallNoise = SubResource( 2 )
-WallTileThreshold = 0.6
 
 [node name="Ground" type="TileMap" parent="."]
 tile_set = ExtResource( 5 )
