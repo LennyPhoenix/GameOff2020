@@ -7,18 +7,18 @@
 [ext_resource path="res://Assets/TileSets/Ice/Floor.tres" type="TileSet" id=5]
 
 [sub_resource type="OpenSimplexNoise" id=1]
-octaves = 9
-period = 32.0
-
-[sub_resource type="OpenSimplexNoise" id=2]
 seed = 3
 octaves = 9
 period = 24.0
 
+[sub_resource type="OpenSimplexNoise" id=2]
+octaves = 9
+period = 32.0
+
 [node name="Planet" type="Node2D"]
 script = ExtResource( 4 )
-GroundNoise = SubResource( 1 )
-WallNoise = SubResource( 2 )
+WallNoise = SubResource( 1 )
+GroundNoise = SubResource( 2 )
 
 [node name="Ground" type="TileMap" parent="."]
 tile_set = ExtResource( 5 )

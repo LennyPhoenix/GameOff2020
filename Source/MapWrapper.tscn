@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Source/MapWrapper.cs" type="Script" id=1]
 
-[node name="MapWrapper" type="Node" groups=[
+[node name="MapWrapper" type="Node2D" groups=[
 "MapWrapper",
 ]]
 script = ExtResource( 1 )

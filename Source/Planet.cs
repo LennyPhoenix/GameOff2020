@@ -68,9 +68,10 @@ public class Planet : Node2D
         }
 
 		GetTree().CallGroup(
-			"MapWrapper", "Wrap",
+			"MapWrapper", "Update",
 			RealWorldSize * Mathf.CeilToInt((float)PerimeterSize / WorldSize),
-			RealWorldSize
+			RealWorldSize,
+			Player.Camera.GlobalPosition
 		);
 	}
 
