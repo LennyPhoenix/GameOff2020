@@ -4,14 +4,14 @@ using System;
 [Tool]
 public class MapWrapper : Node2D
 {
-    [Export] public NodePath RootPath;
-    [Export] public NodePath CameraPath;
+    [Export] public NodePath RootPath = "";
+    [Export] public NodePath CameraPath = "";
 
     [Export] public Godot.Collections.Array<NodePath> AdditionalOffsetPaths = new Godot.Collections.Array<NodePath>();
 
     public override string _GetConfigurationWarning()
     {
-        if (RootPath is null || RootPath == "")
+        if (RootPath == "")
         {
             return "RootPath property is empty.";
         }
@@ -35,7 +35,7 @@ public class MapWrapper : Node2D
         if (newPos.Round() != root.GlobalPosition.Round())
         {
             root.GlobalPosition = newPos;
-            if (!(CameraPath is null) && CameraPath != "")
+            if (CameraPath != "")
             {
                 Camera2D camera = GetNode<Camera2D>(CameraPath);
                 camera.ForceUpdateScroll();
@@ -93,6 +93,10 @@ public class MapWrapper : Node2D
         GlobalPosition = offset;
         foreach (NodePath nodePath in AdditionalOffsetPaths)
         {
+            if (nodePath == "")
+            {
+                continue;
+            }
             Node2D node = GetNode<Node2D>(nodePath);
             node.GlobalPosition = root.GlobalPosition + offset;
         }
