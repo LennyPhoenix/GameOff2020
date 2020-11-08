@@ -9,7 +9,6 @@ radius = 2.0
 height = 3.99999
 
 [node name="Bullet" instance=ExtResource( 1 )]
-Lifetime = 5.0
 
 [node name="Sprite" parent="." index="1"]
 texture = ExtResource( 2 )
