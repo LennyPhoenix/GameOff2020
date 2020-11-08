@@ -10,17 +10,12 @@ public class Planet : Node2D
     [Export] public OpenSimplexNoise WallNoise;
 
     [Export] public Vector2 WorldSize = new Vector2(300, 300);
-    [Export] public Vector2 PerimeterSize = new Vector2(30, 20);
+    [Export] public Vector2 PerimeterSize = new Vector2(32, 32);
 
     [Export] public int PerimeterTileId = 0;
     [Export] public int GroundTileRange = 2;
     [Export] public float WallTileThreshold = 0.65f;
     [Export] public int WallTileRange = 2;
-
-    public Vector2 Size 
-    {
-        get { return WorldSize + 2 * PerimeterSize; }
-    }
 
     public TileMap GroundTiles;
     public TileMap WallTiles;
@@ -39,7 +34,7 @@ public class Planet : Node2D
         WallTiles = GetNode<TileMap>("Walls");
 
         Player = GetNode<Player>("GroundEntities/Player");
-        Player.Position = Size * GroundTiles.CellSize / 2;
+        Player.Position = WorldSize * GroundTiles.CellSize / 2;
 
         Generate();
     }
@@ -67,27 +62,26 @@ public class Planet : Node2D
 
     private void GeneratePerimeter()
     {
-        for (int x = 0; x < (int)Size.x; x++)
+        for (int x = 0 - (int)PerimeterSize.x; x < ((int)WorldSize.x + (int)PerimeterSize.x); x++)
         {
-            for (int y = 0; y < (int)Size.y; y++)
+            for (int y = 0 - (int)PerimeterSize.y; y < ((int)WorldSize.y + (int)PerimeterSize.y); y++)
             {
                 if (
-                    x < (int)PerimeterSize.x || x >= Size.x - (int)PerimeterSize.x
-                    || y < (int)PerimeterSize.y || y >= Size.y - (int)PerimeterSize.y
+                    x < 0 || x >= (int)WorldSize.x
+                    || y < 0 || y >= (int)WorldSize.y
                 )
-                { 
-                    WallTiles.SetCell(x, y, PerimeterTileId); 
+                {
+                    WallTiles.SetCell(x, y, PerimeterTileId);
                 }
-                
             }
         }
     }
 
     private void GenerateWorld()
     {
-        for (int x = 0; x < (int)Size.x; x++)
+        for (int x = 0; x < (int)WorldSize.x; x++)
         {
-            for (int y = 0; y < (int)Size.y; y++)
+            for (int y = 0; y < (int)WorldSize.y; y++)
             {
                 float wallProb = WallNoise.GetNoise2d(x, y) / 2 + .5f;
                 if (wallProb > WallTileThreshold)
