@@ -14,7 +14,7 @@ public class Planet : Node2D
 
 	[Export] public int GroundTileRange = 2;
 	[Export] public int WallTileRange = 2;
-	[Export] public float WallTileThreshold = 0.65f;
+	[Export] public float WallTileThreshold = 0.6f;
 
 	public int RealWorldSize {
 		get { return WorldSize * (int)GroundTiles.CellSize.x; }
