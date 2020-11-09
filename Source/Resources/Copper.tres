@@ -1,0 +1,10 @@
+[gd_resource type="OpenSimplexNoise" load_steps=2 format=2]
+
+[ext_resource path="res://Source/Resources/OreGeneration.cs" type="Script" id=1]
+
+[resource]
+octaves = 5
+period = 24.0
+script = ExtResource( 1 )
+OreId = 1
+Threshold = 0.65

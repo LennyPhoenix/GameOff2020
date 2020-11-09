@@ -1,4 +1,6 @@
 using Godot;
+using Godot.Collections;
+using System.Linq;
 
 [Tool]
 public class Planet : Node2D
@@ -13,7 +15,9 @@ public class Planet : Node2D
 
 	[Export] public int GroundTileRange = 2;
 	[Export] public int WallTileRange = 2;
-	[Export] public float WallTileThreshold = 0.6f;
+	[Export] public float WallTileThreshold = 0.625f;
+
+    [Export] public Array<OreGeneration> OreGenerators = new Array<OreGeneration>();
 
 	public int RealWorldSize {
 		get { return WorldSize * (int)GroundTiles.CellSize.x; }
@@ -21,8 +25,10 @@ public class Planet : Node2D
 
 	public Image GroundNoiseImage;
 	public Image WallNoiseImage;
+	public Array<Image> OreGenerationImages = new Array<Image>();
 
 	public TileMap GroundTiles;
+	public TileMap OreTiles;
 	public TileMap WallTiles;
 	public Player Player;
 
@@ -36,6 +42,7 @@ public class Planet : Node2D
 		}
 
 		GroundTiles = GetNode<TileMap>("Ground");
+		OreTiles = GetNode<TileMap>("Ore");
 		WallTiles = GetNode<TileMap>("Walls");
 
 		Player = GetNode<Player>("GroundEntities/Player");
@@ -82,7 +89,15 @@ public class Planet : Node2D
 		WallNoiseImage = WallNoise.GetSeamlessImage(WorldSize);
 		WallNoiseImage.Lock();
 
+		foreach (OreGeneration oreGeneration in OreGenerators)
+		{
+			Image image = oreGeneration.GetSeamlessImage(WorldSize);
+			image.Lock();
+			OreGenerationImages.Add(image);
+		}
+
 		GenerateWorld();
+		GenerateOres();
 		GeneratePerimeter();
 
 		EmitSignal("Generated");
@@ -105,6 +120,25 @@ public class Planet : Node2D
 				{
 					int tileId = Mathf.FloorToInt(GroundNoiseImage.GetPixel(x, y).v * GroundTileRange);
 					GroundTiles.SetCell(x, y, tileId);
+				}
+			}
+		}
+	}
+
+	private void GenerateOres()
+    {
+		for (int x = 0; x < WorldSize; x++)
+		{
+			for (int y = 0; y < WorldSize; y++)
+			{
+				foreach (OreGeneration oreGeneration in OreGenerators)
+				{
+					Image image = OreGenerationImages[OreGenerators.IndexOf(oreGeneration)];
+					float noiseValue = image.GetPixel(x, y).v;
+					if (noiseValue > oreGeneration.Threshold)
+                    {
+						OreTiles.SetCell(x, y, (int)oreGeneration.OreId);
+                    }
 				}
 			}
 		}
