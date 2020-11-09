@@ -1,5 +1,5 @@
 using Godot;
-using System;
+using Godot.Collections;
 
 [Tool]
 public class MapWrapper : Node2D
@@ -7,7 +7,7 @@ public class MapWrapper : Node2D
     [Export] public NodePath RootPath = "";
     [Export] public NodePath CameraPath = "";
 
-    [Export] public Godot.Collections.Array<NodePath> AdditionalOffsetPaths = new Godot.Collections.Array<NodePath>();
+    [Export] public Array<NodePath> AdditionalOffsetPaths = new Array<NodePath>();
 
     public override string _GetConfigurationWarning()
     {

@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 [Tool]
 public class Planet : Node2D

@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 // Ported to C# from https://godotengine.org/qa/438/camera2d-screen-shake-extension
 
