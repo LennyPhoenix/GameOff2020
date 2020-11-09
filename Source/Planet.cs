@@ -14,10 +14,14 @@ public class Planet : Node2D
 	[Export] public int PerimeterSize = 32;
 
 	[Export] public int GroundTileRange = 2;
-	[Export] public int WallTileRange = 2;
-	[Export] public float WallTileThreshold = 0.625f;
+	[Export]
+	public Array<float> WallTileThresholds = new Array<float>()
+	{
+		0.625f,
+		0.7f
+	};
 
-    [Export] public Array<OreGeneration> OreGenerators = new Array<OreGeneration>();
+	[Export] public Array<OreGeneration> OreGenerators = new Array<OreGeneration>();
 
 	public int RealWorldSize {
 		get { return WorldSize * (int)GroundTiles.CellSize.x; }
@@ -110,12 +114,23 @@ public class Planet : Node2D
 			for (int y = 0; y < WorldSize; y++)
 			{
 				float wallProb = WallNoiseImage.GetPixel(x, y).v;
-				if (wallProb > WallTileThreshold)
+				int wallId = -1;
+				foreach (float threshold in WallTileThresholds)
 				{
-					float noiseValue = (WallNoiseImage.GetPixel(x, y).v - WallTileThreshold) / (1f - WallTileThreshold);
-					int tileId = Mathf.FloorToInt(noiseValue * WallTileRange);
-					WallTiles.SetCell(x, y, tileId);
+					if (wallProb > threshold)
+					{
+						wallId++;
+						continue;
+					}
+					else
+                    {
+						break;
+                    }
 				}
+				if (wallId > -1)
+                {
+					WallTiles.SetCell(x, y, wallId);
+                }
 				else
 				{
 					int tileId = Mathf.FloorToInt(GroundNoiseImage.GetPixel(x, y).v * GroundTileRange);
