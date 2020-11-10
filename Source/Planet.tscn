@@ -6,10 +6,10 @@
 [ext_resource path="res://Source/Planet.cs" type="Script" id=4]
 [ext_resource path="res://Assets/TileSets/Ice/Floor.tres" type="TileSet" id=5]
 [ext_resource path="res://Assets/TileSets/Ores.tres" type="TileSet" id=6]
-[ext_resource path="res://Source/Resources/Stone.tres" type="OpenSimplexNoise" id=7]
-[ext_resource path="res://Source/Resources/Titanium.tres" type="OpenSimplexNoise" id=8]
-[ext_resource path="res://Source/Resources/Copper.tres" type="OpenSimplexNoise" id=9]
-[ext_resource path="res://Source/Resources/Lead.tres" type="OpenSimplexNoise" id=10]
+[ext_resource path="res://Assets/Ores/Stone.tres" type="OpenSimplexNoise" id=7]
+[ext_resource path="res://Assets/Ores/Titanium.tres" type="OpenSimplexNoise" id=8]
+[ext_resource path="res://Assets/Ores/Copper.tres" type="OpenSimplexNoise" id=9]
+[ext_resource path="res://Assets/Ores/Lead.tres" type="OpenSimplexNoise" id=10]
 
 [sub_resource type="OpenSimplexNoise" id=1]
 octaves = 9
