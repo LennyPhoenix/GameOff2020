@@ -8,6 +8,8 @@ public class Gun : Sprite
     [Export] public PackedScene Projectile;
     [Export] public int AccuracyAngle = 1;
     [Export] public int AccuracySteps = 2;
+    [Export] public int ShotCount = 1;
+    [Export] public int VelocityModifier = 0;
 
     [Export] public bool Automatic = false;
     [Export] public float ShotCooldown = .1f;
@@ -75,14 +77,23 @@ public class Gun : Sprite
 
     public void Shoot()
     {
-        Projectile proj = (Projectile)Projectile.Instance();
+        for (int i = 0; i < ShotCount; i++)
+        {
+            Projectile proj = (Projectile)Projectile.Instance();
 
-        float accuracyModifier = (float)GD.RandRange(-AccuracyAngle * AccuracySteps, AccuracyAngle * AccuracySteps) / AccuracySteps;
+            float accuracyModifier = (float)GD.RandRange(-AccuracyAngle * AccuracySteps, AccuracyAngle * AccuracySteps) / AccuracySteps;
 
-        proj.GlobalPosition = SpawnOffset.GlobalPosition;
-        proj.GlobalRotation = SpawnOffset.GlobalRotation + Mathf.Deg2Rad(accuracyModifier);
+            proj.GlobalPosition = SpawnOffset.GlobalPosition;
+            proj.GlobalRotation = SpawnOffset.GlobalRotation + Mathf.Deg2Rad(accuracyModifier);
 
-        Projectiles.AddChild(proj);
+            //Vector2 velocity = proj.Velocity;
+            //velocity.x += (float)GD.RandRange(-VelocityModifier, VelocityModifier);
+            //proj.Velocity = velocity;
+
+            proj.Velocity.x += (float)GD.RandRange(-VelocityModifier, VelocityModifier);
+
+            Projectiles.AddChild(proj);
+        }
 
         EmitSignal("Fired");
         GetTree().CallGroup(

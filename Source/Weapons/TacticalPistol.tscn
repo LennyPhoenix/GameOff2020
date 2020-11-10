@@ -7,7 +7,7 @@
 [node name="TacticalPistol" instance=ExtResource( 1 )]
 position = Vector2( 1.5, 8 )
 texture = ExtResource( 3 )
-AccuracySteps = 3
+AccuracyAngle = 3
 Projectile = ExtResource( 2 )
 
 [node name="SpawnOffset" parent="." index="1"]

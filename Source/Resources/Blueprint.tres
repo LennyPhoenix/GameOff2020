@@ -1,0 +1,13 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://Source/Resources/Blueprint.cs" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+Size = Vector2( 1, 1 )
+Cost = {
+0: 0,
+1: 0,
+2: 0,
+3: 0
+}

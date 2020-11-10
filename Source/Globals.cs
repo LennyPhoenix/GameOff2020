@@ -8,3 +8,7 @@ public enum Ore
 	Titanium,
 }
 
+public class Globals
+{
+	public const int TileSize = 16;
+}
