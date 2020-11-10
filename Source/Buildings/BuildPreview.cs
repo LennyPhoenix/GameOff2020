@@ -65,22 +65,14 @@ public class BuildPreview : Area2D
         return "";
     }
 
-    public override void _Process(float delta)
+    public override void _PhysicsProcess(float delta)
     {
-        base._Process(delta);
+        base._PhysicsProcess(delta);
 
         if (Engine.EditorHint)
         {
             return;
         }
-
-        GD.Print(GetOverlappingBodies().Count);
-
-        Vector2 mousePos = GetGlobalMousePosition();
-        GlobalPosition = new Vector2(
-            Mathf.RoundToInt(mousePos.x / Globals.TileSize) * Globals.TileSize, 
-            Mathf.RoundToInt(mousePos.y / Globals.TileSize) * Globals.TileSize
-        );
 
         if (Input.IsActionJustPressed("shoot") && !Colliding)
         {
@@ -97,5 +89,11 @@ public class BuildPreview : Area2D
         {
             AnimationPlayer.Play("Placeable");
         }
+
+        Vector2 mousePos = GetGlobalMousePosition();
+        GlobalPosition = new Vector2(
+            Mathf.RoundToInt(mousePos.x / Globals.TileSize) * Globals.TileSize,
+            Mathf.RoundToInt(mousePos.y / Globals.TileSize) * Globals.TileSize
+        );
     }
 }
