@@ -74,13 +74,6 @@ public class BuildPreview : Area2D
             return;
         }
 
-        if (Input.IsActionJustPressed("shoot") && !Colliding)
-        {
-            var building = (Node2D)Blueprint.Scene.Instance();
-            building.GlobalPosition = GlobalPosition;
-            Buildings.AddChild(building);
-        }
-
         if (Colliding)
         {
             AnimationPlayer.Play("Obstructed");
@@ -95,5 +88,22 @@ public class BuildPreview : Area2D
             Mathf.RoundToInt(mousePos.x / Globals.TileSize) * Globals.TileSize,
             Mathf.RoundToInt(mousePos.y / Globals.TileSize) * Globals.TileSize
         );
+    }
+
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        base._UnhandledInput(@event);
+
+        if (@event.IsActionPressed("place") && !Colliding && Visible)
+        {
+            var building = (Node2D)Blueprint.Scene.Instance();
+            building.GlobalPosition = GlobalPosition;
+            Buildings.AddChild(building);
+        }
+    }
+
+    public void ToggleEnabled()
+    {
+        Visible = !Visible;
     }
 }
