@@ -18,7 +18,7 @@ public class Planet : Node2D
 	public Array<float> WallTileThresholds = new Array<float>()
 	{
 		0.625f,
-		0.7f
+		0.675f
 	};
 
 	[Export] public Array<OreGeneration> OreGenerators = new Array<OreGeneration>();
