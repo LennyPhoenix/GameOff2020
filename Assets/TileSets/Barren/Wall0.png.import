@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Floor1.png-4633cedecbcb22531872d79b13feebf3.stex"
+path="res://.import/Wall0.png-cea572b8948d8fe61cd4225ce429780c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/TileSets/Ice/Floor1.png"
-dest_files=[ "res://.import/Floor1.png-4633cedecbcb22531872d79b13feebf3.stex" ]
+source_file="res://Assets/TileSets/Barren/Wall0.png"
+dest_files=[ "res://.import/Wall0.png-cea572b8948d8fe61cd4225ce429780c.stex" ]
 
 [params]
 

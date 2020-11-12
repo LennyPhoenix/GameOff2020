@@ -17,8 +17,7 @@ public class Planet : Node2D
 	[Export]
 	public Array<float> WallTileThresholds = new Array<float>()
 	{
-		0.625f,
-		0.675f
+		0.625f
 	};
 
 	[Export] public Array<OreGeneration> OreGenerators = new Array<OreGeneration>();
@@ -108,6 +107,13 @@ public class Planet : Node2D
 		GenerateWorld();
 		GenerateOres();
 		GeneratePerimeter();
+
+		var regionStart = new Vector2(-PerimeterSize, -PerimeterSize);
+		var regionEnd = new Vector2(WorldSize + PerimeterSize, WorldSize + PerimeterSize);
+
+		GroundTiles.UpdateBitmaskRegion(regionStart, regionEnd);
+		OreTiles.UpdateBitmaskRegion(regionStart, regionEnd);
+		WallTiles.UpdateBitmaskRegion(regionStart, regionEnd);
 
 		EmitSignal("Generated");
 	}
