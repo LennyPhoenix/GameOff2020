@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 [Tool]
 public class BuildPreview : Area2D
@@ -19,7 +18,7 @@ public class BuildPreview : Area2D
 
             Sprite.Texture = value.BuildTexture;
             var Rect = new RectangleShape2D();
-            Rect.Extents = Blueprint.Size / 2;
+            Rect.Extents = Blueprint.Size * Globals.TileSize / 2 - new Vector2(1, 1);
             Collider.Shape = Rect;
         }
     }
@@ -52,7 +51,7 @@ public class BuildPreview : Area2D
 
         Sprite.Texture = Blueprint.BuildTexture;
         var Rect = new RectangleShape2D();
-        Rect.Extents = Blueprint.Size / 2;
+        Rect.Extents = Blueprint.Size * Globals.TileSize / 2 - new Vector2(1, 1);
         Collider.Shape = Rect;
     }
 
@@ -85,8 +84,8 @@ public class BuildPreview : Area2D
 
         Vector2 mousePos = GetGlobalMousePosition();
         GlobalPosition = new Vector2(
-            Mathf.RoundToInt(mousePos.x / Globals.TileSize) * Globals.TileSize,
-            Mathf.RoundToInt(mousePos.y / Globals.TileSize) * Globals.TileSize
+            (Mathf.RoundToInt(mousePos.x / Globals.TileSize) + Blueprint.Size.x % 2 / 2) * Globals.TileSize,
+            (Mathf.RoundToInt(mousePos.y / Globals.TileSize) + Blueprint.Size.x % 2 / 2) * Globals.TileSize
         );
     }
 

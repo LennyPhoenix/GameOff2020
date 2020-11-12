@@ -8,7 +8,7 @@
 script = ExtResource( 1 )
 BuildTexture = ExtResource( 2 )
 Scene = ExtResource( 3 )
-Size = Vector2( 62, 62 )
+Size = Vector2( 4, 4 )
 Cost = {
 0: 10,
 1: 0,
