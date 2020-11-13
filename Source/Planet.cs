@@ -92,14 +92,19 @@ public class Planet : Node2D
 
 	public void Generate()
 	{
+		GD.Randomize();
+
+		GroundNoise.Seed = (int)GD.Randi();
 		GroundNoiseImage = GroundNoise.GetSeamlessImage(WorldSize);
 		GroundNoiseImage.Lock();
 
+		WallNoise.Seed = (int)GD.Randi();
 		WallNoiseImage = WallNoise.GetSeamlessImage(WorldSize);
 		WallNoiseImage.Lock();
 
 		foreach (OreGeneration oreGeneration in OreGenerators)
 		{
+			oreGeneration.Seed = (int)GD.Randi();
 			Image image = oreGeneration.GetSeamlessImage(WorldSize);
 			image.Lock();
 			OreGenerationImages.Add(image);
