@@ -3,8 +3,8 @@
 [ext_resource path="res://Source/Resources/OreGeneration.cs" type="Script" id=1]
 
 [resource]
-octaves = 5
+octaves = 4
 period = 15.0
 script = ExtResource( 1 )
 OreId = 0
-Threshold = 0.635
+Threshold = 0.637
