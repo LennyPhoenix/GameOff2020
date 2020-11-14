@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Source/Entities/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/TileSets/Barren/Wall.tres" type="TileSet" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://Assets/Ores/Iron.tres" type="OpenSimplexNoise" id=10]
 [ext_resource path="res://Source/Buildings/BuildPreview.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Source/UI/Minimap.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Source/Buildings/Core.tscn" type="PackedScene" id=13]
 
 [sub_resource type="OpenSimplexNoise" id=1]
 octaves = 9
@@ -26,6 +27,7 @@ script = ExtResource( 4 )
 GroundNoise = SubResource( 1 )
 WallNoise = SubResource( 2 )
 OreGenerators = [ ExtResource( 7 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 8 ) ]
+CoreBuilding = ExtResource( 13 )
 
 [node name="Ground" type="TileMap" parent="."]
 tile_set = ExtResource( 5 )

@@ -7,6 +7,8 @@ public class Planet : Node2D
 {
 	[Signal] public delegate void Generated();
 
+	[Export] public PackedScene CoreBuilding;
+
 	[Export] public OpenSimplexNoise GroundNoise;
 	[Export] public OpenSimplexNoise WallNoise;
 
@@ -127,6 +129,12 @@ public class Planet : Node2D
 		WallTiles.UpdateBitmaskRegion(regionStart, regionEnd);
 
 		EmitSignal("Generated");
+		
+		Node2D core = (Node2D)CoreBuilding.Instance();
+
+		int mid = WorldSize * Globals.TileSize / 2;
+		core.GlobalPosition = (new Vector2(mid, mid - 80) / 16).Round() * 16;
+		Buildings.AddChild(core);
 	}
 
 	private void GenerateWorld()

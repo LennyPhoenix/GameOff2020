@@ -1,16 +1,16 @@
 [gd_resource type="Resource" load_steps=4 format=2]
 
 [ext_resource path="res://Source/Resources/Blueprint.cs" type="Script" id=1]
-[ext_resource path="res://Assets/Buildings/TMP.png" type="Texture" id=2]
-[ext_resource path="res://Source/Buildings/TMP.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Assets/Buildings/Core.png" type="Texture" id=2]
+[ext_resource path="res://Source/Buildings/Core.tscn" type="PackedScene" id=3]
 
 [resource]
 script = ExtResource( 1 )
 BuildTexture = ExtResource( 2 )
 Scene = ExtResource( 3 )
-Size = Vector2( 4, 4 )
+Size = Vector2( 5, 5 )
 Cost = {
-0: 10,
+0: 0,
 1: 0,
 2: 0,
 3: 0
