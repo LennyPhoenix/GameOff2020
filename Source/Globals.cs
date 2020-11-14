@@ -4,8 +4,17 @@ public enum Ore
 {
 	Stone,
 	Copper,
-	Lead,
+	Iron,
 	Titanium,
+}
+
+
+public enum MinimapIconType
+{
+	Turret,
+	Drill,
+	Core,
+	Enemy
 }
 
 public class Globals

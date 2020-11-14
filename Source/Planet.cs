@@ -11,7 +11,7 @@ public class Planet : Node2D
 	[Export] public OpenSimplexNoise WallNoise;
 
 	[Export] public int WorldSize = 300;
-	[Export] public int PerimeterSize = 32;
+	[Export] public int PerimeterSize = 96;
 
 	[Export] public int GroundTileRange = 2;
 	[Export]

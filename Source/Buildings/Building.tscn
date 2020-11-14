@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Source/MapWrapper.tscn" type="PackedScene" id=1]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Spawn"
@@ -45,6 +47,10 @@ tracks/2/keys = {
 ]]
 collision_layer = 32
 collision_mask = 0
+
+[node name="MapWrapper" parent="." instance=ExtResource( 1 )]
+RootPath = NodePath("..")
+AdditionalOffsetPaths = [ NodePath("../Sprite"), NodePath("../CollisionShape2D"), NodePath("../LightOccluder2D") ]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Spawn"
