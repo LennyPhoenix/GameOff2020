@@ -53,12 +53,12 @@ public class Planet : Node2D
 		Player = GetNode<Player>("GroundEntities/Player");
 
 		int mid = WorldSize * Globals.TileSize / 2;
-		Player.Position = new Vector2(mid, mid);
+        Player.Position = new Vector2(mid, mid);
 
-		Buildings = GetNode<Node2D>("Buildings");
+        Buildings = GetNode<Node2D>("Buildings");
 
-		Generate();
-	}
+        Generate();
+    }
 
 	public override string _GetConfigurationWarning()
 	{
@@ -94,14 +94,18 @@ public class Planet : Node2D
 	{
 		GD.Randomize();
 
+		GroundTiles.Clear();
 		GroundNoise.Seed = (int)GD.Randi();
 		GroundNoiseImage = GroundNoise.GetSeamlessImage(WorldSize);
 		GroundNoiseImage.Lock();
 
+		WallTiles.Clear();
 		WallNoise.Seed = (int)GD.Randi();
 		WallNoiseImage = WallNoise.GetSeamlessImage(WorldSize);
 		WallNoiseImage.Lock();
 
+		OreGenerationImages.Clear();
+		OreTiles.Clear();
 		foreach (OreGeneration oreGeneration in OreGenerators)
 		{
 			oreGeneration.Seed = (int)GD.Randi();
@@ -191,9 +195,13 @@ public class Planet : Node2D
 						(x + WorldSize * Mathf.CeilToInt((float)PerimeterSize / WorldSize)) % WorldSize,
 						(y + WorldSize * Mathf.CeilToInt((float)PerimeterSize / WorldSize)) % WorldSize
 					));
+					OreTiles.SetCell(x, y, OreTiles.GetCell(
+						(x + WorldSize * Mathf.CeilToInt((float)PerimeterSize / WorldSize)) % WorldSize,
+						(y + WorldSize * Mathf.CeilToInt((float)PerimeterSize / WorldSize)) % WorldSize
+					));
 					WallTiles.SetCell(x, y, WallTiles.GetCell(
-						(x + WorldSize) % WorldSize,
-						(y + WorldSize) % WorldSize
+						(x + WorldSize * Mathf.CeilToInt((float)PerimeterSize / WorldSize)) % WorldSize,
+						(y + WorldSize * Mathf.CeilToInt((float)PerimeterSize / WorldSize)) % WorldSize
 					));
 				}
 			}
