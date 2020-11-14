@@ -6,5 +6,3 @@
 "MinimapIcons",
 ]]
 script = ExtResource( 1 )
-IconType = 1
-Root = NodePath("..")
