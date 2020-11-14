@@ -13,6 +13,8 @@ public class Planet : Node2D
 	[Export] public int WorldSize = 300;
 	[Export] public int PerimeterSize = 96;
 
+	[Export] public float ClearRadius = 16f;
+
 	[Export] public int GroundTileRange = 2;
 	[Export] public Array<float> WallTileThresholds = new Array<float>()
 	{
@@ -129,6 +131,9 @@ public class Planet : Node2D
 
 	private void GenerateWorld()
 	{
+
+		int mid = WorldSize / 2;
+		var midVec = new Vector2(mid, mid);
 		for (int x = 0; x < WorldSize; x++)
 		{
 			for (int y = 0; y < WorldSize; y++)
@@ -147,7 +152,7 @@ public class Planet : Node2D
 						break;
                     }
 				}
-				if (wallId > -1)
+				if (wallId > -1 && midVec.DistanceTo(new Vector2(x, y)) * Globals.TileSize > ClearRadius)
                 {
 					WallTiles.SetCell(x, y, wallId);
                 }
