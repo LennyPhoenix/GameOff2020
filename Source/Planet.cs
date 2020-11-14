@@ -14,8 +14,7 @@ public class Planet : Node2D
 	[Export] public int PerimeterSize = 96;
 
 	[Export] public int GroundTileRange = 2;
-	[Export]
-	public Array<float> WallTileThresholds = new Array<float>()
+	[Export] public Array<float> WallTileThresholds = new Array<float>()
 	{
 		0.625f,
 		0.675f
