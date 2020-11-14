@@ -28,11 +28,33 @@ public class MapWrapper : Node2D
     {
         Node2D root = GetNode<Node2D>(RootPath);
 
-        Vector2 newPos = root.GlobalPosition;
-        newPos.x = (newPos.x + perimeterSize) % worldSize;
-        newPos.y = (newPos.y + perimeterSize) % worldSize;
+        bool posUpdated = false;
 
-        if (newPos.Round() != root.GlobalPosition.Round())
+        Vector2 newPos = root.GlobalPosition;
+
+        if (newPos.x < 0)
+        {
+            newPos.x += worldSize;
+            posUpdated = true;
+        }
+        else if (newPos.x > worldSize)
+        {
+            newPos.x -= worldSize;
+            posUpdated = true;
+        }
+
+        if (newPos.y < 0)
+        {
+            newPos.y += worldSize;
+            posUpdated = true;
+        }
+        else if (newPos.y > worldSize)
+        {
+            newPos.y -= worldSize;
+            posUpdated = true;
+        }
+
+        if (posUpdated)
         {
             root.GlobalPosition = newPos;
             if (CameraPath != "")
