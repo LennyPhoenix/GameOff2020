@@ -140,7 +140,7 @@ public class Minimap : MarginContainer
                             color = new Color("c67a31");
                             break;
                         case 2: // Iron
-                            color = new Color("323444");
+                            color = new Color("422444");
                             break;
                         case 3: // Titanium
                             color = new Color("7084c4");
