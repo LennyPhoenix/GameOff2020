@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Assets/Buildings/Pipe.png" type="Texture" id=1]
+[ext_resource path="res://Source/Buildings/Pipe.cs" type="Script" id=2]
+
+[node name="Pipe" type="Sprite"]
+texture = ExtResource( 1 )
+centered = false
+offset = Vector2( 0, -4 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 100, 8 )
+region_filter_clip = true
+script = ExtResource( 2 )
