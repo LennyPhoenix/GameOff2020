@@ -8,7 +8,6 @@ public enum Ore
 	Titanium,
 }
 
-
 public enum MinimapIconType
 {
 	Turret,
