@@ -14,7 +14,7 @@ public class Player : KinematicBody2D
     // Movement
     [Export] public float Acceleration = 500f;
     [Export] public float MaxSpeed = 60f;
-    [Export] public float SprintMult = 2f;
+    [Export] public float SprintMult = 3f;
     [Export] public float Friction = 400f;
     [Export] public float CameraForwardMult = 60f;
 
