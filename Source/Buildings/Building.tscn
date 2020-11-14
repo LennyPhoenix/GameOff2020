@@ -49,8 +49,8 @@ collision_layer = 32
 collision_mask = 0
 
 [node name="MapWrapper" parent="." instance=ExtResource( 1 )]
-RootPath = NodePath("..")
 AdditionalOffsetPaths = [ NodePath("../Sprite"), NodePath("../CollisionShape2D"), NodePath("../LightOccluder2D") ]
+RootPath = NodePath("..")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Spawn"

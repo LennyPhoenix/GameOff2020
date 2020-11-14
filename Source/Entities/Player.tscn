@@ -140,8 +140,8 @@ collision_mask = 33
 script = ExtResource( 4 )
 
 [node name="MapWrapper" parent="." instance=ExtResource( 6 )]
-RootPath = NodePath("..")
 CameraPath = NodePath("../Camera")
+RootPath = NodePath("..")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Idle"
