@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public class Player : KinematicBody2D
 {
@@ -76,7 +75,7 @@ public class Player : KinematicBody2D
 
             RotationTimer += delta * RotationSpeed;
 
-            RotationTimer = Math.Min(RotationTimer, 1f);
+            RotationTimer = Mathf.Min(RotationTimer, 1f);
         }
 
         switch (CurrentState)
