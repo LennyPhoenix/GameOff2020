@@ -146,13 +146,13 @@ public class Minimap : MarginContainer
                             color = new Color("7084c4");
                             break;
                         default:
-                            color = new Color(0, 0, 0, 0);
+                            color = new Color("cccccc");
                             break;
                     }
                 }
                 else
                 {
-                    color = new Color("160000");
+                    color = new Color("101010");
                 }
 
                 image.SetPixel(x + planet.PerimeterSize, y + planet.PerimeterSize, color);
