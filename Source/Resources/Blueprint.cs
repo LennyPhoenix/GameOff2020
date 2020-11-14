@@ -12,7 +12,7 @@ public class Blueprint : Resource
     {
         { Ore.Stone, 0 },
         { Ore.Copper, 0 },
-        { Ore.Lead, 0 },
+        { Ore.Iron, 0 },
         { Ore.Titanium, 0 },
     };
 }

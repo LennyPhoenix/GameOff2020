@@ -4,7 +4,7 @@
 
 [resource]
 octaves = 5
-period = 16.0
+period = 15.0
 script = ExtResource( 1 )
 OreId = 0
-Threshold = 0.625
+Threshold = 0.635
