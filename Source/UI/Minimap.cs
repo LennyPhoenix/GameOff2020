@@ -20,7 +20,8 @@ public class Minimap : MarginContainer
 
     private Dictionary<MinimapIconType, Sprite> icons;
 
-    private Dictionary<MinimapIcon, Sprite> markers = new Dictionary<MinimapIcon, Sprite>();
+    private Array<MinimapIcon> iconNodes = new Array<MinimapIcon>();
+    private Array<Sprite> markers = new Array<Sprite>();
 
     public override void _Ready()
     {
@@ -48,12 +49,13 @@ public class Minimap : MarginContainer
         PlayerMarker.Position = Markers.RectSize / 2 + Markers.RectPosition;
 
         Array mapObjects = GetTree().GetNodesInGroup("MinimapIcons");
-        foreach (MinimapIcon item in mapObjects)
+        foreach (MinimapIcon minimapIcon in mapObjects)
         {
-            Sprite newMarker = (Sprite)icons[item.IconType].Duplicate();
+            Sprite newMarker = (Sprite)icons[minimapIcon.IconType].Duplicate();
             Markers.AddChild(newMarker);
             newMarker.Show();
-            markers.Add(item, newMarker);
+            iconNodes.Add(minimapIcon);
+            markers.Add(newMarker);
         }
     }
 
@@ -72,41 +74,58 @@ public class Minimap : MarginContainer
         PlayerMarker.Rotation = player.RotateGroup.GlobalRotation;
         Tiles.Position = (-player.GlobalPosition) / Globals.TileSize + Markers.RectSize / 2 + new Vector2(planet.WorldSize / 2, planet.WorldSize / 2);
 
-        Array mapObjects = GetTree().GetNodesInGroup("MinimapIcons");
+        Array globalIconNodes = GetTree().GetNodesInGroup("MinimapIcons");
 
-        foreach (MinimapIcon item in mapObjects)
+        foreach (MinimapIcon iconNode in globalIconNodes)
         {
-            if (!markers.Keys.Contains(item))
+            if (!iconNodes.Contains(iconNode))
             {
-                Sprite newMarker = (Sprite)icons[item.IconType].Duplicate();
+                Sprite newMarker = (Sprite)icons[iconNode.IconType].Duplicate();
                 Markers.AddChild(newMarker);
                 newMarker.Show();
-                markers.Add(item, newMarker);
+                iconNodes.Add(iconNode);
+                markers.Add(newMarker);
             }
         }
 
-        foreach (MinimapIcon item in markers.Keys)
-        {
-            if (mapObjects.Contains(item))
-            {
-                Vector2 objPosition = (item.GetNode<Node2D>(item.Root).GlobalPosition - player.GlobalPosition) / Globals.TileSize + Markers.RectSize / 2;
+        Array<int> removeIndices = new Array<int>();
 
-                if (item.HideOutsideMap)
+        for (int i = 0; i < iconNodes.Count; i++)
+        {
+            MinimapIcon iconNode = iconNodes[i];
+            Sprite marker = markers[i];
+
+            if (globalIconNodes.Contains(iconNode))
+            {
+                Vector2 objPosition = (iconNode.GetNode<Node2D>(iconNode.Root).GlobalPosition - player.GlobalPosition) / Globals.TileSize + Markers.RectSize / 2;
+
+                if (iconNode.HideOutsideMap)
                 {
-                    markers[item].Visible = Markers.GetRect().HasPoint(objPosition);
+                    marker.Visible = Markers.GetRect().HasPoint(objPosition);
                 }
 
                 objPosition.x = Mathf.Clamp(objPosition.x, 0, Markers.RectSize.x);
                 objPosition.y = Mathf.Clamp(objPosition.y, 0, Markers.RectSize.y);
 
-                markers[item].Position = objPosition;
+                marker.Position = objPosition;
             }
             else
             {
-                markers[item].QueueFree();
-                markers.Remove(item);
+                marker.QueueFree();
+                removeIndices.Add(i);
             }
         }
+
+        foreach (int i in removeIndices)
+        {
+            markers.RemoveAt(i);
+            iconNodes.RemoveAt(i);
+        }
+    }
+
+    public void _OnPlanetGenerated()
+    {
+        UpdateTiles();
     }
 
     public void UpdateTiles()

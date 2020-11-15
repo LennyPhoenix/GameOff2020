@@ -94,6 +94,6 @@ text = "Generate"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="Generated" from="." to="UI/Minimap" method="UpdateTiles"]
+[connection signal="Generated" from="." to="UI/Minimap" method="_OnPlanetGenerated"]
 [connection signal="button_down" from="UI/BuildMode" to="BuildPreview" method="ToggleEnabled"]
 [connection signal="button_up" from="UI/Button" to="." method="Generate"]
