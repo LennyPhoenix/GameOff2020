@@ -88,7 +88,9 @@ public class Minimap : MarginContainer
             }
         }
 
-        Array<int> removeIndices = new Array<int>();
+        GD.Print(iconNodes, " ;; ", markers);
+
+        Array<Sprite> removeMarkers = new Array<Sprite>();
 
         for (int i = 0; i < iconNodes.Count; i++)
         {
@@ -112,12 +114,13 @@ public class Minimap : MarginContainer
             else
             {
                 marker.QueueFree();
-                removeIndices.Add(i);
+                removeMarkers.Add(marker);
             }
         }
 
-        foreach (int i in removeIndices)
+        foreach (Sprite marker in removeMarkers)
         {
+            int i = markers.IndexOf(marker);
             markers.RemoveAt(i);
             iconNodes.RemoveAt(i);
         }
