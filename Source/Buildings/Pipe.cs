@@ -25,17 +25,26 @@ public class Pipe : Sprite
         }
     }
 
+    public AnimationPlayer AnimationPlayer;
+
     public override void _Ready()
     {
         base._Ready();
+
+        AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 
         UpdatePosition();
     }
 
     public void UpdatePosition()
     {
-        Position = PointA;
-        Rotation = (PointB - PointA).Angle();
+        GlobalPosition = PointA;
+        GlobalRotation = (PointB - PointA).Angle();
         RegionRect = new Rect2(0, 0, PointA.DistanceTo(PointB), RegionRect.Size.y);
+    }
+
+    public void PlayPlacing()
+    {
+        AnimationPlayer.Play("Placing");
     }
 }
