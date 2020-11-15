@@ -24,10 +24,10 @@ period = 32.0
 
 [node name="Planet" type="Node2D"]
 script = ExtResource( 4 )
+OreGenerators = [ ExtResource( 7 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 8 ) ]
 CoreBuilding = ExtResource( 13 )
 WallNoise = SubResource( 1 )
 GroundNoise = SubResource( 2 )
-OreGenerators = [ ExtResource( 7 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 8 ) ]
 
 [node name="Ground" type="TileMap" parent="."]
 tile_set = ExtResource( 5 )
@@ -41,9 +41,9 @@ cell_size = Vector2( 16, 16 )
 collision_mask = 0
 format = 1
 
-[node name="GroundEntities" type="Node2D" parent="."]
+[node name="Projectiles" type="Node2D" parent="."]
 
-[node name="Projectiles" type="Node2D" parent="GroundEntities"]
+[node name="GroundEntities" type="Node2D" parent="."]
 
 [node name="Player" parent="GroundEntities" instance=ExtResource( 1 )]
 
