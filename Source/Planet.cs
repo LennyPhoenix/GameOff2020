@@ -95,8 +95,18 @@ public class Planet : Node2D
 		);
 	}
 
+	public void ClearBuildings()
+    {
+		foreach (Building building in Buildings.GetChildren())
+        {
+			building.Destroy();
+        }
+    }
+
 	public void Generate()
 	{
+		ClearBuildings();
+
 		GD.Randomize();
 
 		GroundTiles.Clear();
