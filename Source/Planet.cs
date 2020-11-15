@@ -160,7 +160,7 @@ public class Planet : Node2D
 						break;
 					}
 				}
-				if (wallId > -1 && midVec.DistanceTo(new Vector2(x, y)) * Globals.TileSize > ClearRadius)
+				if (wallId > -1 && midVec.DistanceTo(new Vector2(x, y)) > ClearRadius)
 				{
 					WallTiles.SetCell(x, y, wallId);
 				}
