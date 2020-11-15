@@ -19,6 +19,7 @@ public class Gun : Sprite
     [Export] public float ShakeAmplitude = 0.5f;
 
     public Node2D Projectiles;
+    public BuildPreview BuildPreview;
     public Node2D SpawnOffset;
     public Timer Timer;
 
@@ -32,6 +33,7 @@ public class Gun : Sprite
         }
 
         Projectiles = GetTree().CurrentScene.GetNode<Node2D>("Planet/Projectiles");
+        BuildPreview = GetTree().CurrentScene.GetNode<BuildPreview>("Planet/BuildPreview");
         SpawnOffset = GetNode<Node2D>("SpawnOffset");
         Timer = GetNode<Timer>("Timer");
     }
@@ -54,7 +56,7 @@ public class Gun : Sprite
             return;
         }
 
-        if (@event.IsActionPressed("shoot") && Timer.IsStopped())
+        if (@event.IsActionPressed("shoot") && Timer.IsStopped() && Globals.HoveringBuilding is null && BuildPreview.Visible)
         {
             Shoot();
         }
@@ -69,7 +71,7 @@ public class Gun : Sprite
             return;
         }
 
-        if (Input.IsActionPressed("shoot") && Timer.IsStopped())
+        if (Input.IsActionPressed("shoot") && Timer.IsStopped() && Globals.DraggingBuilding is null && BuildPreview.Visible)
         {
             Shoot();
         }
