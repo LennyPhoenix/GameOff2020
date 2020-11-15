@@ -56,12 +56,12 @@ public class Planet : Node2D
 		Player = GetNode<Player>("GroundEntities/Player");
 
 		int mid = WorldSize * Globals.TileSize / 2;
-        Player.Position = new Vector2(mid, mid);
+		Player.Position = new Vector2(mid, mid);
 
-        Buildings = GetNode<Node2D>("Buildings");
+		Buildings = GetNode<Node2D>("Buildings");
 
-        Generate();
-    }
+		Generate();
+	}
 
 	public override string _GetConfigurationWarning()
 	{
@@ -81,9 +81,9 @@ public class Planet : Node2D
 		base._PhysicsProcess(delta);
 
 		if (Engine.EditorHint)
-        {
+		{
 			return;
-        }
+		}
 
 		GetTree().CallGroup(
 			"MapWrapper", "Update",
@@ -129,11 +129,11 @@ public class Planet : Node2D
 		WallTiles.UpdateBitmaskRegion(regionStart, regionEnd);
 
 		EmitSignal("Generated");
-		
+
 		Node2D core = (Node2D)CoreBuilding.Instance();
 
 		int mid = WorldSize * Globals.TileSize / 2;
-		core.GlobalPosition = (new Vector2(mid, mid - 80) / 16).Round() * 16;
+		core.GlobalPosition = (new Vector2(mid, mid - 80) / 16).Round() * 16 + new Vector2(8, 8);
 		Buildings.AddChild(core);
 	}
 
@@ -156,14 +156,14 @@ public class Planet : Node2D
 						continue;
 					}
 					else
-                    {
+					{
 						break;
-                    }
+					}
 				}
 				if (wallId > -1 && midVec.DistanceTo(new Vector2(x, y)) * Globals.TileSize > ClearRadius)
-                {
+				{
 					WallTiles.SetCell(x, y, wallId);
-                }
+				}
 				else
 				{
 					int tileId = Mathf.FloorToInt(GroundNoiseImage.GetPixel(x, y).v * GroundTileRange);
@@ -174,7 +174,7 @@ public class Planet : Node2D
 	}
 
 	private void GenerateOres()
-    {
+	{
 		for (int x = 0; x < WorldSize; x++)
 		{
 			for (int y = 0; y < WorldSize; y++)
@@ -184,9 +184,9 @@ public class Planet : Node2D
 					Image image = OreGenerationImages[OreGenerators.IndexOf(oreGeneration)];
 					float noiseValue = image.GetPixel(x, y).v;
 					if (noiseValue > oreGeneration.Threshold)
-                    {
+					{
 						OreTiles.SetCell(x, y, (int)oreGeneration.OreId);
-                    }
+					}
 				}
 			}
 		}
