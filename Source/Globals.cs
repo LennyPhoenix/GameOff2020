@@ -19,4 +19,7 @@ public enum MinimapIconType
 public class Globals
 {
 	public const int TileSize = 16;
+
+	public static Building DraggingBuilding;
+	public static Building HoveringBuilding;
 }

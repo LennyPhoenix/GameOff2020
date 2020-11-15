@@ -24,9 +24,9 @@ period = 32.0
 
 [node name="Planet" type="Node2D"]
 script = ExtResource( 4 )
-OreGenerators = [ ExtResource( 7 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 8 ) ]
 CoreBuilding = ExtResource( 13 )
 WallNoise = SubResource( 1 )
+OreGenerators = [ ExtResource( 7 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 8 ) ]
 GroundNoise = SubResource( 2 )
 
 [node name="Ground" type="TileMap" parent="."]
@@ -44,6 +44,8 @@ format = 1
 [node name="GroundEntities" type="Node2D" parent="."]
 
 [node name="Player" parent="GroundEntities" instance=ExtResource( 1 )]
+
+[node name="Pipes" type="Node2D" parent="."]
 
 [node name="Buildings" type="Node2D" parent="."]
 

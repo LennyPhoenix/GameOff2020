@@ -39,6 +39,7 @@ public class Planet : Node2D
 	public TileMap WallTiles;
 	public Player Player;
 	public Node2D Buildings;
+	public Node2D Pipes;
 
 	public override void _Ready()
 	{
@@ -59,6 +60,7 @@ public class Planet : Node2D
 		Player.Position = new Vector2(mid, mid);
 
 		Buildings = GetNode<Node2D>("Buildings");
+		Pipes = GetNode<Node2D>("Pipes");
 
 		Generate();
 	}
