@@ -88,8 +88,6 @@ public class Minimap : MarginContainer
             }
         }
 
-        GD.Print(iconNodes, " ;; ", markers);
-
         Array<Sprite> removeMarkers = new Array<Sprite>();
 
         for (int i = 0; i < iconNodes.Count; i++)
