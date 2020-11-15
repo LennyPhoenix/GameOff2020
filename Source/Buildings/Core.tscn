@@ -18,7 +18,7 @@ Root = NodePath("../Sprite")
 HideOutsideMap = false
 
 [node name="MapWrapper" parent="." index="1"]
-AdditionalOffsetPaths = [ NodePath("../Sprite"), NodePath("../CollisionShape2D"), NodePath("../LightOccluder2D"), NodePath("../Light2D") ]
+AdditionalOffsetPaths = [ NodePath("../Sprite"), NodePath("../LightOccluder2D"), NodePath("../Light2D"), NodePath("../CollisionShape2D") ]
 
 [node name="Sprite" parent="." index="3"]
 texture = ExtResource( 3 )
