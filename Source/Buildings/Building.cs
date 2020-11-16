@@ -141,14 +141,6 @@ public class Building : StaticBody2D
         }
     }
 
-    public void _OnAnimationFinished(string animName)
-    {
-        if (animName == "Spawn")
-        {
-            SetSelected(true);
-        }
-    }
-
     public void SetSelected(bool selected)
     {
         if (selected)

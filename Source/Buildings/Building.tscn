@@ -6,7 +6,7 @@
 [ext_resource path="res://Assets/Buildings/InputConnectionHighlight.png" type="Texture" id=4]
 [ext_resource path="res://Assets/Buildings/OutputConnectionHighlight.png" type="Texture" id=5]
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=1]
 resource_name = "Default"
 length = 0.001
 tracks/0/type = "value"
@@ -46,7 +46,7 @@ tracks/2/keys = {
 "values": [ 0.0 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=2]
 resource_name = "Selected"
 length = 1.5
 loop = true
@@ -87,8 +87,7 @@ tracks/2/keys = {
 "values": [ Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=1]
-resource_name = "Spawn"
+[sub_resource type="Animation" id=3]
 length = 0.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:rotation_degrees")
@@ -127,10 +126,10 @@ tracks/2/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="CanvasItemMaterial" id=2]
+[sub_resource type="CanvasItemMaterial" id=4]
 light_mode = 1
 
-[sub_resource type="CanvasItemMaterial" id=3]
+[sub_resource type="CanvasItemMaterial" id=5]
 light_mode = 1
 
 [node name="Building" type="StaticBody2D" groups=[
@@ -148,15 +147,12 @@ AdditionalOffsetPaths = [ NodePath("../Sprite"), NodePath("../LightOccluder2D"),
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Spawn"
-anims/Default = SubResource( 5 )
-anims/Selected = SubResource( 4 )
-anims/Spawn = SubResource( 1 )
+anims/Default = SubResource( 1 )
+anims/Selected = SubResource( 2 )
+anims/Spawn = SubResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
-modulate = Color( 1, 1, 1, 0 )
 light_mask = 2
-rotation = -0.523599
-scale = Vector2( 3, 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
@@ -168,15 +164,14 @@ scale = Vector2( 3, 3 )
 visible = false
 modulate = Color( 1, 1, 1, 0.862745 )
 light_mask = 0
-material = SubResource( 2 )
+material = SubResource( 4 )
 texture = ExtResource( 4 )
 
 [node name="OutputConnection" type="Sprite" parent="Highlights"]
 visible = false
 modulate = Color( 1, 1, 1, 0.862745 )
 light_mask = 0
-material = SubResource( 3 )
+material = SubResource( 5 )
 texture = ExtResource( 5 )
 [connection signal="mouse_entered" from="." to="." method="_OnMouseEntered"]
 [connection signal="mouse_exited" from="." to="." method="_OnMouseExited"]
-[connection signal="animation_finished" from="AnimationPlayer" to="." method="_OnAnimationFinished"]

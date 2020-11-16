@@ -24,9 +24,9 @@ period = 32.0
 
 [node name="Planet" type="Node2D"]
 script = ExtResource( 4 )
-CoreBuilding = ExtResource( 13 )
-WallNoise = SubResource( 1 )
 OreGenerators = [ ExtResource( 7 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 8 ) ]
+WallNoise = SubResource( 1 )
+CoreBuilding = ExtResource( 13 )
 GroundNoise = SubResource( 2 )
 
 [node name="Ground" type="TileMap" parent="."]
