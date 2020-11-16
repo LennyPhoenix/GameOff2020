@@ -145,10 +145,6 @@ public class Building : StaticBody2D
     {
         if (animName == "Spawn")
         {
-            if (!(Globals.SelectedBuilding is null))
-            {
-                Globals.SelectedBuilding.SetSelected(false);
-            }
             SetSelected(true);
         }
     }
@@ -176,10 +172,7 @@ public class Building : StaticBody2D
         }
         else
         {
-            if (Globals.SelectedBuilding == this)
-            {
-                Globals.SelectedBuilding = null;
-            }
+            Globals.SelectedBuilding = null;
             AnimationPlayer.Play("Default");
 
             foreach (Building output in OutputBuildings)
