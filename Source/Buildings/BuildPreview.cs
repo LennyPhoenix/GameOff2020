@@ -83,10 +83,27 @@ public class BuildPreview : Area2D
         }
 
         Vector2 mousePos = GetGlobalMousePosition();
-        GlobalPosition = new Vector2(
-            (Mathf.RoundToInt(mousePos.x / Globals.TileSize) + Blueprint.Size.x % 2 / 2) * Globals.TileSize,
-            (Mathf.RoundToInt(mousePos.y / Globals.TileSize) + Blueprint.Size.x % 2 / 2) * Globals.TileSize
-        );
+        Vector2 position = new Vector2();
+
+        if (Mathf.RoundToInt(Blueprint.Size.x) % 2 == 1)
+        {
+            position.x = Mathf.FloorToInt(mousePos.x / Globals.TileSize) * Globals.TileSize + 8;
+        }
+        else
+        {
+            position.x = Mathf.RoundToInt(mousePos.x / Globals.TileSize) * Globals.TileSize;
+        }
+
+        if (Mathf.RoundToInt(Blueprint.Size.y) % 2 == 1)
+        {
+            position.y = Mathf.FloorToInt(mousePos.y / Globals.TileSize) * Globals.TileSize + 8;
+        }
+        else
+        {
+            position.y = Mathf.RoundToInt(mousePos.y / Globals.TileSize) * Globals.TileSize;
+        }
+
+        GlobalPosition = position;
     }
 
     public override void _UnhandledInput(InputEvent @event)
