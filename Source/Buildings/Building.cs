@@ -14,6 +14,7 @@ public class Building : StaticBody2D
     [Export] public Dictionary<int, int> Takes = new Dictionary<int, int>();
     [Export] public Dictionary<int, int> Produces = new Dictionary<int, int>();
 
+    public AnimationPlayer AnimationPlayer;
     public Pipe DraggingPipe;
     public Sprite InputConnectionHighlight;
     public Sprite OutputConnectionHighlight;
@@ -30,6 +31,7 @@ public class Building : StaticBody2D
     {
         base._Ready();
 
+        AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
         Pipes = GetTree().CurrentScene.GetNode<Node2D>("Planet/Pipes");
         InputConnectionHighlight = GetNode<Sprite>("Highlights/InputConnection");
         OutputConnectionHighlight = GetNode<Sprite>("Highlights/OutputConnection");
@@ -40,14 +42,17 @@ public class Building : StaticBody2D
         hovering = true;
         Globals.HoveringBuilding = this;
 
-        foreach (Building output in OutputBuildings)
+        if (Globals.SelectedBuilding is null)
         {
-            output.InputConnectionHighlight.Show();
-        }
+            foreach (Building output in OutputBuildings)
+            {
+                output.InputConnectionHighlight.Show();
+            }
 
-        foreach (Building input in InputBuildings)
-        {
-            input.OutputConnectionHighlight.Show();
+            foreach (Building input in InputBuildings)
+            {
+                input.OutputConnectionHighlight.Show();
+            }
         }
     }
 
@@ -59,14 +64,17 @@ public class Building : StaticBody2D
             Globals.HoveringBuilding = null;
         }
 
-        foreach (Building output in OutputBuildings)
+        if (Globals.SelectedBuilding is null)
         {
-            output.InputConnectionHighlight.Hide();
-        }
+            foreach (Building output in OutputBuildings)
+            {
+                output.InputConnectionHighlight.Hide();
+            }
 
-        foreach (Building input in InputBuildings)
-        {
-            input.OutputConnectionHighlight.Hide();
+            foreach (Building input in InputBuildings)
+            {
+                input.OutputConnectionHighlight.Hide();
+            }
         }
     }
 
@@ -96,6 +104,32 @@ public class Building : StaticBody2D
             }
         }
 
+        if (Input.IsActionJustReleased("select") && Globals.HoveringBuilding != this && Globals.SelectedBuilding == this)
+        {
+            SetSelected(false);
+        }
+        else if (Input.IsActionJustReleased("select") && Globals.HoveringBuilding == this && AnimationPlayer.CurrentAnimation != "Spawn")
+        {
+            SetSelected(true);
+        }
+
+        if (Input.IsActionJustReleased("remove_connections") && Globals.HoveringBuilding == this && !(Globals.SelectedBuilding is null))
+        {
+            Building building = Globals.SelectedBuilding;
+
+            if (InputBuildings.Contains(building))
+            {
+                building.RemoveOutput(this);
+                InputConnectionHighlight.Hide();
+            }
+            
+            if (OutputBuildings.Contains(building))
+            {
+                RemoveOutput(building);
+                OutputConnectionHighlight.Hide();
+            }
+        }
+
         if (hovering && Input.IsActionJustPressed("select") && OutputBuildings.Count < MaxOutput)
         {
             DraggingPipe = (Pipe)PipeScene.Instance();
@@ -104,6 +138,59 @@ public class Building : StaticBody2D
             Pipes.AddChild(DraggingPipe);
             DraggingPipe.PlayPlacing();
             Globals.DraggingBuilding = this;
+        }
+    }
+
+    public void _OnAnimationFinished(string animName)
+    {
+        if (animName == "Spawn")
+        {
+            if (!(Globals.SelectedBuilding is null))
+            {
+                Globals.SelectedBuilding.SetSelected(false);
+            }
+            SetSelected(true);
+        }
+    }
+
+    public void SetSelected(bool selected)
+    {
+        if (selected)
+        {
+            if (!(Globals.SelectedBuilding is null))
+            {
+                Globals.SelectedBuilding.SetSelected(false);
+            }
+            Globals.SelectedBuilding = this;
+            AnimationPlayer.Play("Selected");
+
+            foreach (Building output in OutputBuildings)
+            {
+                output.InputConnectionHighlight.Show();
+            }
+
+            foreach (Building input in InputBuildings)
+            {
+                input.OutputConnectionHighlight.Show();
+            }
+        }
+        else
+        {
+            if (Globals.SelectedBuilding == this)
+            {
+                Globals.SelectedBuilding = null;
+            }
+            AnimationPlayer.Play("Default");
+
+            foreach (Building output in OutputBuildings)
+            {
+                output.InputConnectionHighlight.Hide();
+            }
+
+            foreach (Building input in InputBuildings)
+            {
+                input.OutputConnectionHighlight.Hide();
+            }
         }
     }
 
@@ -119,8 +206,19 @@ public class Building : StaticBody2D
         building.InputBuildings.Add(this);
     }
 
+    public void RemoveOutput(Building building)
+    {
+        Pipe pipe = OutputPipes[building];
+        pipe.QueueFree();
+        OutputPipes.Remove(building);
+        OutputBuildings.Remove(building);
+        building.InputBuildings.Remove(this);
+    }
+
     public void Destroy()
     {
+        SetSelected(false);
+
         foreach (Building output in OutputBuildings)
         {
             output.InputBuildings.Remove(this);

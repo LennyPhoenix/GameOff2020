@@ -20,6 +20,7 @@ public class Globals
 {
 	public const int TileSize = 16;
 
+	public static Building SelectedBuilding;
 	public static Building DraggingBuilding;
 	public static Building HoveringBuilding;
 }
