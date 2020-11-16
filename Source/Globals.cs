@@ -16,6 +16,14 @@ public enum MinimapIconType
 	Enemy
 }
 
+public enum Item
+{
+	Stone,
+	Copper,
+	Iron,
+	Titanium,
+}
+
 public class Globals
 {
 	public const int TileSize = 16;

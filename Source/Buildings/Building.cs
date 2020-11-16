@@ -5,19 +5,18 @@ public class Building : StaticBody2D
 {
     [Export] public PackedScene PipeScene;
 
-    [Export] public Dictionary<int, int> MaxStorage = new Dictionary<int, int>();
-    [Export] public Dictionary<int, int> Outputs = new Dictionary<int, int>();
+    [Export] public Dictionary<Item, int> MaxStorage = new Dictionary<Item, int>();
+    [Export] public Dictionary<Item, int> Outputs = new Dictionary<Item, int>();
 
     [Export] public int MaxInput = 4;
     [Export] public int MaxOutput = 4;
-
-    [Export] public Dictionary<int, int> Takes = new Dictionary<int, int>();
-    [Export] public Dictionary<int, int> Produces = new Dictionary<int, int>();
 
     public AnimationPlayer AnimationPlayer;
     public Pipe DraggingPipe;
     public Sprite InputConnectionHighlight;
     public Sprite OutputConnectionHighlight;
+
+    public Dictionary<Item, int> Items = new Dictionary<Item, int>();
 
     public Array<Building> InputBuildings = new Array<Building>();
     public Array<Building> OutputBuildings = new Array<Building>();
@@ -35,6 +34,11 @@ public class Building : StaticBody2D
         Pipes = GetTree().CurrentScene.GetNode<Node2D>("Planet/Pipes");
         InputConnectionHighlight = GetNode<Sprite>("Highlights/InputConnection");
         OutputConnectionHighlight = GetNode<Sprite>("Highlights/OutputConnection");
+
+        foreach (Item item in (Item[])System.Enum.GetValues(typeof(Item)))
+        {
+            Items.Add(item, 0);
+        }
     }
 
     public void _OnMouseEntered()
@@ -220,5 +224,26 @@ public class Building : StaticBody2D
         }
 
         QueueFree();
+    }
+
+    public virtual void Tick() {
+        foreach (Building output in OutputBuildings)
+        {
+            foreach (Item item in Outputs.Keys)
+            {
+                if (output.MaxStorage.ContainsKey(item))
+                {
+                    int num = Outputs[item];
+
+                    int send = Mathf.Min(num, Items[item]);
+                    send = Mathf.Min(send, output.MaxStorage[item] - output.Items[item]);
+
+                    output.Items[item] += send;
+                    Items[item] -= send;
+                }
+            }
+        }
+
+        GD.Print(Items);
     }
 }
