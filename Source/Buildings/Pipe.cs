@@ -25,6 +25,8 @@ public class Pipe : Sprite
         }
     }
 
+    [Export] public Material PlaceMaterial;
+
     public AnimationPlayer AnimationPlayer;
 
     public override void _Ready()
@@ -46,5 +48,6 @@ public class Pipe : Sprite
     public void PlayPlacing()
     {
         AnimationPlayer.Play("Placing");
+        Material = PlaceMaterial;
     }
 }
