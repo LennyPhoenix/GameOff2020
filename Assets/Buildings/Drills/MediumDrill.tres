@@ -1,7 +1,7 @@
 [gd_resource type="Resource" load_steps=4 format=2]
 
 [ext_resource path="res://Source/Resources/Blueprint.cs" type="Script" id=1]
-[ext_resource path="res://Assets/Buildings/Drills/MediumDrill.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Buildings/Drills/MediumDrillPreview.png" type="Texture" id=2]
 [ext_resource path="res://Source/Buildings/Drills/MediumDrill.tscn" type="PackedScene" id=3]
 
 [resource]

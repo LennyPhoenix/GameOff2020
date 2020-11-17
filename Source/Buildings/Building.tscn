@@ -142,8 +142,8 @@ script = ExtResource( 2 )
 PipeScene = ExtResource( 3 )
 
 [node name="MapWrapper" parent="." instance=ExtResource( 1 )]
-RootPath = NodePath("..")
 AdditionalOffsetPaths = [ NodePath("../Sprite"), NodePath("../LightOccluder2D"), NodePath("../CollisionShape2D") ]
+RootPath = NodePath("..")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Spawn"
@@ -153,6 +153,8 @@ anims/Spawn = SubResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="."]
 light_mask = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 
