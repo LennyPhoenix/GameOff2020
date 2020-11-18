@@ -84,12 +84,18 @@ public class Building : StaticBody2D
         {
             foreach (Building output in OutputBuildings)
             {
-                output.InputConnectionHighlight.Hide();
+                if (Globals.HoveringBuilding is null || !Globals.HoveringBuilding.OutputBuildings.Contains(output))
+                {
+                    output.InputConnectionHighlight.Hide();
+                }
             }
 
             foreach (Building input in InputBuildings)
             {
-                input.OutputConnectionHighlight.Hide();
+                if (Globals.HoveringBuilding is null || !Globals.HoveringBuilding.InputBuildings.Contains(input))
+                {
+                        input.OutputConnectionHighlight.Hide();
+                }
             }
         }
     }
