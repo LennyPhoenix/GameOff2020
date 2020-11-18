@@ -6,11 +6,15 @@ public class Drill : Building
     [Export] public int Size = 3;
     [Export] public int MiningAmount = 1;
 
+    public TileMap OreTiles;
+    public Array<Ore> Ores;
 
     public override void _Ready()
     {
         base._Ready();
 
+        OreTiles = GetTree().CurrentScene.GetNode<TileMap>("Planet/Ore");
+        Ores = getOres();
     }
 
     public override void Tick()
@@ -22,7 +26,7 @@ public class Drill : Building
 
         base.Tick();
 
-        foreach (Ore ore in ores)
+        foreach (Ore ore in Ores)
         {
             var item = (Item)ore;
 
@@ -45,6 +49,7 @@ public class Drill : Building
         {
             for (int y = 0; y < Size; y++)
             {
+                int ore = OreTiles.GetCell(x + Mathf.FloorToInt(topLeft.x), y + Mathf.FloorToInt(topLeft.y));
                 if (ore != -1)
                 {
                     ores.Add((Ore)ore);
