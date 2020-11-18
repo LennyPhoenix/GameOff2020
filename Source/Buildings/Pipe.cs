@@ -50,4 +50,9 @@ public class Pipe : Sprite
         AnimationPlayer.Play("Placing");
         Material = PlaceMaterial;
     }
+
+    public void PlayDelete()
+    {
+        AnimationPlayer.Play("Delete");
+    }
 }

@@ -24,6 +24,8 @@ public class Building : StaticBody2D
 
     public Node2D Pipes;
 
+    public bool Deleting = false;
+
     private bool hovering = false;
 
     public override void _Ready()
@@ -43,6 +45,11 @@ public class Building : StaticBody2D
 
     public void _OnMouseEntered()
     {
+        if (Deleting)
+        {
+            return;
+        }
+
         hovering = true;
         Globals.HoveringBuilding = this;
 
@@ -62,6 +69,11 @@ public class Building : StaticBody2D
 
     public void _OnMouseExited()
     {
+        if (Deleting)
+        {
+            return;
+        }
+
         hovering = false;
         if (Globals.HoveringBuilding == this)
         {
@@ -86,11 +98,16 @@ public class Building : StaticBody2D
     {
         base._Process(delta);
 
+        if (Deleting)
+        {
+            return;
+        }
+
         if (!(DraggingPipe is null))
         {
             DraggingPipe.PointB = GetGlobalMousePosition();
 
-            if (Input.IsActionJustReleased("select"))
+            if (Input.IsActionJustReleased("select") || Globals.DeconstructMode)
             {
                 DraggingPipe.QueueFree();
                 DraggingPipe = null;
@@ -112,7 +129,7 @@ public class Building : StaticBody2D
         {
             SetSelected(false);
         }
-        else if (Input.IsActionJustReleased("select") && Globals.HoveringBuilding == this && AnimationPlayer.CurrentAnimation != "Spawn")
+        else if (Input.IsActionJustReleased("select") && Globals.HoveringBuilding == this && AnimationPlayer.CurrentAnimation != "Spawn" && !Globals.DeconstructMode)
         {
             SetSelected(true);
         }
@@ -134,7 +151,7 @@ public class Building : StaticBody2D
             }
         }
 
-        if (hovering && Input.IsActionJustPressed("select") && OutputBuildings.Count < MaxOutput)
+        if (hovering && Input.IsActionJustPressed("select") && OutputBuildings.Count < MaxOutput && !Globals.DeconstructMode)
         {
             DraggingPipe = (Pipe)PipeScene.Instance();
             DraggingPipe.PointA = GlobalPosition;
@@ -147,6 +164,11 @@ public class Building : StaticBody2D
 
     public void SetSelected(bool selected)
     {
+        if (Deleting)
+        {
+            return;
+        }
+
         if (selected)
         {
             if (!(Globals.SelectedBuilding is null))
@@ -185,6 +207,11 @@ public class Building : StaticBody2D
 
     public void AddOutput(Building building)
     {
+        if (Deleting || building.Deleting)
+        {
+            return;
+        }
+
         Pipe pipe = (Pipe)PipeScene.Instance();
         pipe.PointA = GlobalPosition;
         pipe.PointB = building.GlobalPosition;
@@ -197,8 +224,13 @@ public class Building : StaticBody2D
 
     public void RemoveOutput(Building building)
     {
+        if (Deleting || building.Deleting)
+        {
+            return;
+        }
+
         Pipe pipe = OutputPipes[building];
-        pipe.QueueFree();
+        pipe.PlayDelete();
         OutputPipes.Remove(building);
         OutputBuildings.Remove(building);
         building.InputBuildings.Remove(this);
@@ -206,27 +238,45 @@ public class Building : StaticBody2D
 
     public void Destroy()
     {
+        Deleting = true;
         SetSelected(false);
+
+        if (Globals.HoveringBuilding == this)
+        {
+            Globals.HoveringBuilding = null;
+        }
+
+        if (!(DraggingPipe is null))
+        {
+            DraggingPipe.QueueFree();
+        }
 
         foreach (Building output in OutputBuildings)
         {
+            output.InputConnectionHighlight.Hide();
             output.InputBuildings.Remove(this);
             Pipe pipe = OutputPipes[output];
-            pipe.QueueFree();
+            pipe.PlayDelete();
         }
 
         foreach (Building input in InputBuildings)
         {
+            input.OutputConnectionHighlight.Hide();
             input.OutputBuildings.Remove(this);
             Pipe pipe = input.OutputPipes[this];
-            pipe.QueueFree();
+            pipe.PlayDelete();
             input.OutputPipes.Remove(this);
         }
 
-        QueueFree();
+        AnimationPlayer.Play("Delete");
     }
 
     public virtual void Tick() {
+        if (Deleting)
+        {
+            return;
+        }
+
         foreach (Building output in OutputBuildings)
         {
             foreach (Item item in Outputs.Keys)
@@ -243,7 +293,5 @@ public class Building : StaticBody2D
                 }
             }
         }
-
-        GD.Print(Items);
     }
 }
