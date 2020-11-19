@@ -95,21 +95,21 @@ public class Planet : Node2D
 	}
 
 	public void _OnBuildingClockTimeout()
-    {
+	{
 		GetTree().CallGroup("Buildings", "Tick");
-    }
+	}
 
 	public void ClearBuildings()
-    {
+	{
 		foreach (Building building in Buildings.GetChildren())
-        {
+		{
 			building.Destroy();
-        }
+		}
 		Globals.DraggingBuilding = null;
 		Globals.HoveringBuilding = null;
 		Globals.SelectedBuilding = null;
 		Globals.LastBuilding = null;
-    }
+	}
 
 	public void Generate()
 	{

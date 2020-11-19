@@ -118,7 +118,7 @@ public class Building : StaticBody2D
         {
             DraggingPipe.PointB = GetGlobalMousePosition();
 
-            if (Input.IsActionJustReleased("build") || Globals.BuildMode)
+            if (Input.IsActionJustReleased("build") || (Globals.BuildMode && Globals.BuildBlueprint != null))
             {
                 if (Globals.HoveringBuilding != null && Globals.HoveringBuilding != this && DraggingPipe.CanPlace)
                 {
@@ -154,7 +154,7 @@ public class Building : StaticBody2D
         {
             SetSelected(false);
         }
-        else if (Input.IsActionJustReleased("build") && Globals.HoveringBuilding == this && AnimationPlayer.CurrentAnimation != "Spawn" && !Globals.BuildMode)
+        else if (Input.IsActionJustReleased("build") && Globals.HoveringBuilding == this && AnimationPlayer.CurrentAnimation != "Spawn" && (!Globals.BuildMode || Globals.BuildBlueprint == null))
         {
             SetSelected(true);
         }
@@ -176,7 +176,7 @@ public class Building : StaticBody2D
             }
         }
 
-        if (hovering && Input.IsActionJustPressed("build") && OutputBuildings.Count < MaxOutput && !Globals.BuildMode)
+        if (hovering && Input.IsActionJustPressed("build") && OutputBuildings.Count < MaxOutput && (!Globals.BuildMode || Globals.BuildBlueprint == null))
         {
             DraggingPipe = (Pipe)PipeScene.Instance();
             DraggingPipe.PointA = GlobalPosition;

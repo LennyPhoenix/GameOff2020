@@ -29,6 +29,7 @@ public class Globals
 	public const int TileSize = 16;
 
 	public static bool BuildMode = false;
+	public static Blueprint BuildBlueprint;
 
 	public static Building SelectedBuilding;
 	public static Building DraggingBuilding;
