@@ -7,6 +7,6 @@ uniform float StrengthMultiplier = 0.1f;
 void fragment()
 {
 	vec4 color = texture(TEXTURE, UV);
-	float offset = sin(UV.y * PosScale + -TIME * TimeScale) * StrengthMultiplier;
+	float offset = sin(FRAGCOORD.y * PosScale + -TIME * TimeScale) * StrengthMultiplier;
 	COLOR = color + vec4(offset, offset, offset, 0);
 }
