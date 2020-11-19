@@ -105,6 +105,10 @@ public class Planet : Node2D
         {
 			building.Destroy();
         }
+		Globals.DraggingBuilding = null;
+		Globals.HoveringBuilding = null;
+		Globals.SelectedBuilding = null;
+		Globals.LastPylon = null;
     }
 
 	public void Generate()
