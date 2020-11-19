@@ -36,6 +36,7 @@ public class BuildPreview : Area2D
     public AnimationPlayer DeconstructAnimationPlayer;
     public CollisionShape2D Collider;
     public Node2D Buildings;
+    public NinePatchRect Border;
 
     private bool enabled = false;
     public bool Enabled
@@ -44,6 +45,7 @@ public class BuildPreview : Area2D
         set {
             enabled = value;
             Globals.BuildMode = value;
+            Border.Visible = value;
 
             if (Globals.SelectedBuilding != null)
             {
@@ -69,6 +71,7 @@ public class BuildPreview : Area2D
         DeconstructAnimationPlayer = GetNode<AnimationPlayer>("DeconstructSprite/AnimationPlayer");
         Collider = GetNode<CollisionShape2D>("Collider");
         Buildings = GetNode<Node2D>("../Buildings");
+        Border = GetNode<NinePatchRect>("UI/Border");
 
         Sprite.Texture = Blueprint.BuildTexture;
         var Rect = new RectangleShape2D();
