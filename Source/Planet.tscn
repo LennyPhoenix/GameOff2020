@@ -13,11 +13,11 @@
 [ext_resource path="res://Source/Buildings/BuildPreview.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Source/UI/Minimap.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Source/Buildings/Core.tscn" type="PackedScene" id=13]
-[ext_resource path="res://Assets/Buildings/Drills/SmallDrill.tres" type="Resource" id=14]
-[ext_resource path="res://Assets/Buildings/Drills/LargeDrill.tres" type="Resource" id=15]
+[ext_resource path="res://Assets/Buildings/Drills/LargeDrill.tres" type="Resource" id=14]
+[ext_resource path="res://Assets/Buildings/Pylon.tres" type="Resource" id=15]
 [ext_resource path="res://Assets/Buildings/Drills/MediumDrill.tres" type="Resource" id=16]
 [ext_resource path="res://Assets/Buildings/Storage.tres" type="Resource" id=17]
-[ext_resource path="res://Assets/Buildings/Pylon.tres" type="Resource" id=18]
+[ext_resource path="res://Assets/Buildings/Drills/SmallDrill.tres" type="Resource" id=19]
 
 [sub_resource type="OpenSimplexNoise" id=1]
 octaves = 9
@@ -29,9 +29,9 @@ period = 24.0
 
 [node name="Planet" type="Node2D"]
 script = ExtResource( 4 )
+CoreBuilding = ExtResource( 13 )
 GroundNoise = SubResource( 1 )
 WallNoise = SubResource( 2 )
-CoreBuilding = ExtResource( 13 )
 OreGenerators = [ ExtResource( 7 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 8 ) ]
 
 [node name="BuildingClock" type="Timer" parent="."]
@@ -69,8 +69,8 @@ format = 1
 
 [node name="BuildPreview" parent="." instance=ExtResource( 11 )]
 Blueprints = {
-"Drills": [ ExtResource( 14 ), ExtResource( 16 ), ExtResource( 15 ) ],
-"Misc": [ ExtResource( 18 ), ExtResource( 17 ) ]
+"Drills": [ ExtResource( 19 ), ExtResource( 16 ), ExtResource( 14 ) ],
+"Misc": [ ExtResource( 15 ), ExtResource( 17 ) ]
 }
 
 [node name="DaylightCycle" parent="." instance=ExtResource( 3 )]
