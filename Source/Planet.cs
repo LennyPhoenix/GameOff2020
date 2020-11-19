@@ -1,6 +1,5 @@
 using Godot;
 using Godot.Collections;
-using System.Linq;
 
 [Tool]
 public class Planet : Node2D
