@@ -4,7 +4,7 @@ public class Pylon : Building
 {
     public override void _Ready()
     {
-        if (Globals.LastBuilding != null)
+        if (Globals.LastBuilding != null && Globals.LastBuilding.GlobalPosition.DistanceTo(GlobalPosition) < Pipe.MaxLength * Globals.TileSize)
         {
             Globals.LastBuilding.AddOutput(this);
         }

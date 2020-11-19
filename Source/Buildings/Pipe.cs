@@ -27,7 +27,18 @@ public class Pipe : Sprite
 
     [Export] public Material PlaceMaterial;
 
+    [Export] public static int MaxLength = 24;
+
     public AnimationPlayer AnimationPlayer;
+
+    public bool CanPlace
+    {
+        get
+        {
+            return PointA.DistanceTo(PointB) < MaxLength * Globals.TileSize;
+        }
+    }
+    private bool placing = false;
 
     public override void _Ready()
     {
@@ -36,6 +47,16 @@ public class Pipe : Sprite
         AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 
         UpdatePosition();
+    }
+
+    public override void _Process(float delta)
+    {
+        base._Process(delta);
+
+        if (placing)
+        {
+            AnimationPlayer.Play(CanPlace ? "Placing" : "CannotPlace");
+        }
     }
 
     public void UpdatePosition()
@@ -47,6 +68,7 @@ public class Pipe : Sprite
 
     public void PlayPlacing()
     {
+        placing = true;
         AnimationPlayer.Play("Placing");
         Material = PlaceMaterial;
     }

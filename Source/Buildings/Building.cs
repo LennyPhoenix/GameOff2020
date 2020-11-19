@@ -117,11 +117,7 @@ public class Building : StaticBody2D
 
             if (Input.IsActionJustReleased("build") || Globals.BuildMode)
             {
-                DraggingPipe.QueueFree();
-                DraggingPipe = null;
-                Globals.DraggingBuilding = null;
-
-                if (Globals.HoveringBuilding != null && Globals.HoveringBuilding != this)
+                if (Globals.HoveringBuilding != null && Globals.HoveringBuilding != this && DraggingPipe.CanPlace)
                 {
                     Building building = Globals.HoveringBuilding;
                     if (!building.InputBuildings.Contains(this) && !InputBuildings.Contains(building) && building.InputBuildings.Count < building.MaxInput)
@@ -130,6 +126,10 @@ public class Building : StaticBody2D
                         OutputConnectionHighlight.Show();
                     }
                 }
+
+                DraggingPipe.QueueFree();
+                DraggingPipe = null;
+                Globals.DraggingBuilding = null;
             }
         }
 
