@@ -35,7 +35,17 @@ public class Pipe : Sprite
     {
         get
         {
-            return PointA.DistanceTo(PointB) < MaxLength * Globals.TileSize;
+            bool hoverCanPlace;
+            if (Globals.HoveringBuilding == null)
+            {
+                hoverCanPlace = true;
+            }
+            else
+            {
+                hoverCanPlace = Globals.HoveringBuilding.InputBuildings.Count < Globals.HoveringBuilding.MaxInput;
+            }
+
+            return PointA.DistanceTo(PointB) < MaxLength * Globals.TileSize && hoverCanPlace;
         }
     }
     private bool placing = false;
