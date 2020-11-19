@@ -33,4 +33,5 @@ public class Globals
 	public static Building SelectedBuilding;
 	public static Building DraggingBuilding;
 	public static Building HoveringBuilding;
+	public static Building LastBuilding;
 }

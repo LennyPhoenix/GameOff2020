@@ -41,6 +41,8 @@ public class Building : StaticBody2D
         {
             Items.Add(item, 0);
         }
+
+        Globals.LastBuilding = this;
     }
 
     public void _OnMouseEntered()

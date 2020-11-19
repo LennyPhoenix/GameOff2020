@@ -46,6 +46,7 @@ public class BuildPreview : Area2D
             enabled = value;
             Globals.BuildMode = value;
             Border.Visible = value;
+            Globals.LastBuilding = null;
 
             if (Globals.SelectedBuilding != null)
             {

@@ -108,7 +108,7 @@ public class Planet : Node2D
 		Globals.DraggingBuilding = null;
 		Globals.HoveringBuilding = null;
 		Globals.SelectedBuilding = null;
-		Globals.LastPylon = null;
+		Globals.LastBuilding = null;
     }
 
 	public void Generate()
