@@ -128,7 +128,10 @@ public class BuildPreview : Area2D
             if (Globals.HoveringBuilding == null || Globals.HoveringBuilding.Name == "Core")
             {
                 deconstructBuilding = null;
-                DeconstructAnimationPlayer.Play("Spin");
+                if (DeconstructAnimationPlayer.CurrentAnimation != "Deleted")
+                {
+                    DeconstructAnimationPlayer.Play("Spin");
+                }
                 GlobalPosition = mousePos;
             }
             else
