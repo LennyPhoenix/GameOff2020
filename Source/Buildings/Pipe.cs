@@ -27,7 +27,7 @@ public class Pipe : Sprite
 
     [Export] public Material PlaceMaterial;
 
-    [Export] public static int MaxLength = 24;
+    public static int MaxLength = 24;
 
     public AnimationPlayer AnimationPlayer;
 
