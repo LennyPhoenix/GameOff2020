@@ -28,7 +28,7 @@ public class Globals
 {
 	public const int TileSize = 16;
 
-	public static bool DeconstructMode = false;
+	public static bool BuildMode = false;
 
 	public static Building SelectedBuilding;
 	public static Building DraggingBuilding;

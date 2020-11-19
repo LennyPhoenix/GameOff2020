@@ -113,7 +113,7 @@ public class Building : StaticBody2D
         {
             DraggingPipe.PointB = GetGlobalMousePosition();
 
-            if (Input.IsActionJustReleased("select") || Globals.DeconstructMode)
+            if (Input.IsActionJustReleased("build") || Globals.BuildMode)
             {
                 DraggingPipe.QueueFree();
                 DraggingPipe = null;
@@ -131,16 +131,16 @@ public class Building : StaticBody2D
             }
         }
 
-        if (Input.IsActionJustReleased("select") && Globals.HoveringBuilding != this && Globals.SelectedBuilding == this)
+        if (Input.IsActionJustReleased("build") && Globals.HoveringBuilding != this && Globals.SelectedBuilding == this)
         {
             SetSelected(false);
         }
-        else if (Input.IsActionJustReleased("select") && Globals.HoveringBuilding == this && AnimationPlayer.CurrentAnimation != "Spawn" && !Globals.DeconstructMode)
+        else if (Input.IsActionJustReleased("build") && Globals.HoveringBuilding == this && AnimationPlayer.CurrentAnimation != "Spawn" && !Globals.BuildMode)
         {
             SetSelected(true);
         }
 
-        if (Input.IsActionJustReleased("remove_connections") && Globals.HoveringBuilding == this && !(Globals.SelectedBuilding is null))
+        if (Input.IsActionJustReleased("deconstruct") && Globals.HoveringBuilding == this && !(Globals.SelectedBuilding is null))
         {
             Building building = Globals.SelectedBuilding;
 
@@ -157,7 +157,7 @@ public class Building : StaticBody2D
             }
         }
 
-        if (hovering && Input.IsActionJustPressed("select") && OutputBuildings.Count < MaxOutput && !Globals.DeconstructMode)
+        if (hovering && Input.IsActionJustPressed("build") && OutputBuildings.Count < MaxOutput && !Globals.BuildMode)
         {
             DraggingPipe = (Pipe)PipeScene.Instance();
             DraggingPipe.PointA = GlobalPosition;

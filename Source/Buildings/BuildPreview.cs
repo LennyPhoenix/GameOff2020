@@ -37,24 +37,17 @@ public class BuildPreview : Area2D
     public CollisionShape2D Collider;
     public Node2D Buildings;
 
-    public bool BuildMode
+    private bool enabled = false;
+    public bool Enabled
     {
-        get => Sprite.Visible;
-        set { Sprite.Visible = value; }
-    }
-    public bool DeconstructMode
-    {
-        get => DeconstructSprite.Visible;
+        get => enabled;
         set {
-            Globals.DeconstructMode = value;
-            DeconstructSprite.Visible = value;
-            if (value && !(Globals.SelectedBuilding is null))
+            enabled = value;
+            Globals.BuildMode = value;
+
+            if (!(Globals.SelectedBuilding is null))
             {
                 Globals.SelectedBuilding.SetSelected(false);
-            }
-            else if (!value)
-            {
-                DeconstructAnimationPlayer.Play("Spin");
             }
         }
     }
@@ -122,51 +115,36 @@ public class BuildPreview : Area2D
 
         if (Input.IsActionJustPressed("build_mode"))
         {
-            DeconstructMode = false;
+            Enabled = !Enabled;
             deconstructBuilding = null;
-
-            BuildMode = !BuildMode;
-        }
-
-        if (Input.IsActionJustPressed("deconstruct_mode"))
-        {
-            DeconstructMode = !DeconstructMode;
-            deconstructBuilding = null;
-
-            BuildMode = false;
         }
 
         Vector2 mousePos = GetGlobalMousePosition();
-        if (DeconstructMode)
+        if (Input.IsActionPressed("deconstruct"))
         {
             if (Globals.HoveringBuilding is null || Globals.HoveringBuilding.Name == "Core")
             {
                 deconstructBuilding = null;
+                DeconstructAnimationPlayer.Play("Spin");
                 GlobalPosition = mousePos;
-                if (DeconstructAnimationPlayer.CurrentAnimation == "Delete")
-                {
-                    DeconstructAnimationPlayer.Play("Spin");
-                }
             }
             else
             {
                 GlobalPosition = Globals.HoveringBuilding.GlobalPosition;
 
-                if (deconstructBuilding != Globals.HoveringBuilding && Input.IsActionPressed("select"))
+                if (deconstructBuilding != Globals.HoveringBuilding && Enabled)
                 {
                     deconstructBuilding = Globals.HoveringBuilding;
                     DeconstructAnimationPlayer.Play("Delete");
                     DeconstructAnimationPlayer.Seek(0, true);
                 }
-                else if (!Input.IsActionPressed("select") && DeconstructAnimationPlayer.CurrentAnimation == "Delete")
-                {
-                    DeconstructAnimationPlayer.Play("Spin");
-                    deconstructBuilding = null;
-                }
             }
         }
         else
         {
+            deconstructBuilding = null;
+            DeconstructAnimationPlayer.Play("Spin");
+
             Vector2 position = new Vector2();
 
             if (Mathf.RoundToInt(Blueprint.Size.x) % 2 == 1)
@@ -189,6 +167,9 @@ public class BuildPreview : Area2D
 
             GlobalPosition = position;
         }
+
+        Sprite.Visible = Enabled && !Input.IsActionPressed("deconstruct");
+        DeconstructSprite.Visible = Enabled && Input.IsActionPressed("deconstruct");
     }
 
     public override void _UnhandledInput(InputEvent @event)
@@ -200,7 +181,7 @@ public class BuildPreview : Area2D
             return;
         }
 
-        if (@event.IsActionPressed("select") && !Colliding && BuildMode)
+        if (@event.IsActionPressed("build") && !Colliding && Enabled)
         {
             var building = (Node2D)Blueprint.Scene.Instance();
             building.GlobalPosition = GlobalPosition;
