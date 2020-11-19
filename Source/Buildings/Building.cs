@@ -4,6 +4,7 @@ using Godot.Collections;
 public class Building : StaticBody2D
 {
     [Export] public PackedScene PipeScene;
+    public PackedScene PylonScene;
 
     [Export] public Dictionary<Item, int> MaxStorage = new Dictionary<Item, int>();
     [Export] public Dictionary<Item, int> Outputs = new Dictionary<Item, int>();
@@ -36,6 +37,8 @@ public class Building : StaticBody2D
         Pipes = GetTree().CurrentScene.GetNode<Node2D>("Planet/Pipes");
         InputConnectionHighlight = GetNode<Sprite>("Highlights/InputConnection");
         OutputConnectionHighlight = GetNode<Sprite>("Highlights/OutputConnection");
+
+        PylonScene = ResourceLoader.Load<PackedScene>("res://Source/Buildings/Pylon.tscn");
 
         foreach (Item item in (Item[])System.Enum.GetValues(typeof(Item)))
         {
@@ -96,7 +99,7 @@ public class Building : StaticBody2D
             {
                 if (Globals.HoveringBuilding == null || !Globals.HoveringBuilding.InputBuildings.Contains(input))
                 {
-                        input.OutputConnectionHighlight.Hide();
+                    input.OutputConnectionHighlight.Hide();
                 }
             }
         }
@@ -125,6 +128,20 @@ public class Building : StaticBody2D
                         AddOutput(building);
                         OutputConnectionHighlight.Show();
                     }
+                }
+                else if (Globals.HoveringBuilding == null && DraggingPipe.CanPlace)
+                {
+                    Globals.LastBuilding = this;
+
+                    Vector2 mousePos = GetGlobalMousePosition();
+                    Vector2 position = new Vector2();
+
+                    position.x = Mathf.FloorToInt(mousePos.x / Globals.TileSize) * Globals.TileSize + 8;
+                    position.y = Mathf.FloorToInt(mousePos.y / Globals.TileSize) * Globals.TileSize + 8;
+
+                    var pylon = (Pylon)PylonScene.Instance();
+                    pylon.GlobalPosition = position;
+                    GetParent<Node>().AddChild(pylon);
                 }
 
                 DraggingPipe.QueueFree();

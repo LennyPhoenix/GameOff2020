@@ -46,7 +46,7 @@ tracks/2/keys = {
 "values": [ 0.0 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=2]
 resource_name = "Delete"
 length = 0.1
 step = 0.025
@@ -117,7 +117,7 @@ tracks/2/keys = {
 "values": [ Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=4]
 length = 0.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:rotation_degrees")
@@ -178,9 +178,9 @@ RootPath = NodePath("..")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Spawn"
 anims/Default = SubResource( 1 )
-anims/Delete = SubResource( 4 )
+anims/Delete = SubResource( 2 )
 anims/Selected = SubResource( 3 )
-anims/Spawn = SubResource( 7 )
+anims/Spawn = SubResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="."]
 light_mask = 2
