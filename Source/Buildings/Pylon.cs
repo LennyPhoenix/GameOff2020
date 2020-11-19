@@ -1,6 +1,6 @@
 using Godot;
 
-public class Pylon : Building
+public class Pylon : GenericCarrier
 {
     public override void _Ready()
     {
@@ -10,11 +10,5 @@ public class Pylon : Building
         }
 
         base._Ready();
-
-        foreach (Item item in (Item[])System.Enum.GetValues(typeof(Item)))
-        {
-            MaxStorage.Add(item, 50);
-            Outputs.Add(item, 50);
-        }
     }
 }
