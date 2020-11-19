@@ -26,9 +26,9 @@ period = 32.0
 [node name="Planet" type="Node2D"]
 script = ExtResource( 4 )
 OreGenerators = [ ExtResource( 7 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 8 ) ]
+CoreBuilding = ExtResource( 13 )
 WallNoise = SubResource( 1 )
 GroundNoise = SubResource( 2 )
-CoreBuilding = ExtResource( 13 )
 
 [node name="BuildingClock" type="Timer" parent="."]
 wait_time = 0.5
@@ -75,8 +75,10 @@ layer = 0
 [node name="Minimap" parent="UI" instance=ExtResource( 12 )]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -150.0
-margin_right = 0.0
+margin_left = -158.0
+margin_top = 8.0
+margin_right = -8.0
+margin_bottom = 158.0
 RootPlanetPath = NodePath("../..")
 PlayerPath = NodePath("../../GroundEntities/Player")
 WallPath = NodePath("../../Walls")
@@ -85,8 +87,10 @@ OrePath = NodePath("../../Ore")
 [node name="Button" type="Button" parent="UI"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -21.0
-margin_right = 130.0
+margin_left = 16.0
+margin_top = -36.0
+margin_right = 146.0
+margin_bottom = -16.0
 text = "Generate"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -97,8 +101,10 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -146.0
-margin_top = -35.0
+margin_left = -200.0
+margin_top = -60.0
+margin_right = -16.0
+margin_bottom = -16.0
 mouse_filter = 2
 alignment = 2
 __meta__ = {
@@ -106,17 +112,10 @@ __meta__ = {
 }
 
 [node name="Build Mode" type="Label" parent="UI/Controls"]
-margin_top = 3.0
-margin_right = 146.0
-margin_bottom = 17.0
+margin_top = 30.0
+margin_right = 184.0
+margin_bottom = 44.0
 text = "E - Build Mode"
-align = 2
-
-[node name="Deconstruct Mode" type="Label" parent="UI/Controls"]
-margin_top = 21.0
-margin_right = 146.0
-margin_bottom = 35.0
-text = "Q - Deconstruct Mode"
 align = 2
 [connection signal="Generated" from="." to="UI/Minimap" method="_OnPlanetGenerated"]
 [connection signal="timeout" from="BuildingClock" to="." method="_OnBuildingClockTimeout"]
