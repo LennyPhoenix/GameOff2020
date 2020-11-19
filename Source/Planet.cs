@@ -67,11 +67,11 @@ public class Planet : Node2D
 
 	public override string _GetConfigurationWarning()
 	{
-		if (GroundNoise is null)
+		if (GroundNoise == null)
 		{
 			return "GroundNoise property is empty.";
 		}
-		else if (WallNoise is null)
+		else if (WallNoise == null)
 		{
 			return "WallNoise property is empty.";
 		}

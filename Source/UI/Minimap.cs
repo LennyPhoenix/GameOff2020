@@ -63,7 +63,7 @@ public class Minimap : MarginContainer
     {
         base._Process(delta);
 
-        if (PlayerPath is null || RootPlanetPath is null)
+        if (PlayerPath == null || RootPlanetPath == null)
         {
             return;
         }
@@ -131,7 +131,7 @@ public class Minimap : MarginContainer
 
     public void UpdateTiles()
     {
-        if (RootPlanetPath is null || OrePath is null || WallPath is null)
+        if (RootPlanetPath == null || OrePath == null || WallPath == null)
         {
             return;
         }

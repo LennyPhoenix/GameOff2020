@@ -11,7 +11,7 @@ public class BuildPreview : Area2D
         {
             blueprint = value;
 
-            if (Engine.EditorHint || Sprite is null)
+            if (Engine.EditorHint || Sprite == null)
             {
                 return;
             }
@@ -45,7 +45,7 @@ public class BuildPreview : Area2D
             enabled = value;
             Globals.BuildMode = value;
 
-            if (!(Globals.SelectedBuilding is null))
+            if (Globals.SelectedBuilding != null)
             {
                 Globals.SelectedBuilding.SetSelected(false);
             }
@@ -78,7 +78,7 @@ public class BuildPreview : Area2D
 
     public override string _GetConfigurationWarning()
     {
-        if (Blueprint is null)
+        if (Blueprint == null)
         {
             return "Blueprint property is empty.";
         }
@@ -122,7 +122,7 @@ public class BuildPreview : Area2D
         Vector2 mousePos = GetGlobalMousePosition();
         if (Input.IsActionPressed("deconstruct"))
         {
-            if (Globals.HoveringBuilding is null || Globals.HoveringBuilding.Name == "Core")
+            if (Globals.HoveringBuilding == null || Globals.HoveringBuilding.Name == "Core")
             {
                 deconstructBuilding = null;
                 DeconstructAnimationPlayer.Play("Spin");

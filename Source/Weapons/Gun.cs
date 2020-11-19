@@ -40,7 +40,7 @@ public class Gun : Sprite
 
     public override string _GetConfigurationWarning()
     {
-        if (Projectile is null)
+        if (Projectile == null)
         {
             return "Projectile property is set to null.";
         }
@@ -56,7 +56,7 @@ public class Gun : Sprite
             return;
         }
 
-        if (@event.IsActionPressed("shoot") && Timer.IsStopped() && Globals.HoveringBuilding is null && !BuildPreview.Visible)
+        if (@event.IsActionPressed("shoot") && Timer.IsStopped() && Globals.HoveringBuilding == null && !BuildPreview.Visible)
         {
             Shoot();
         }
@@ -71,7 +71,7 @@ public class Gun : Sprite
             return;
         }
 
-        if (Input.IsActionPressed("shoot") && Timer.IsStopped() && Globals.DraggingBuilding is null && !BuildPreview.Visible)
+        if (Input.IsActionPressed("shoot") && Timer.IsStopped() && Globals.DraggingBuilding == null && !BuildPreview.Visible)
         {
             Shoot();
         }

@@ -53,7 +53,7 @@ public class Building : StaticBody2D
         hovering = true;
         Globals.HoveringBuilding = this;
 
-        if (Globals.SelectedBuilding is null)
+        if (Globals.SelectedBuilding == null)
         {
             foreach (Building output in OutputBuildings)
             {
@@ -80,11 +80,11 @@ public class Building : StaticBody2D
             Globals.HoveringBuilding = null;
         }
 
-        if (Globals.SelectedBuilding is null)
+        if (Globals.SelectedBuilding == null)
         {
             foreach (Building output in OutputBuildings)
             {
-                if (Globals.HoveringBuilding is null || !Globals.HoveringBuilding.OutputBuildings.Contains(output))
+                if (Globals.HoveringBuilding == null || !Globals.HoveringBuilding.OutputBuildings.Contains(output))
                 {
                     output.InputConnectionHighlight.Hide();
                 }
@@ -92,7 +92,7 @@ public class Building : StaticBody2D
 
             foreach (Building input in InputBuildings)
             {
-                if (Globals.HoveringBuilding is null || !Globals.HoveringBuilding.InputBuildings.Contains(input))
+                if (Globals.HoveringBuilding == null || !Globals.HoveringBuilding.InputBuildings.Contains(input))
                 {
                         input.OutputConnectionHighlight.Hide();
                 }
@@ -109,7 +109,7 @@ public class Building : StaticBody2D
             return;
         }
 
-        if (!(DraggingPipe is null))
+        if (DraggingPipe != null)
         {
             DraggingPipe.PointB = GetGlobalMousePosition();
 
@@ -119,7 +119,7 @@ public class Building : StaticBody2D
                 DraggingPipe = null;
                 Globals.DraggingBuilding = null;
 
-                if (!(Globals.HoveringBuilding is null) && Globals.HoveringBuilding != this)
+                if (Globals.HoveringBuilding != null && Globals.HoveringBuilding != this)
                 {
                     Building building = Globals.HoveringBuilding;
                     if (!building.InputBuildings.Contains(this) && !InputBuildings.Contains(building) && building.InputBuildings.Count < building.MaxInput)
@@ -140,7 +140,7 @@ public class Building : StaticBody2D
             SetSelected(true);
         }
 
-        if (Input.IsActionJustReleased("deconstruct") && Globals.HoveringBuilding == this && !(Globals.SelectedBuilding is null))
+        if (Input.IsActionJustReleased("deconstruct") && Globals.HoveringBuilding == this && Globals.SelectedBuilding != null)
         {
             Building building = Globals.SelectedBuilding;
 
@@ -177,7 +177,7 @@ public class Building : StaticBody2D
 
         if (selected)
         {
-            if (!(Globals.SelectedBuilding is null))
+            if (Globals.SelectedBuilding != null)
             {
                 Globals.SelectedBuilding.SetSelected(false);
             }
@@ -252,7 +252,7 @@ public class Building : StaticBody2D
             Globals.HoveringBuilding = null;
         }
 
-        if (!(DraggingPipe is null))
+        if (DraggingPipe != null)
         {
             DraggingPipe.QueueFree();
         }
