@@ -19,7 +19,6 @@ public class Gun : Sprite
     [Export] public float ShakeAmplitude = 0.5f;
 
     public Node2D Projectiles;
-    public BuildPreview BuildPreview;
     public Node2D SpawnOffset;
     public Timer Timer;
 
@@ -33,7 +32,6 @@ public class Gun : Sprite
         }
 
         Projectiles = GetTree().CurrentScene.GetNode<Node2D>("Planet/Projectiles");
-        BuildPreview = GetTree().CurrentScene.GetNode<BuildPreview>("Planet/BuildPreview");
         SpawnOffset = GetNode<Node2D>("SpawnOffset");
         Timer = GetNode<Timer>("Timer");
     }
@@ -56,7 +54,7 @@ public class Gun : Sprite
             return;
         }
 
-        if (@event.IsActionPressed("shoot") && Timer.IsStopped() && Globals.HoveringBuilding == null && !BuildPreview.Visible)
+        if (@event.IsActionPressed("shoot") && Timer.IsStopped() && Globals.HoveringBuilding == null && !Globals.BuildMode)
         {
             Shoot();
         }
@@ -71,7 +69,7 @@ public class Gun : Sprite
             return;
         }
 
-        if (Input.IsActionPressed("shoot") && Timer.IsStopped() && Globals.DraggingBuilding == null && !BuildPreview.Visible)
+        if (Input.IsActionPressed("shoot") && Timer.IsStopped() && Globals.DraggingBuilding == null && !Globals.BuildMode)
         {
             Shoot();
         }
@@ -87,10 +85,6 @@ public class Gun : Sprite
 
             proj.GlobalPosition = SpawnOffset.GlobalPosition;
             proj.GlobalRotation = SpawnOffset.GlobalRotation + Mathf.Deg2Rad(accuracyModifier);
-
-            //Vector2 velocity = proj.Velocity;
-            //velocity.x += (float)GD.RandRange(-VelocityModifier, VelocityModifier);
-            //proj.Velocity = velocity;
 
             proj.Velocity.x += (float)GD.RandRange(-VelocityModifier, VelocityModifier);
 
