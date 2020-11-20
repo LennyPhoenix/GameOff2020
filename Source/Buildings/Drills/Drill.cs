@@ -16,7 +16,7 @@ public class Drill : Building
 
         SpriteAnimationPlayer = GetNode<AnimationPlayer>("Sprite/AnimationPlayer");
         OreTiles = GetTree().CurrentScene.GetNode<TileMap>("Planet/Ore");
-        Ores = getOres();
+        Ores = GetOres();
 
         SpriteAnimationPlayer.PlaybackSpeed = Ores.Count / Mathf.Pow(Size, 2);
         if (Ores.Count == 0)
@@ -43,7 +43,7 @@ public class Drill : Building
         }
     }
 
-    private Array<Ore> getOres()
+    private Array<Ore> GetOres()
     {
         Vector2 offset = new Vector2(Mathf.FloorToInt(Size / 2), Mathf.FloorToInt(Size / 2));
         Vector2 topLeft = (GlobalPosition / 16) - offset;

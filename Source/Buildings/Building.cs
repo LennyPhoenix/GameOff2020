@@ -179,10 +179,11 @@ public class Building : StaticBody2D
                     Globals.LastBuilding = this;
 
                     Vector2 mousePos = GetGlobalMousePosition();
-                    Vector2 position = new Vector2();
-
-                    position.x = Mathf.FloorToInt(mousePos.x / Globals.TileSize) * Globals.TileSize + 8;
-                    position.y = Mathf.FloorToInt(mousePos.y / Globals.TileSize) * Globals.TileSize + 8;
+                    Vector2 position = new Vector2
+                    {
+                        x = Mathf.FloorToInt(mousePos.x / Globals.TileSize) * Globals.TileSize + 8,
+                        y = Mathf.FloorToInt(mousePos.y / Globals.TileSize) * Globals.TileSize + 8
+                    };
 
                     var pylon = (Pylon)PylonScene.Instance();
                     pylon.GlobalPosition = position;
