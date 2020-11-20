@@ -134,10 +134,10 @@ tracks/1/keys = {
 collision_layer = 0
 collision_mask = 39
 script = ExtResource( 2 )
+MenuItemScene = ExtResource( 10 )
 Blueprints = {
 
 }
-MenuItemScene = ExtResource( 10 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Placeable"
@@ -181,6 +181,7 @@ __meta__ = {
 }
 
 [node name="BuildMenu" type="MarginContainer" parent="UI"]
+visible = false
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
