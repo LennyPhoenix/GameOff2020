@@ -15,15 +15,22 @@ public class GenericCarrier : Building
         }
 
         base._Ready();
+
+        UpdateItemList();
     }
 
     public override void Tick()
     {
         base.Tick();
 
+        UpdateItemList();
+    }
+
+    public void UpdateItemList()
+    {
         foreach (Item item in Items.Keys)
         {
-            if (!UIStorageItems.ContainsKey(item))
+            if (!UIStorageItems.ContainsKey(item) && Items[item] > 0)
             {
                 var texture = ResourceLoader.Load<Texture>("res://Assets/Items/" + item.ToString() + ".png");
                 var storageItem = (StorageItem)StorageItemScene.Instance();
