@@ -1,7 +1,6 @@
 using Godot;
 using Godot.Collections;
 
-[Tool]
 public class BuildPreview : Area2D
 {
 	private Blueprint blueprint;
@@ -12,7 +11,7 @@ public class BuildPreview : Area2D
 		{
 			blueprint = value;
 
-			if (Engine.EditorHint || Sprite == null)
+			if (Sprite == null)
 			{
 				return;
 			}
@@ -82,11 +81,6 @@ public class BuildPreview : Area2D
 	{
 		base._Ready();
 
-		if (Engine.EditorHint)
-		{
-			return;
-		}
-
 		AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 		Sprite = GetNode<Sprite>("Sprite");
 		DeconstructSprite = GetNode<Sprite>("DeconstructSprite");
@@ -133,23 +127,9 @@ public class BuildPreview : Area2D
 		}
 	}
 
-	public override string _GetConfigurationWarning()
-	{
-		if (Blueprint == null)
-		{
-			return "Blueprint property is empty.";
-		}
-		return "";
-	}
-
 	public override void _PhysicsProcess(float delta)
 	{
 		base._PhysicsProcess(delta);
-
-		if (Engine.EditorHint)
-		{
-			return;
-		}
 
 		if (Colliding)
 		{
@@ -164,11 +144,6 @@ public class BuildPreview : Area2D
 	public override void _Process(float delta)
 	{
 		base._Process(delta);
-
-		if (Engine.EditorHint)
-		{
-			return;
-		}
 
 		if (Input.IsActionJustPressed("build_mode"))
 		{
@@ -239,7 +214,7 @@ public class BuildPreview : Area2D
 	{
 		base._UnhandledInput(@event);
 
-		if (Engine.EditorHint || Blueprint == null)
+		if (Blueprint == null)
 		{
 			return;
 		}
