@@ -1,7 +1,6 @@
 using Godot;
 using Godot.Collections;
 
-[Tool]
 public class BuildMenuItem : Button
 {
     private Blueprint blueprint;
@@ -18,25 +17,27 @@ public class BuildMenuItem : Button
             }
 
             TextureRect.Texture = Blueprint.BuildTexture;
-            Label.Text = Blueprint.ResourceName;
+            NameLabel.Text = Blueprint.ResourceName;
         }
     }
 
+    public AnimationPlayer AnimationPlayer;
     public TextureRect TextureRect;
-    public Label Label;
+    public Label NameLabel;
     public BuildPreview BuildPreview;
 
     public override void _Ready()
     {
         base._Ready();
 
-        TextureRect = GetNode<TextureRect>("MarginContainer/VBoxContainer/TextureRect");
-        Label = GetNode<Label>("MarginContainer/VBoxContainer/Label");
+        AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+        TextureRect = GetNode<TextureRect>("MarginContainer/TextureRect");
+        NameLabel = GetNode<Label>("Name");
 
         if (Blueprint != null)
         {
             TextureRect.Texture = Blueprint.BuildTexture;
-            Label.Text = Blueprint.ResourceName;
+            NameLabel.Text = Blueprint.ResourceName;
         }
     }
 
@@ -70,5 +71,15 @@ public class BuildMenuItem : Button
         {
             Pressed = false;
         }
+    }
+
+    public void _OnMouseEntered()
+    {
+        AnimationPlayer.Play("ShowName");
+    }
+
+    public void _OnMouseExited()
+    {
+        AnimationPlayer.Play("HideName");
     }
 }

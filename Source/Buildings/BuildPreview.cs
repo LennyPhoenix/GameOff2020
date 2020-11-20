@@ -55,7 +55,7 @@ public class BuildPreview : Area2D
 
 	public MarginContainer BuildMenu;
 	public TabContainer MenuTabContainer;
-	public GridContainer CategoryContainer;
+	public MarginContainer CategoryContainer;
 
 	private bool enabled = false;
 	public bool Enabled
@@ -92,7 +92,7 @@ public class BuildPreview : Area2D
 
 		BuildMenu = GetNode<MarginContainer>("UI/BuildMenu");
 		MenuTabContainer = GetNode<TabContainer>("UI/BuildMenu/TabContainer");
-		CategoryContainer = GetNode<GridContainer>("UI/BuildMenu/CategoryContainer");
+		CategoryContainer = GetNode<MarginContainer>("UI/BuildMenu/CategoryContainer");
 
 		if (Blueprint == null)
 		{
@@ -112,7 +112,8 @@ public class BuildPreview : Area2D
 		foreach (string categoryName in Blueprints.Keys)
 		{
 			Array<Blueprint> blueprints = Blueprints[categoryName];
-			var categoryContainer = (GridContainer)CategoryContainer.Duplicate();
+			var categoryContainer = (MarginContainer)CategoryContainer.Duplicate();
+			var gridContainer = categoryContainer.GetNode<GridContainer>("GridContainer");
 			categoryContainer.Name = categoryName;
 			categoryContainer.Visible = true;
 			MenuTabContainer.AddChild(categoryContainer);
@@ -122,7 +123,7 @@ public class BuildPreview : Area2D
 				var item = (BuildMenuItem)MenuItemScene.Instance();
 				item.Blueprint = blueprint;
 				item.BuildPreview = this;
-				categoryContainer.AddChild(item);
+				gridContainer.AddChild(item);
 			}
 		}
 	}
