@@ -16,6 +16,7 @@ public class Building : StaticBody2D
     public Pipe DraggingPipe;
     public Sprite InputConnectionHighlight;
     public Sprite OutputConnectionHighlight;
+    public Sprite WarningSprite;
 
     public Dictionary<Item, int> Items = new Dictionary<Item, int>();
 
@@ -37,6 +38,7 @@ public class Building : StaticBody2D
         Pipes = GetTree().CurrentScene.GetNode<Node2D>("Planet/Pipes");
         InputConnectionHighlight = GetNode<Sprite>("Highlights/InputConnection");
         OutputConnectionHighlight = GetNode<Sprite>("Highlights/OutputConnection");
+        WarningSprite = GetNode<Sprite>("Warning");
 
         PylonScene = ResourceLoader.Load<PackedScene>("res://Source/Buildings/Pylon.tscn");
 

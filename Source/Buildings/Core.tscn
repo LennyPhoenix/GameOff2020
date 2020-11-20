@@ -41,6 +41,9 @@ texture_scale = 3.0
 energy = 0.5
 range_item_cull_mask = 3
 
+[node name="Warning" parent="." index="7"]
+scale = Vector2( 5, 5 )
+
 [node name="InputConnection" parent="Highlights" index="0"]
 scale = Vector2( 5, 5 )
 

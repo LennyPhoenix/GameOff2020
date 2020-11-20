@@ -6,6 +6,12 @@
 
 [node name="Drill" instance=ExtResource( 2 )]
 script = ExtResource( 3 )
+MaxStorage = {
+
+}
+Outputs = {
+
+}
 MaxInput = 0
 
 [node name="MinimapIcons" parent="." index="0" instance=ExtResource( 1 )]

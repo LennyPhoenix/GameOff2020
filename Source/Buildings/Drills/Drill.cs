@@ -19,6 +19,10 @@ public class Drill : Building
         Ores = getOres();
 
         SpriteAnimationPlayer.PlaybackSpeed = Ores.Count / Mathf.Pow(Size, 2);
+        if (Ores.Count == 0)
+        {
+            WarningSprite.Visible = true;
+        }
     }
 
     public override void Tick()

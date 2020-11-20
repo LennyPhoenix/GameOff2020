@@ -50,6 +50,9 @@ shape = SubResource( 2 )
 [node name="LightOccluder2D" parent="." index="5"]
 occluder = SubResource( 3 )
 
+[node name="Warning" parent="." index="6"]
+scale = Vector2( 3, 3 )
+
 [node name="InputConnection" parent="Highlights" index="0"]
 scale = Vector2( 3, 3 )
 

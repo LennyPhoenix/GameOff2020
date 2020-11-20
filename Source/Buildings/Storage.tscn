@@ -12,6 +12,12 @@ polygon = PoolVector2Array( -14, -16, 14, -16, 14, -15, 15, -15, 15, -14, 16, -1
 
 [node name="Storage" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+MaxStorage = {
+
+}
+Outputs = {
+
+}
 MaxInput = 1
 MaxOutput = 1
 CanStore = 150
@@ -25,6 +31,9 @@ shape = SubResource( 1 )
 
 [node name="LightOccluder2D" parent="." index="4"]
 occluder = SubResource( 2 )
+
+[node name="Warning" parent="." index="5"]
+scale = Vector2( 2, 2 )
 
 [node name="InputConnection" parent="Highlights" index="0"]
 scale = Vector2( 2, 2 )
