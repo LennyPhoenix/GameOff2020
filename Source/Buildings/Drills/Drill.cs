@@ -6,6 +6,7 @@ public class Drill : Building
     [Export] public int Size = 3;
     [Export] public int MiningAmount = 1;
 
+    public AnimationPlayer SpriteAnimationPlayer;
     public TileMap OreTiles;
     public Array<Ore> Ores;
 
@@ -13,8 +14,11 @@ public class Drill : Building
     {
         base._Ready();
 
+        SpriteAnimationPlayer = GetNode<AnimationPlayer>("Sprite/AnimationPlayer");
         OreTiles = GetTree().CurrentScene.GetNode<TileMap>("Planet/Ore");
         Ores = getOres();
+
+        SpriteAnimationPlayer.PlaybackSpeed = Ores.Count / Mathf.Pow(Size, 2);
     }
 
     public override void Tick()
@@ -30,11 +34,8 @@ public class Drill : Building
         {
             var item = (Item)ore;
 
-            if (MaxStorage.ContainsKey(item))
-            {
-                Items[item] += MiningAmount;
-                Items[item] = Mathf.Min(Items[item], MaxStorage[item]);
-            }
+            Items[item] += MiningAmount;
+            Items[item] = Mathf.Min(Items[item], MaxStorage[item]);
         }
     }
 
@@ -50,7 +51,9 @@ public class Drill : Building
             for (int y = 0; y < Size; y++)
             {
                 int ore = OreTiles.GetCell(x + Mathf.FloorToInt(topLeft.x), y + Mathf.FloorToInt(topLeft.y));
-                if (ore != -1)
+                var item = (Item)ore;
+
+                if (ore != -1 && MaxStorage.ContainsKey(item))
                 {
                     ores.Add((Ore)ore);
                 }
