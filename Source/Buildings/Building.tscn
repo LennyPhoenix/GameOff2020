@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Source/MapWrapper.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Source/Buildings/Building.cs" type="Script" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://Assets/Buildings/InputConnectionHighlight.png" type="Texture" id=4]
 [ext_resource path="res://Assets/Buildings/OutputConnectionHighlight.png" type="Texture" id=5]
 [ext_resource path="res://Assets/Buildings/Warning.png" type="Texture" id=6]
+[ext_resource path="res://Source/UI/Building/StorageItem.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Assets/Buildings/Pylon.png" type="Texture" id=8]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Default"
@@ -157,14 +159,82 @@ tracks/2/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="CanvasItemMaterial" id=7]
-light_mode = 1
-
 [sub_resource type="CanvasItemMaterial" id=5]
 light_mode = 1
 
 [sub_resource type="CanvasItemMaterial" id=6]
 light_mode = 1
+
+[sub_resource type="CanvasItemMaterial" id=7]
+light_mode = 1
+
+[sub_resource type="Animation" id=8]
+resource_name = "Hide"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("StorageContainer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("StorageContainer:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "Show"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("StorageContainer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("StorageContainer:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="StyleBoxFlat" id=10]
+content_margin_left = 1.0
+content_margin_right = 1.0
+content_margin_top = 1.0
+content_margin_bottom = 1.0
+bg_color = Color( 0, 0, 0, 0.501961 )
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+anti_aliasing = false
 
 [node name="Building" type="StaticBody2D" groups=[
 "Buildings",
@@ -174,6 +244,7 @@ collision_layer = 32
 collision_mask = 0
 script = ExtResource( 2 )
 PipeScene = ExtResource( 3 )
+StorageItemScene = ExtResource( 7 )
 
 [node name="MapWrapper" parent="." instance=ExtResource( 1 )]
 RootPath = NodePath("..")
@@ -188,6 +259,7 @@ anims/Spawn = SubResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="."]
 light_mask = 2
+texture = ExtResource( 8 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
 
@@ -198,7 +270,7 @@ light_mask = 2
 [node name="Warning" type="Sprite" parent="."]
 visible = false
 light_mask = 0
-material = SubResource( 7 )
+material = SubResource( 5 )
 texture = ExtResource( 6 )
 
 [node name="Highlights" type="Node2D" parent="."]
@@ -207,14 +279,49 @@ texture = ExtResource( 6 )
 visible = false
 modulate = Color( 1, 1, 1, 0.862745 )
 light_mask = 0
-material = SubResource( 5 )
+material = SubResource( 6 )
 texture = ExtResource( 4 )
 
 [node name="OutputConnection" type="Sprite" parent="Highlights"]
 visible = false
 modulate = Color( 1, 1, 1, 0.862745 )
 light_mask = 0
-material = SubResource( 6 )
+material = SubResource( 7 )
 texture = ExtResource( 5 )
+
+[node name="UI" type="Control" parent="."]
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI"]
+anims/Hide = SubResource( 8 )
+anims/Show = SubResource( 9 )
+
+[node name="StorageContainer" type="PanelContainer" parent="UI"]
+visible = false
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = 8.0
+margin_top = -9.0
+margin_right = 26.0
+margin_bottom = 9.0
+mouse_filter = 2
+custom_styles/panel = SubResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridContainer" type="GridContainer" parent="UI/StorageContainer"]
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 17.0
+margin_bottom = 17.0
+mouse_filter = 2
+size_flags_vertical = 3
+custom_constants/vseparation = 1
+custom_constants/hseparation = 1
 [connection signal="mouse_entered" from="." to="." method="_OnMouseEntered"]
 [connection signal="mouse_exited" from="." to="." method="_OnMouseExited"]

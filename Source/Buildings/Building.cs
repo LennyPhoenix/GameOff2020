@@ -4,6 +4,7 @@ using Godot.Collections;
 public class Building : StaticBody2D
 {
     [Export] public PackedScene PipeScene;
+    [Export] public PackedScene StorageItemScene;
     public PackedScene PylonScene;
 
     [Export] public Dictionary<Item, int> MaxStorage = new Dictionary<Item, int>();
@@ -18,13 +19,20 @@ public class Building : StaticBody2D
     public Sprite OutputConnectionHighlight;
     public Sprite WarningSprite;
 
+    public Control UI;
+    public AnimationPlayer UIAnimationPlayer;
+    public PanelContainer StorageContainer;
+    public GridContainer StorageGridContainer;
+
     public Dictionary<Item, int> Items = new Dictionary<Item, int>();
 
     public Array<Building> InputBuildings = new Array<Building>();
     public Array<Building> OutputBuildings = new Array<Building>();
     public Dictionary<Building, Pipe> OutputPipes = new Dictionary<Building, Pipe>();
+    public Dictionary<Item, StorageItem> UIStorageItems = new Dictionary<Item, StorageItem>();
 
     public Node2D Pipes;
+    public Node2D BuildingUI;
 
     public bool Deleting = false;
 
@@ -36,15 +44,40 @@ public class Building : StaticBody2D
 
         AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
         Pipes = GetTree().CurrentScene.GetNode<Node2D>("Planet/Pipes");
+        BuildingUI = GetTree().CurrentScene.GetNode<Node2D>("Planet/BuildingUI");
         InputConnectionHighlight = GetNode<Sprite>("Highlights/InputConnection");
         OutputConnectionHighlight = GetNode<Sprite>("Highlights/OutputConnection");
         WarningSprite = GetNode<Sprite>("Warning");
 
+        UI = GetNode<Control>("UI");
+        UIAnimationPlayer = GetNode<AnimationPlayer>("UI/AnimationPlayer");
+        StorageContainer = GetNode<PanelContainer>("UI/StorageContainer");
+        StorageGridContainer = GetNode<GridContainer>("UI/StorageContainer/GridContainer");
+
         PylonScene = ResourceLoader.Load<PackedScene>("res://Source/Buildings/Pylon.tscn");
+
+        RemoveChild(UI);
+        BuildingUI.AddChild(UI);
+        UI.RectGlobalPosition = GlobalPosition;
 
         foreach (Item item in (Item[])System.Enum.GetValues(typeof(Item)))
         {
             Items.Add(item, 0);
+        }
+
+        int columns = Mathf.Min(4, MaxStorage.Count);
+        int rows = Mathf.CeilToInt((float)MaxStorage.Count / 4);
+        StorageContainer.RectSize = new Vector2(columns * 16 + 2 + Mathf.Min(columns-1, 0), rows * 16 + 2 + Mathf.Min(rows - 1, 0));
+        StorageGridContainer.Columns = columns;
+
+        foreach (Item item in MaxStorage.Keys)
+        {
+            var texture = ResourceLoader.Load<Texture>("res://Assets/Items/" + item.ToString() + ".png");
+            var storageItem = (StorageItem)StorageItemScene.Instance();
+            StorageGridContainer.AddChild(storageItem);
+            storageItem.Texture = texture;
+
+            UIStorageItems.Add(item, storageItem);
         }
 
         Globals.LastBuilding = this;
@@ -70,6 +103,11 @@ public class Building : StaticBody2D
             foreach (Building input in InputBuildings)
             {
                 input.OutputConnectionHighlight.Show();
+            }
+
+            if (UIStorageItems.Count > 0)
+            {
+                UIAnimationPlayer.Play("Show");
             }
         }
     }
@@ -103,6 +141,11 @@ public class Building : StaticBody2D
                 {
                     input.OutputConnectionHighlight.Hide();
                 }
+            }
+
+            if (UIStorageItems.Count > 0)
+            {
+                UIAnimationPlayer.Play("Hide");
             }
         }
     }
@@ -156,7 +199,7 @@ public class Building : StaticBody2D
         {
             SetSelected(false);
         }
-        else if (Input.IsActionJustReleased("build") && Globals.HoveringBuilding == this && AnimationPlayer.CurrentAnimation != "Spawn" && (!Globals.BuildMode || Globals.BuildBlueprint == null))
+        else if (Input.IsActionJustReleased("build") && Globals.HoveringBuilding == this && Globals.SelectedBuilding != this && AnimationPlayer.CurrentAnimation != "Spawn" && (!Globals.BuildMode || Globals.BuildBlueprint == null))
         {
             SetSelected(true);
         }
@@ -198,10 +241,11 @@ public class Building : StaticBody2D
 
         if (selected)
         {
-            if (Globals.SelectedBuilding != null)
+            if (Globals.SelectedBuilding != null && Globals.SelectedBuilding != this)
             {
                 Globals.SelectedBuilding.SetSelected(false);
             }
+
             Globals.SelectedBuilding = this;
             AnimationPlayer.Play("Selected");
 
@@ -213,6 +257,11 @@ public class Building : StaticBody2D
             foreach (Building input in InputBuildings)
             {
                 input.OutputConnectionHighlight.Show();
+            }
+
+            if (UIAnimationPlayer.AssignedAnimation != "Show" && UIStorageItems.Count > 0)
+            {
+                UIAnimationPlayer.Play("Show");
             }
         }
         else
@@ -228,6 +277,11 @@ public class Building : StaticBody2D
             foreach (Building input in InputBuildings)
             {
                 input.OutputConnectionHighlight.Hide();
+            }
+
+            if (UIAnimationPlayer.AssignedAnimation != "Hide" && UIStorageItems.Count > 0)
+            {
+                UIAnimationPlayer.Play("Hide");
             }
         }
     }
@@ -295,6 +349,8 @@ public class Building : StaticBody2D
             input.OutputPipes.Remove(this);
         }
 
+        UI.QueueFree();
+
         AnimationPlayer.Play("Delete");
     }
 
@@ -318,6 +374,15 @@ public class Building : StaticBody2D
                     output.Items[item] += send;
                     Items[item] -= send;
                 }
+            }
+        }
+
+        foreach (Item item in MaxStorage.Keys)
+        {
+            if (UIStorageItems.ContainsKey(item))
+            {
+                StorageItem storageItem = UIStorageItems[item];
+                storageItem.Count = Items[item];
             }
         }
     }
