@@ -230,15 +230,16 @@ anims/Sprint = SubResource( 3 )
 
 [node name="Default" type="Light2D" parent="Lights"]
 texture = ExtResource( 5 )
-texture_scale = 2.0
-energy = 0.1
+texture_scale = 3.0
+energy = 0.5
 shadow_enabled = true
 shadow_filter = 2
 shadow_filter_smooth = 5.0
 
 [node name="OccluderOnly" type="Light2D" parent="Lights"]
 texture = ExtResource( 5 )
-energy = 0.1
+texture_scale = 1.5
+energy = 0.6
 range_item_cull_mask = 2
 shadow_item_cull_mask = 2
 
@@ -247,13 +248,11 @@ shadow_item_cull_mask = 2
 "ShakeCamera",
 ]]
 current = true
-zoom = Vector2( 3, 3 )
 limit_smoothed = true
 smoothing_enabled = true
 script = ExtResource( 3 )
 
 [node name="Rotate" type="Node2D" parent="."]
-scale = Vector2( 10, 10 )
 
 [node name="Body" type="Sprite" parent="Rotate"]
 texture = ExtResource( 2 )
