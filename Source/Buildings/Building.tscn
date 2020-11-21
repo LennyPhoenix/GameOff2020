@@ -12,7 +12,6 @@
 [ext_resource path="res://Assets/Fonts/m3x6.ttf" type="DynamicFontData" id=11]
 [ext_resource path="res://Assets/UI/Building/InputArrow.png" type="Texture" id=12]
 
-
 [sub_resource type="Animation" id=1]
 resource_name = "Default"
 length = 0.001
@@ -369,7 +368,6 @@ margin_right = 6.0
 margin_bottom = 8.0
 texture = ExtResource( 10 )
 stretch_mode = 6
-flip_h = true
 
 [node name="Label" type="Label" parent="UI/ConnectionContainer/VBoxContainer/Output"]
 margin_left = 8.0
