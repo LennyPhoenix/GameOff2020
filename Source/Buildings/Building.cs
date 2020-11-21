@@ -178,7 +178,7 @@ public class Building : StaticBody2D
         {
             DraggingPipe.PointB = GetGlobalMousePosition();
 
-            if (Input.IsActionJustReleased("build") || (Globals.BuildManager.Enabled && Globals.BuildManager.Blueprint != null))
+            if (Input.IsActionJustReleased("build"))
             {
                 if (Globals.HoveringBuilding != null && Globals.HoveringBuilding != this && DraggingPipe.CanPlace)
                 {
@@ -217,10 +217,7 @@ public class Building : StaticBody2D
         {
             SetSelected(false);
         }
-        else if (
-            Input.IsActionJustReleased("build") && Globals.HoveringBuilding == this && Globals.SelectedBuilding != this && AnimationPlayer.CurrentAnimation != "Spawn" 
-            && (!Globals.BuildManager.Enabled || Globals.BuildManager.Blueprint == null)
-        )
+        else if (Input.IsActionJustReleased("build") && Globals.HoveringBuilding == this && Globals.SelectedBuilding != this && AnimationPlayer.CurrentAnimation != "Spawn")
         {
             SetSelected(true);
         }
