@@ -8,6 +8,9 @@ public class GenericCarrier : Building
 
     public override void _Ready()
     {
+        MaxStorage = new Dictionary<Item, int>();
+        Outputs = new Dictionary<Item, int>();
+
         foreach (Item item in (Item[])System.Enum.GetValues(typeof(Item)))
         {
             MaxStorage.Add(item, CanStore);
