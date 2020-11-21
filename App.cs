@@ -7,6 +7,8 @@ public class App : Node
     public Control MainMenu;
     public Button StartButton;
 
+    public Planet Planet;
+
     public override void _Ready()
     {
         base._Ready();
@@ -19,7 +21,7 @@ public class App : Node
     {
         MainMenu.Visible = false;
 
-        var planet = (Planet)PlanetScene.Instance();
-        AddChild(planet);
+        Planet = (Planet)PlanetScene.Instance();
+        AddChild(Planet);
     }
 }
