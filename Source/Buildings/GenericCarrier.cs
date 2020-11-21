@@ -31,6 +31,11 @@ public class GenericCarrier : Building
 
     public void UpdateItemList()
     {
+        if (IsQueuedForDeletion())
+        {
+            return;
+        }
+
         foreach (Item item in Items.Keys)
         {
             if (!UIStorageItems.ContainsKey(item) && Items[item] > 0)
