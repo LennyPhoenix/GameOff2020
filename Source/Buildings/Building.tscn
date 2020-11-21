@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Source/MapWrapper.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Source/Buildings/Building.cs" type="Script" id=2]
@@ -7,6 +7,10 @@
 [ext_resource path="res://Assets/Buildings/OutputConnectionHighlight.png" type="Texture" id=5]
 [ext_resource path="res://Assets/Buildings/Warning.png" type="Texture" id=6]
 [ext_resource path="res://Source/UI/Building/StorageItem.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Assets/Buildings/Building.tres" type="StyleBox" id=9]
+[ext_resource path="res://Assets/UI/Building/OutputArrow.png" type="Texture" id=10]
+[ext_resource path="res://Assets/Fonts/m3x6.ttf" type="DynamicFontData" id=11]
+[ext_resource path="res://Assets/UI/Building/InputArrow.png" type="Texture" id=12]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Default"
@@ -223,17 +227,10 @@ tracks/1/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="StyleBoxFlat" id=10]
-content_margin_left = 1.0
-content_margin_right = 1.0
-content_margin_top = 1.0
-content_margin_bottom = 1.0
-bg_color = Color( 0, 0, 0, 0.501961 )
-corner_radius_top_left = 1
-corner_radius_top_right = 1
-corner_radius_bottom_right = 1
-corner_radius_bottom_left = 1
-anti_aliasing = false
+[sub_resource type="DynamicFont" id=10]
+extra_spacing_top = -5
+extra_spacing_bottom = -2
+font_data = ExtResource( 11 )
 
 [node name="Building" type="StaticBody2D" groups=[
 "Buildings",
@@ -246,8 +243,8 @@ PipeScene = ExtResource( 3 )
 StorageItemScene = ExtResource( 7 )
 
 [node name="MapWrapper" parent="." instance=ExtResource( 1 )]
-RootPath = NodePath("..")
 AdditionalOffsetPaths = [ NodePath("../Sprite"), NodePath("../LightOccluder2D"), NodePath("../CollisionShape2D") ]
+RootPath = NodePath("..")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Spawn"
@@ -288,6 +285,7 @@ material = SubResource( 7 )
 texture = ExtResource( 5 )
 
 [node name="UI" type="Control" parent="."]
+visible = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -306,7 +304,7 @@ margin_top = -9.0
 margin_right = 26.0
 margin_bottom = 9.0
 mouse_filter = 2
-custom_styles/panel = SubResource( 10 )
+custom_styles/panel = ExtResource( 9 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -320,5 +318,63 @@ mouse_filter = 2
 size_flags_vertical = 3
 custom_constants/vseparation = 1
 custom_constants/hseparation = 1
+
+[node name="ConnectionContainer" type="PanelContainer" parent="UI"]
+margin_left = -30.0
+margin_top = -9.0
+margin_right = -8.0
+margin_bottom = 6.0
+grow_horizontal = 0
+custom_styles/panel = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/ConnectionContainer"]
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 21.0
+margin_bottom = 14.0
+custom_constants/separation = 1
+
+[node name="Input" type="HBoxContainer" parent="UI/ConnectionContainer/VBoxContainer"]
+margin_right = 20.0
+margin_bottom = 6.0
+size_flags_vertical = 3
+custom_constants/separation = 2
+
+[node name="TextureRect" type="TextureRect" parent="UI/ConnectionContainer/VBoxContainer/Input"]
+margin_right = 6.0
+margin_bottom = 6.0
+texture = ExtResource( 12 )
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="UI/ConnectionContainer/VBoxContainer/Input"]
+margin_left = 8.0
+margin_right = 20.0
+margin_bottom = 6.0
+custom_fonts/font = SubResource( 10 )
+text = "1/4"
+
+[node name="Output" type="HBoxContainer" parent="UI/ConnectionContainer/VBoxContainer"]
+margin_top = 7.0
+margin_right = 20.0
+margin_bottom = 13.0
+size_flags_vertical = 3
+custom_constants/separation = 2
+
+[node name="TextureRect" type="TextureRect" parent="UI/ConnectionContainer/VBoxContainer/Output"]
+margin_right = 6.0
+margin_bottom = 6.0
+texture = ExtResource( 10 )
+stretch_mode = 6
+flip_h = true
+
+[node name="Label" type="Label" parent="UI/ConnectionContainer/VBoxContainer/Output"]
+margin_left = 8.0
+margin_right = 20.0
+margin_bottom = 6.0
+custom_fonts/font = SubResource( 10 )
+text = "1/4"
 [connection signal="mouse_entered" from="." to="." method="_OnMouseEntered"]
 [connection signal="mouse_exited" from="." to="." method="_OnMouseExited"]

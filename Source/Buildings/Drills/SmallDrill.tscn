@@ -64,3 +64,9 @@ margin_left = 24.0
 margin_top = -24.0
 margin_right = 42.0
 margin_bottom = -6.0
+
+[node name="ConnectionContainer" parent="UI" index="2"]
+margin_left = -46.0
+margin_top = -24.0
+margin_right = -24.0
+margin_bottom = -9.0

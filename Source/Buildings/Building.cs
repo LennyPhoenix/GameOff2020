@@ -23,6 +23,8 @@ public class Building : StaticBody2D
     public AnimationPlayer UIAnimationPlayer;
     public PanelContainer StorageContainer;
     public GridContainer StorageGridContainer;
+    public Label UIInputLabel;
+    public Label UIOutputLabel;
 
     public Dictionary<Item, int> Items = new Dictionary<Item, int>();
 
@@ -53,12 +55,17 @@ public class Building : StaticBody2D
         UIAnimationPlayer = GetNode<AnimationPlayer>("UI/AnimationPlayer");
         StorageContainer = GetNode<PanelContainer>("UI/StorageContainer");
         StorageGridContainer = GetNode<GridContainer>("UI/StorageContainer/GridContainer");
+        UIInputLabel = GetNode<Label>("UI/ConnectionContainer/VBoxContainer/Input/Label");
+        UIOutputLabel = GetNode<Label>("UI/ConnectionContainer/VBoxContainer/Output/Label");
 
         PylonScene = ResourceLoader.Load<PackedScene>("res://Source/Buildings/Pylon.tscn");
 
         RemoveChild(UI);
         BuildingUI.AddChild(UI);
         UI.RectGlobalPosition = GlobalPosition;
+
+        UIInputLabel.Text = InputBuildings.Count + "/" + MaxInput;
+        UIOutputLabel.Text = OutputBuildings.Count + "/" + MaxOutput;
 
         foreach (Item item in (Item[])System.Enum.GetValues(typeof(Item)))
         {
@@ -302,6 +309,12 @@ public class Building : StaticBody2D
         OutputBuildings.Add(building);
         OutputPipes.Add(building, pipe);
         building.InputBuildings.Add(this);
+
+        if (building.UIInputLabel != null)
+        {
+            building.UIInputLabel.Text = building.InputBuildings.Count + "/" + building.MaxInput;
+        }
+        UIOutputLabel.Text = OutputBuildings.Count + "/" + MaxOutput;
     }
 
     public void RemoveOutput(Building building)
@@ -316,6 +329,12 @@ public class Building : StaticBody2D
         OutputPipes.Remove(building);
         OutputBuildings.Remove(building);
         building.InputBuildings.Remove(this);
+
+        if (building.UIInputLabel != null)
+        {
+            building.UIInputLabel.Text = building.InputBuildings.Count + "/" + building.MaxInput;
+        }
+        UIOutputLabel.Text = OutputBuildings.Count + "/" + MaxOutput;
     }
 
     public void Destroy()
