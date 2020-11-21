@@ -67,11 +67,6 @@ public class BuildPreview : Area2D
 			Border.Visible = value;
 			BuildMenu.Visible = value;
 			Globals.LastBuilding = null;
-
-			if (Globals.SelectedBuilding != null)
-			{
-				Globals.SelectedBuilding.SetSelected(false);
-			}
 		}
 	}
 
