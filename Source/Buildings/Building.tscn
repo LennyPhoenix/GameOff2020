@@ -228,8 +228,8 @@ tracks/1/keys = {
 }
 
 [sub_resource type="DynamicFont" id=10]
-extra_spacing_top = -5
-extra_spacing_bottom = -2
+extra_spacing_top = -4
+extra_spacing_bottom = -1
 font_data = ExtResource( 11 )
 
 [node name="Building" type="StaticBody2D" groups=[
@@ -323,7 +323,7 @@ custom_constants/hseparation = 1
 margin_left = -30.0
 margin_top = -9.0
 margin_right = -8.0
-margin_bottom = 6.0
+margin_bottom = 9.0
 grow_horizontal = 0
 custom_styles/panel = ExtResource( 9 )
 __meta__ = {
@@ -334,38 +334,38 @@ __meta__ = {
 margin_left = 1.0
 margin_top = 1.0
 margin_right = 21.0
-margin_bottom = 14.0
-custom_constants/separation = 1
+margin_bottom = 17.0
+custom_constants/separation = 0
 
 [node name="Input" type="HBoxContainer" parent="UI/ConnectionContainer/VBoxContainer"]
 margin_right = 20.0
-margin_bottom = 6.0
+margin_bottom = 8.0
 size_flags_vertical = 3
 custom_constants/separation = 2
 
 [node name="TextureRect" type="TextureRect" parent="UI/ConnectionContainer/VBoxContainer/Input"]
 margin_right = 6.0
-margin_bottom = 6.0
+margin_bottom = 8.0
 texture = ExtResource( 12 )
 stretch_mode = 6
 
 [node name="Label" type="Label" parent="UI/ConnectionContainer/VBoxContainer/Input"]
 margin_left = 8.0
 margin_right = 20.0
-margin_bottom = 6.0
+margin_bottom = 8.0
 custom_fonts/font = SubResource( 10 )
 text = "1/4"
 
 [node name="Output" type="HBoxContainer" parent="UI/ConnectionContainer/VBoxContainer"]
-margin_top = 7.0
+margin_top = 8.0
 margin_right = 20.0
-margin_bottom = 13.0
+margin_bottom = 16.0
 size_flags_vertical = 3
 custom_constants/separation = 2
 
 [node name="TextureRect" type="TextureRect" parent="UI/ConnectionContainer/VBoxContainer/Output"]
 margin_right = 6.0
-margin_bottom = 6.0
+margin_bottom = 8.0
 texture = ExtResource( 10 )
 stretch_mode = 6
 flip_h = true
@@ -373,7 +373,7 @@ flip_h = true
 [node name="Label" type="Label" parent="UI/ConnectionContainer/VBoxContainer/Output"]
 margin_left = 8.0
 margin_right = 20.0
-margin_bottom = 6.0
+margin_bottom = 8.0
 custom_fonts/font = SubResource( 10 )
 text = "1/4"
 [connection signal="mouse_entered" from="." to="." method="_OnMouseEntered"]
