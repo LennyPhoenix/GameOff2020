@@ -80,7 +80,7 @@ public class BuildManager : Area2D
     {
         base._EnterTree();
 
-		Globals.BuildPreview = this;
+        Globals.BuildManager = this;
     }
 
     public override void _Ready()
@@ -132,7 +132,6 @@ public class BuildManager : Area2D
 			{
 				var item = (BuildMenuItem)MenuItemScene.Instance();
 				item.Blueprint = blueprint;
-				item.BuildPreview = this;
 				gridContainer.AddChild(item);
 			}
 		}

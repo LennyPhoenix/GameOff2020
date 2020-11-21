@@ -178,7 +178,7 @@ public class Building : StaticBody2D
         {
             DraggingPipe.PointB = GetGlobalMousePosition();
 
-            if (Input.IsActionJustReleased("build") || (Globals.BuildPreview.Enabled && Globals.BuildPreview.Blueprint != null))
+            if (Input.IsActionJustReleased("build") || (Globals.BuildManager.Enabled && Globals.BuildManager.Blueprint != null))
             {
                 if (Globals.HoveringBuilding != null && Globals.HoveringBuilding != this && DraggingPipe.CanPlace)
                 {
@@ -195,7 +195,7 @@ public class Building : StaticBody2D
 
                     Vector2 mousePos = GetGlobalMousePosition();
 
-                    var pylon = (Pylon)Globals.BuildPreview.BuildBuilding(PylonBlueprint);
+                    var pylon = (Pylon)Globals.BuildManager.BuildBuilding(PylonBlueprint);
                     if (pylon != null)
                     {
                         pylon.GlobalPosition = new Vector2
@@ -219,7 +219,7 @@ public class Building : StaticBody2D
         }
         else if (
             Input.IsActionJustReleased("build") && Globals.HoveringBuilding == this && Globals.SelectedBuilding != this && AnimationPlayer.CurrentAnimation != "Spawn" 
-            && (!Globals.BuildPreview.Enabled || Globals.BuildPreview.Blueprint == null)
+            && (!Globals.BuildManager.Enabled || Globals.BuildManager.Blueprint == null)
         )
         {
             SetSelected(true);

@@ -28,7 +28,7 @@ public class Globals
 {
 	public const int TileSize = 16;
 
-	public static BuildManager BuildPreview;
+	public static BuildManager BuildManager;
 
 	public static Building SelectedBuilding;
 	public static Building DraggingBuilding;
@@ -39,7 +39,7 @@ public class Globals
 
 	public static void Reset()
     {
-		BuildPreview = null;
+		BuildManager = null;
 
 		SelectedBuilding = null;
 		DraggingBuilding = null;

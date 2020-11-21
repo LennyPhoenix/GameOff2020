@@ -24,14 +24,12 @@ public class BuildMenuItem : Button
     public AnimationPlayer AnimationPlayer;
     public TextureRect TextureRect;
     public Label NameLabel;
-    public BuildManager BuildPreview;
 
     public override void _Ready()
     {
         base._Ready();
 
         AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
-        TextureRect = GetNode<TextureRect>("MarginContainer/TextureRect");
         NameLabel = GetNode<Label>("Name");
 
         if (Blueprint != null)
@@ -54,13 +52,13 @@ public class BuildMenuItem : Button
                 }
             }
 
-            BuildPreview.Blueprint = Blueprint;
+            Globals.BuildManager.Blueprint = Blueprint;
         }
         else
         {
-            if (BuildPreview.Blueprint == Blueprint)
+            if (Globals.BuildManager.Blueprint == Blueprint)
             {
-                BuildPreview.Blueprint = null;
+                Globals.BuildManager.Blueprint = null;
             }
         }
     }
