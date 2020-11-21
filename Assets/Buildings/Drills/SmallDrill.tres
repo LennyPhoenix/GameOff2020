@@ -13,3 +13,4 @@ Size = Vector2( 3, 3 )
 Cost = {
 0: 30
 }
+Description = "Can mine stone and copper."

@@ -14,3 +14,4 @@ Cost = {
 0: 40,
 1: 60
 }
+Description = "Can mine stone, copper and iron."

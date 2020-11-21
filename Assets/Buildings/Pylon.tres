@@ -14,3 +14,4 @@ Cost = {
 0: 5,
 1: 10
 }
+Description = "Can have a large amount of connections at once."

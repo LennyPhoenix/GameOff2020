@@ -14,3 +14,4 @@ Cost = {
 1: 50,
 2: 40
 }
+Description = "Can only have 1 input and output, but can store 150 of each item."

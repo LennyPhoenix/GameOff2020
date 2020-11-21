@@ -16,26 +16,27 @@ public class BuildMenuItem : Button
                 return;
             }
 
-            TextureRect.Texture = Blueprint.BuildTexture;
-            NameLabel.Text = Blueprint.ResourceName;
+            Update();
         }
     }
 
     public AnimationPlayer AnimationPlayer;
     public TextureRect TextureRect;
     public Label NameLabel;
+    public Label DescriptionLabel;
 
     public override void _Ready()
     {
         base._Ready();
 
         AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
-        NameLabel = GetNode<Label>("Name");
+        TextureRect = GetNode<TextureRect>("MarginContainer/HBoxContainer/TextureRect");
+        NameLabel = GetNode<Label>("Popup/Panel/VBoxContainer/Name");
+        DescriptionLabel = GetNode<Label>("Popup/Panel/VBoxContainer/Description");
 
         if (Blueprint != null)
         {
-            TextureRect.Texture = Blueprint.BuildTexture;
-            NameLabel.Text = Blueprint.ResourceName;
+            Update();
         }
     }
 
@@ -79,5 +80,12 @@ public class BuildMenuItem : Button
     public void _OnMouseExited()
     {
         AnimationPlayer.Play("HideName");
+    }
+
+    private void Update()
+    {
+        TextureRect.Texture = Blueprint.BuildTexture;
+        NameLabel.Text = Blueprint.ResourceName;
+        DescriptionLabel.Text = Blueprint.Description;
     }
 }
