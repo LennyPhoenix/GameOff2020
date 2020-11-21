@@ -72,5 +72,14 @@ public class GenericCarrier : Building
             StorageContainer.RectSize = new Vector2(columns * 16 + 2 + Mathf.Min(columns - 1, 0), rows * 16 + 2 + Mathf.Min(rows - 1, 0));
             StorageGridContainer.Columns = columns;
         }
+
+        if (columns == 0)
+        {
+            StorageContainer.Visible = false;
+        }
+        else
+        {
+            StorageContainer.Visible = true;
+        }
     }
 }

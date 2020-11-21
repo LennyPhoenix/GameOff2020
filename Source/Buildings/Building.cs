@@ -112,10 +112,7 @@ public class Building : StaticBody2D
                 input.OutputConnectionHighlight.Show();
             }
 
-            if (UIStorageItems.Count > 0)
-            {
-                UIAnimationPlayer.Play("Show");
-            }
+            UIAnimationPlayer.Play("Show");
         }
     }
 
@@ -150,10 +147,7 @@ public class Building : StaticBody2D
                 }
             }
 
-            if (UIStorageItems.Count > 0)
-            {
-                UIAnimationPlayer.Play("Hide");
-            }
+            UIAnimationPlayer.Play("Hide");
         }
     }
 
@@ -267,7 +261,7 @@ public class Building : StaticBody2D
                 input.OutputConnectionHighlight.Show();
             }
 
-            if (UIAnimationPlayer.AssignedAnimation != "Show" && UIStorageItems.Count > 0)
+            if (UIAnimationPlayer.AssignedAnimation != "Show")
             {
                 UIAnimationPlayer.Play("Show");
             }
@@ -287,7 +281,7 @@ public class Building : StaticBody2D
                 input.OutputConnectionHighlight.Hide();
             }
 
-            if (UIAnimationPlayer.AssignedAnimation != "Hide" && UIStorageItems.Count > 0)
+            if (UIAnimationPlayer.AssignedAnimation != "Hide")
             {
                 UIAnimationPlayer.Play("Hide");
             }
