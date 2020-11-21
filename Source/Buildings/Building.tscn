@@ -171,7 +171,7 @@ light_mode = 1
 resource_name = "Hide"
 length = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("StorageContainer:modulate")
+tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -183,7 +183,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("StorageContainer:visible")
+tracks/1/path = NodePath(".:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -199,7 +199,7 @@ tracks/1/keys = {
 resource_name = "Show"
 length = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("StorageContainer:modulate")
+tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -211,7 +211,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("StorageContainer:visible")
+tracks/1/path = NodePath(".:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -297,7 +297,6 @@ anims/Hide = SubResource( 8 )
 anims/Show = SubResource( 9 )
 
 [node name="StorageContainer" type="PanelContainer" parent="UI"]
-visible = false
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
