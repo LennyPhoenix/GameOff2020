@@ -42,10 +42,9 @@ public class Core : GenericCarrier
             {
                 if (!ResourcesUIItems.ContainsKey(item))
                 {
-                    var texture = ResourceLoader.Load<Texture>("res://Assets/Items/" + item.ToString() + ".png");
                     var storageItem = (StorageItem)StorageItemScene.Instance();
                     gridContainer.AddChild(storageItem);
-                    storageItem.Texture = texture;
+                    storageItem.ItemType = item;
 
                     ResourcesUIItems.Add(item, storageItem);
                 }

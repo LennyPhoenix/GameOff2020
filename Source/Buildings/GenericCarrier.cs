@@ -40,10 +40,9 @@ public class GenericCarrier : Building
         {
             if (!UIStorageItems.ContainsKey(item) && Items[item] > 0)
             {
-                var texture = ResourceLoader.Load<Texture>("res://Assets/Items/" + item.ToString() + ".png");
                 var storageItem = (StorageItem)StorageItemScene.Instance();
                 StorageGridContainer.AddChild(storageItem);
-                storageItem.Texture = texture;
+                storageItem.ItemType = item;
 
                 UIStorageItems.Add(item, storageItem);
             }

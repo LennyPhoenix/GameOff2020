@@ -93,10 +93,10 @@ public class Building : StaticBody2D
 
         foreach (Item item in MaxStorage.Keys)
         {
-            var texture = ResourceLoader.Load<Texture>("res://Assets/Items/" + item.ToString() + ".png");
             var storageItem = (StorageItem)StorageItemScene.Instance();
             StorageGridContainer.AddChild(storageItem);
-            storageItem.Texture = texture;
+            storageItem.ItemType = item;
+            storageItem.Count = Items[item];
 
             UIStorageItems.Add(item, storageItem);
         }

@@ -3,6 +3,8 @@ using Godot.Collections;
 
 public class BuildMenuItem : Button
 {
+    [Export] public PackedScene StorageItemScene;
+
     private Blueprint blueprint;
     [Export] public Blueprint Blueprint
     {
@@ -22,6 +24,7 @@ public class BuildMenuItem : Button
 
     public AnimationPlayer AnimationPlayer;
     public TextureRect TextureRect;
+    public GridContainer GridContainer;
     public Label NameLabel;
     public Label DescriptionLabel;
 
@@ -30,7 +33,8 @@ public class BuildMenuItem : Button
         base._Ready();
 
         AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
-        TextureRect = GetNode<TextureRect>("MarginContainer/HBoxContainer/TextureRect");
+        TextureRect = GetNode<TextureRect>("MarginContainer/VBoxContainer/TextureRect");
+        GridContainer = GetNode<GridContainer>("MarginContainer/VBoxContainer/GridContainer");
         NameLabel = GetNode<Label>("Popup/Panel/VBoxContainer/Name");
         DescriptionLabel = GetNode<Label>("Popup/Panel/VBoxContainer/Description");
 
@@ -87,5 +91,13 @@ public class BuildMenuItem : Button
         TextureRect.Texture = Blueprint.BuildTexture;
         NameLabel.Text = Blueprint.ResourceName;
         DescriptionLabel.Text = Blueprint.Description;
+
+        foreach (Item item in Blueprint.Cost.Keys)
+        {
+            var storageItem = (StorageItem)StorageItemScene.Instance();
+            GridContainer.AddChild(storageItem);
+            storageItem.ItemType = item;
+            storageItem.Count = Blueprint.Cost[item];
+        }
     }
 }

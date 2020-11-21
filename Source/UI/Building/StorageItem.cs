@@ -2,17 +2,18 @@ using Godot;
 
 public class StorageItem : PanelContainer
 {
-    private Texture texture;
-    public Texture Texture
+    private Item item;
+    public Item ItemType
     {
-        get => texture;
+        get => item;
         set
         {
-            texture = value;
+            item = value;
 
-            if(TextureRect != null)
+            if (TextureRect != null)
             {
-                TextureRect.Texture = value;
+                var texture = ResourceLoader.Load<Texture>("res://Assets/Items/" + item.ToString() + ".png");
+                TextureRect.Texture = texture;
             }
         }
     }
@@ -42,9 +43,10 @@ public class StorageItem : PanelContainer
         TextureRect = GetNode<TextureRect>("TextureRect");
         CountLabel = GetNode<Label>("TextureRect/Label");
 
-        if (Texture != null)
+        if (ItemType != null)
         {
-            TextureRect.Texture = Texture;
+            var texture = ResourceLoader.Load<Texture>("res://Assets/Items/" + item.ToString() + ".png");
+            TextureRect.Texture = texture;
         }
 
         CountLabel.Text = Count.ToString();

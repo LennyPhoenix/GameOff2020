@@ -254,7 +254,7 @@ margin_bottom = 95.0
 mouse_filter = 2
 custom_constants/vseparation = 10
 custom_constants/hseparation = 10
-columns = 8
+columns = 12
 
 [node name="TabContainer" type="TabContainer" parent="UI/BuildMenu"]
 self_modulate = Color( 1, 1, 1, 0.878431 )
