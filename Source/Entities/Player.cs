@@ -5,6 +5,7 @@ public class Player : KinematicBody2D
     // State Machine
     public enum State
     {
+        Spawning,
         Idle,
         Move,
         Sprint,
@@ -38,7 +39,7 @@ public class Player : KinematicBody2D
     {
         base._Ready();
 
-        CurrentState = State.Idle;
+        CurrentState = State.Spawning;
 
         RotationTimer = RotationTimerStart;
         
@@ -80,6 +81,9 @@ public class Player : KinematicBody2D
 
         switch (CurrentState)
         {
+            case State.Spawning:
+                return;
+
             case State.Idle:
                 AnimationPlayer.Play("Idle");
 
@@ -126,6 +130,9 @@ public class Player : KinematicBody2D
 
         switch (CurrentState)
         {
+            case State.Spawning:
+                return;
+
             case State.Idle:
                 Velocity = Velocity.MoveToward(Vector2.Zero, Friction * delta);
 
@@ -144,5 +151,13 @@ public class Player : KinematicBody2D
         }
 
         Velocity = MoveAndSlide(Velocity);
+    }
+
+    public void _OnAnimationFinished(string animName)
+    {
+        if (animName == "Spawn")
+        {
+            CurrentState = State.Idle;
+        }
     }
 }

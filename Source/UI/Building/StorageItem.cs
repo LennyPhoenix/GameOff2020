@@ -2,21 +2,33 @@ using Godot;
 
 public class StorageItem : PanelContainer
 {
+    private Texture texture;
     public Texture Texture
     {
-        get => TextureRect.Texture;
+        get => texture;
         set
         {
-            TextureRect.Texture = value;
+            texture = value;
+
+            if(TextureRect != null)
+            {
+                TextureRect.Texture = value;
+            }
         }
     }
 
+    private int count = 0;
     public int Count
     {
-        get { return CountLabel.Text.ToInt(); }
+        get => count;
         set
         {
-            CountLabel.Text = value.ToString();
+            count = value;
+
+            if (CountLabel != null)
+            {
+                CountLabel.Text = value.ToString();
+            }
         }
     }
 
@@ -30,6 +42,11 @@ public class StorageItem : PanelContainer
         TextureRect = GetNode<TextureRect>("TextureRect");
         CountLabel = GetNode<Label>("TextureRect/Label");
 
-        Count = 0;
+        if (Texture != null)
+        {
+            TextureRect.Texture = Texture;
+        }
+
+        CountLabel.Text = Count.ToString();
     }
 }

@@ -3,6 +3,19 @@ using Godot.Collections;
 
 public class Building : StaticBody2D
 {
+    public new Vector2 GlobalPosition
+    {
+        get => base.GlobalPosition;
+        set
+        {
+            base.GlobalPosition = value;
+            if (UI != null)
+            {
+                UI.RectGlobalPosition = value;
+            }
+        }
+    }
+
     [Export] public PackedScene PipeScene;
     [Export] public PackedScene StorageItemScene;
     public PackedScene PylonScene;
@@ -63,6 +76,7 @@ public class Building : StaticBody2D
         RemoveChild(UI);
         BuildingUI.AddChild(UI);
         UI.RectGlobalPosition = GlobalPosition;
+        UI.Name = Name;
 
         UIInputLabel.Text = InputBuildings.Count + "/" + MaxInput;
         UIOutputLabel.Text = OutputBuildings.Count + "/" + MaxOutput;

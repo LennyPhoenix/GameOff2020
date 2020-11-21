@@ -27,6 +27,9 @@ HideOutsideMap = false
 AdditionalOffsetPaths = [ NodePath("../Sprite"), NodePath("../LightOccluder2D"), NodePath("../Light2D"), NodePath("../CollisionShape2D") ]
 
 [node name="Sprite" parent="." index="3"]
+modulate = Color( 1, 1, 1, 0 )
+rotation = -0.523599
+scale = Vector2( 3, 3 )
 texture = ExtResource( 3 )
 
 [node name="CollisionShape2D" parent="." index="4"]

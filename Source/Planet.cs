@@ -6,8 +6,6 @@ public class Planet : Node2D
 {
 	[Signal] public delegate void Generated();
 
-	[Export] public PackedScene CoreBuilding;
-
 	[Export] public OpenSimplexNoise GroundNoise;
 	[Export] public OpenSimplexNoise WallNoise;
 
@@ -36,8 +34,10 @@ public class Planet : Node2D
 	public TileMap GroundTiles;
 	public TileMap OreTiles;
 	public TileMap WallTiles;
-	public Player Player;
 	public Node2D Buildings;
+	public Building Core;
+	public Node2D GroundEntities;
+	public Player Player;
 	public Node2D Pipes;
 
 	public override void _Ready()
@@ -53,13 +53,12 @@ public class Planet : Node2D
 		OreTiles = GetNode<TileMap>("Ore");
 		WallTiles = GetNode<TileMap>("Walls");
 
-		Player = GetNode<Player>("GroundEntities/Player");
-
-		int mid = WorldSize * Globals.TileSize / 2;
-		Player.Position = new Vector2(mid, mid);
-
 		Buildings = GetNode<Node2D>("Buildings");
+		GroundEntities = GetNode<Node2D>("GroundEntities");
 		Pipes = GetNode<Node2D>("Pipes");
+
+		Core = Buildings.GetNode<Building>("Core");
+		Player = GroundEntities.GetNode<Player>("Player");
 
 		Generate();
 	}
@@ -99,22 +98,8 @@ public class Planet : Node2D
 		GetTree().CallGroup("Buildings", "Tick");
 	}
 
-	public void ClearBuildings()
-	{
-		foreach (Building building in Buildings.GetChildren())
-		{
-			building.Destroy();
-		}
-		Globals.DraggingBuilding = null;
-		Globals.HoveringBuilding = null;
-		Globals.SelectedBuilding = null;
-		Globals.LastBuilding = null;
-	}
-
 	public void Generate()
 	{
-		ClearBuildings();
-
 		GD.Randomize();
 
 		GroundTiles.Clear();
@@ -150,16 +135,16 @@ public class Planet : Node2D
 
 		EmitSignal("Generated");
 
-		Node2D core = (Node2D)CoreBuilding.Instance();
-
 		int mid = WorldSize * Globals.TileSize / 2;
-		core.GlobalPosition = (new Vector2(mid, mid - 80) / 16).Round() * 16 + new Vector2(8, 8);
-		Buildings.AddChild(core);
+
+		Core.GlobalPosition = (new Vector2(mid, mid - 80) / 16).Round() * 16 + new Vector2(8, 8);
+		Player.Position = new Vector2(mid, mid);
+		Player.Camera.ForceUpdateScroll();
+		Player.Camera.ResetSmoothing();
 	}
 
 	private void GenerateWorld()
 	{
-
 		int mid = WorldSize / 2;
 		var midVec = new Vector2(mid, mid);
 		for (int x = 0; x < WorldSize; x++)
