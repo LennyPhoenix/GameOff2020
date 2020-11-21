@@ -113,6 +113,7 @@ build_mode={
 2d_physics/layer_2="player"
 2d_render/layer_3="map_mask"
 2d_physics/layer_3="enemies"
+2d_render/layer_4="overhead_mask"
 2d_physics/layer_4="bullets"
 2d_physics/layer_5="enemy_bullets"
 2d_physics/layer_6="buildings"

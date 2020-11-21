@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Source/Weapons/TacticalPistol.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Entities/Player.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Source/Entities/Player.cs" type="Script" id=4]
 [ext_resource path="res://Assets/Lights/spot.png" type="Texture" id=5]
 [ext_resource path="res://Source/MapWrapper.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Assets/Lights/inverse-spot.png" type="Texture" id=7]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Idle"
@@ -90,7 +91,7 @@ tracks/2/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 1, 0 ), Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=3]
 resource_name = "Spawn"
 length = 0.5
 tracks/0/type = "value"
@@ -166,8 +167,7 @@ tracks/5/keys = {
 "values": [ 0.1, 0.6 ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "Sprint"
+[sub_resource type="Animation" id=4]
 loop = true
 step = 0.25
 tracks/0/type = "value"
@@ -207,7 +207,7 @@ tracks/2/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 1, 0 ), Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="CircleShape2D" id=4]
+[sub_resource type="CircleShape2D" id=5]
 radius = 7.0
 
 [node name="Player" type="KinematicBody2D"]
@@ -223,8 +223,8 @@ RootPath = NodePath("..")
 autoplay = "Spawn"
 anims/Idle = SubResource( 1 )
 anims/Move = SubResource( 2 )
-anims/Spawn = SubResource( 5 )
-anims/Sprint = SubResource( 3 )
+anims/Spawn = SubResource( 3 )
+anims/Sprint = SubResource( 4 )
 
 [node name="Lights" type="Node2D" parent="."]
 
@@ -242,6 +242,12 @@ texture_scale = 1.5
 energy = 0.6
 range_item_cull_mask = 2
 shadow_item_cull_mask = 2
+
+[node name="OverheadMask" type="Light2D" parent="Lights"]
+texture = ExtResource( 7 )
+texture_scale = 0.75
+mode = 3
+range_item_cull_mask = 8
 
 [node name="Camera" type="Camera2D" parent="." groups=[
 "Camera",
@@ -268,5 +274,5 @@ hframes = 4
 frame = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 4 )
+shape = SubResource( 5 )
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_OnAnimationFinished"]
