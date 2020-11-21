@@ -347,12 +347,16 @@ public class Building : StaticBody2D
 
     public void Destroy()
     {
-        Deleting = true;
         SetSelected(false);
 
         if (Globals.HoveringBuilding == this)
         {
             Globals.HoveringBuilding = null;
+        }
+
+        if (Globals.LastBuilding == this)
+        {
+            Globals.LastBuilding = null;
         }
 
         if (DraggingPipe != null)
@@ -362,24 +366,19 @@ public class Building : StaticBody2D
 
         foreach (Building output in OutputBuildings)
         {
-            output.InputConnectionHighlight.Hide();
-            output.InputBuildings.Remove(this);
-            Pipe pipe = OutputPipes[output];
-            pipe.PlayDelete();
+            RemoveOutput(output);
         }
 
         foreach (Building input in InputBuildings)
         {
-            input.OutputConnectionHighlight.Hide();
-            input.OutputBuildings.Remove(this);
-            Pipe pipe = input.OutputPipes[this];
-            pipe.PlayDelete();
-            input.OutputPipes.Remove(this);
+            input.RemoveOutput(this);
         }
 
         UI.QueueFree();
 
         AnimationPlayer.Play("Delete");
+
+        Deleting = true;
     }
 
     public virtual void Tick() {
