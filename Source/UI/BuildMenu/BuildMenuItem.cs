@@ -16,7 +16,7 @@ public class BuildMenuItem : Button
                 return;
             }
 
-            Update();
+            UpdateFields();
         }
     }
 
@@ -36,7 +36,7 @@ public class BuildMenuItem : Button
 
         if (Blueprint != null)
         {
-            Update();
+            UpdateFields();
         }
     }
 
@@ -82,7 +82,7 @@ public class BuildMenuItem : Button
         AnimationPlayer.Play("HideName");
     }
 
-    private void Update()
+    private void UpdateFields()
     {
         TextureRect.Texture = Blueprint.BuildTexture;
         NameLabel.Text = Blueprint.ResourceName;
