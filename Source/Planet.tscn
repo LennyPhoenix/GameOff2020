@@ -124,9 +124,9 @@ align = 2
 self_modulate = Color( 1, 1, 1, 0.894118 )
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -24.0
-margin_right = 24.0
-margin_bottom = 18.0
+margin_left = -33.0
+margin_right = 33.0
+margin_bottom = 34.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource( 20 )
@@ -144,19 +144,19 @@ grow_vertical = 2
 mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/margin_right = 18
-custom_constants/margin_top = 2
-custom_constants/margin_left = 18
-custom_constants/margin_bottom = 2
+custom_constants/margin_right = 20
+custom_constants/margin_top = 4
+custom_constants/margin_left = 20
+custom_constants/margin_bottom = 4
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="GridContainer" type="GridContainer" parent="UI/Resources/MarginContainer"]
-margin_left = 18.0
-margin_top = 2.0
-margin_right = 30.0
-margin_bottom = 16.0
+margin_left = 20.0
+margin_top = 4.0
+margin_right = 46.0
+margin_bottom = 30.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2

@@ -32,7 +32,7 @@ public class Core : GenericCarrier
             var resourcesUI = GetNode<NinePatchRect>(ResourcesUIPath);
             var gridContainer = resourcesUI.GetNode<GridContainer>("MarginContainer/GridContainer");
 
-            int width = columns * 16 + 3 * Mathf.Min(columns - 1, 0) + 17 * 2;
+            int width = columns * 32 + 3 * Mathf.Min(columns - 1, 0) + 17 * 2;
             gridContainer.Columns = columns;
 
             resourcesUI.MarginLeft = -width / 2;
