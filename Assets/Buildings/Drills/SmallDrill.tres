@@ -11,5 +11,5 @@ BuildTexture = ExtResource( 2 )
 Scene = ExtResource( 3 )
 Size = Vector2( 3, 3 )
 Cost = {
-
+0: 30
 }

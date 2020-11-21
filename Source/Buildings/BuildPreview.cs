@@ -37,10 +37,44 @@ public class BuildPreview : Area2D
 
 	[Export] public PackedScene MenuItemScene;
 
+	public bool CanAfford
+    {
+		get
+        {
+			if (Blueprint == null)
+            {
+				return false;
+            }
+
+			foreach (Item item in Blueprint.Cost.Keys)
+            {
+				if (Globals.Core.Items[item] < Blueprint.Cost[item])
+				{
+					return false;
+				}
+            }
+			return true;
+        }
+    }
+
 	public bool Colliding
 	{
 		get {
 			return GetOverlappingBodies().Count != 0;
+		}
+	}
+
+	private bool enabled = false;
+	public bool Enabled
+	{
+		get => enabled;
+		set
+		{
+			enabled = value;
+			Globals.BuildMode = value;
+			Border.Visible = value;
+			BuildMenu.Visible = value;
+			Globals.LastBuilding = null;
 		}
 	}
 
@@ -56,19 +90,6 @@ public class BuildPreview : Area2D
 	public MarginContainer BuildMenu;
 	public TabContainer MenuTabContainer;
 	public MarginContainer CategoryContainer;
-
-	private bool enabled = false;
-	public bool Enabled
-	{
-		get => enabled;
-		set {
-			enabled = value;
-			Globals.BuildMode = value;
-			Border.Visible = value;
-			BuildMenu.Visible = value;
-			Globals.LastBuilding = null;
-		}
-	}
 
 	private Building deconstructBuilding;
 
@@ -127,13 +148,13 @@ public class BuildPreview : Area2D
 	{
 		base._PhysicsProcess(delta);
 
-		if (Colliding)
+		if (!Colliding && CanAfford)
 		{
-			AnimationPlayer.Play("Obstructed");
+			AnimationPlayer.Play("Placeable");
 		}
 		else
 		{
-			AnimationPlayer.Play("Placeable");
+			AnimationPlayer.Play("Obstructed");
 		}
 	}
 
@@ -215,8 +236,13 @@ public class BuildPreview : Area2D
 			return;
 		}
 
-		if (@event.IsActionPressed("build") && !Colliding && Enabled)
+		if (@event.IsActionPressed("build") && !Colliding && CanAfford && Enabled)
 		{
+			foreach (Item item in Blueprint.Cost.Keys)
+			{
+				Globals.Core.Items[item] -= Blueprint.Cost[item];
+			}
+
 			var building = (Node2D)Blueprint.Scene.Instance();
 			building.GlobalPosition = GlobalPosition;
 			Buildings.AddChild(building);

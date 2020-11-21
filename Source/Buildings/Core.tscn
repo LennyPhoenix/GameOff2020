@@ -4,7 +4,7 @@
 [ext_resource path="res://Source/UI/MinimapIcons.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Assets/Buildings/Core.png" type="Texture" id=3]
 [ext_resource path="res://Assets/Lights/spot.png" type="Texture" id=4]
-[ext_resource path="res://Source/Buildings/GenericCarrier.cs" type="Script" id=5]
+[ext_resource path="res://Source/Buildings/Core.cs" type="Script" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 40, 40 )
@@ -14,6 +14,12 @@ polygon = PoolVector2Array( -40, -39, -39, -39, -39, -40, 39, -40, 39, -39, 40, 
 
 [node name="Core" instance=ExtResource( 1 )]
 script = ExtResource( 5 )
+MaxStorage = {
+
+}
+Outputs = {
+
+}
 CanStore = 500
 CanOutput = 25
 

@@ -35,4 +35,19 @@ public class Globals
 	public static Building DraggingBuilding;
 	public static Building HoveringBuilding;
 	public static Building LastBuilding;
+
+	public static Core Core;
+
+	public static void Reset()
+    {
+		BuildMode = false;
+		BuildBlueprint = null;
+
+		SelectedBuilding = null;
+		DraggingBuilding = null;
+		HoveringBuilding = null;
+		LastBuilding = null;
+
+		Core = null;
+	}
 }
