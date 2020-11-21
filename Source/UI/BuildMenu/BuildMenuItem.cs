@@ -24,7 +24,7 @@ public class BuildMenuItem : Button
     public AnimationPlayer AnimationPlayer;
     public TextureRect TextureRect;
     public Label NameLabel;
-    public BuildPreview BuildPreview;
+    public BuildManager BuildPreview;
 
     public override void _Ready()
     {

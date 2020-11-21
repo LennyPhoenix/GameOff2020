@@ -18,7 +18,7 @@ public class Building : StaticBody2D
 
     [Export] public PackedScene PipeScene;
     [Export] public PackedScene StorageItemScene;
-    public PackedScene PylonScene;
+    public Blueprint PylonBlueprint;
 
     [Export] public Dictionary<Item, int> MaxStorage = new Dictionary<Item, int>();
     [Export] public Dictionary<Item, int> Outputs = new Dictionary<Item, int>();
@@ -57,6 +57,8 @@ public class Building : StaticBody2D
     {
         base._Ready();
 
+        PylonBlueprint = ResourceLoader.Load<Blueprint>("res://Assets/Buildings/Pylon.tres");
+
         AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
         Pipes = GetTree().CurrentScene.GetNode<Node2D>("Planet/Pipes");
         BuildingUI = GetTree().CurrentScene.GetNode<Node2D>("Planet/BuildingUI");
@@ -70,8 +72,6 @@ public class Building : StaticBody2D
         StorageGridContainer = GetNode<GridContainer>("UI/StorageContainer/GridContainer");
         UIInputLabel = GetNode<Label>("UI/ConnectionContainer/VBoxContainer/Input/Label");
         UIOutputLabel = GetNode<Label>("UI/ConnectionContainer/VBoxContainer/Output/Label");
-
-        PylonScene = ResourceLoader.Load<PackedScene>("res://Source/Buildings/Pylon.tscn");
 
         RemoveChild(UI);
         BuildingUI.AddChild(UI);
@@ -178,7 +178,7 @@ public class Building : StaticBody2D
         {
             DraggingPipe.PointB = GetGlobalMousePosition();
 
-            if (Input.IsActionJustReleased("build") || (Globals.BuildMode && Globals.BuildBlueprint != null))
+            if (Input.IsActionJustReleased("build") || (Globals.BuildPreview.Enabled && Globals.BuildPreview.Blueprint != null))
             {
                 if (Globals.HoveringBuilding != null && Globals.HoveringBuilding != this && DraggingPipe.CanPlace)
                 {
@@ -194,15 +194,17 @@ public class Building : StaticBody2D
                     Globals.LastBuilding = this;
 
                     Vector2 mousePos = GetGlobalMousePosition();
-                    Vector2 position = new Vector2
-                    {
-                        x = Mathf.FloorToInt(mousePos.x / Globals.TileSize) * Globals.TileSize + 8,
-                        y = Mathf.FloorToInt(mousePos.y / Globals.TileSize) * Globals.TileSize + 8
-                    };
 
-                    var pylon = (Pylon)PylonScene.Instance();
-                    pylon.GlobalPosition = position;
-                    GetParent<Node>().AddChild(pylon);
+                    var pylon = (Pylon)Globals.BuildPreview.BuildBuilding(PylonBlueprint);
+                    if (pylon != null)
+                    {
+                        pylon.GlobalPosition = new Vector2
+                        {
+                            x = Mathf.FloorToInt(mousePos.x / Globals.TileSize) * Globals.TileSize + 8,
+                            y = Mathf.FloorToInt(mousePos.y / Globals.TileSize) * Globals.TileSize + 8
+                        };
+                        AddOutput(pylon);
+                    }
                 }
 
                 DraggingPipe.QueueFree();
@@ -215,7 +217,10 @@ public class Building : StaticBody2D
         {
             SetSelected(false);
         }
-        else if (Input.IsActionJustReleased("build") && Globals.HoveringBuilding == this && Globals.SelectedBuilding != this && AnimationPlayer.CurrentAnimation != "Spawn" && (!Globals.BuildMode || Globals.BuildBlueprint == null))
+        else if (
+            Input.IsActionJustReleased("build") && Globals.HoveringBuilding == this && Globals.SelectedBuilding != this && AnimationPlayer.CurrentAnimation != "Spawn" 
+            && (!Globals.BuildPreview.Enabled || Globals.BuildPreview.Blueprint == null)
+        )
         {
             SetSelected(true);
         }
@@ -237,7 +242,7 @@ public class Building : StaticBody2D
             }
         }
 
-        if (hovering && Input.IsActionJustPressed("build") && OutputBuildings.Count < MaxOutput && (!Globals.BuildMode || Globals.BuildBlueprint == null))
+        if (hovering && Input.IsActionJustPressed("build") && OutputBuildings.Count < MaxOutput)
         {
             DraggingPipe = (Pipe)PipeScene.Instance();
             DraggingPipe.PointA = GlobalPosition;

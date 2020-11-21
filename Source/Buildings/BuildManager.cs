@@ -1,7 +1,7 @@
 using Godot;
 using Godot.Collections;
 
-public class BuildPreview : Area2D
+public class BuildManager : Area2D
 {
 	private Blueprint blueprint;
 	[Export] public Blueprint Blueprint
@@ -19,16 +19,20 @@ public class BuildPreview : Area2D
 			if (value == null)
 			{
 				Sprite.Texture = null;
-				var rect = new RectangleShape2D();
-				rect.Extents = Vector2.Zero;
-				Collider.Shape = rect;
+                var rect = new RectangleShape2D
+                {
+                    Extents = Vector2.Zero
+                };
+                Collider.Shape = rect;
 			}
 			else
 			{
 				Sprite.Texture = value.BuildTexture;
-				var rect = new RectangleShape2D();
-				rect.Extents = value.Size * Globals.TileSize / 2 - new Vector2(1, 1);
-				Collider.Shape = rect;
+                var rect = new RectangleShape2D
+                {
+                    Extents = value.Size * Globals.TileSize / 2 - new Vector2(1, 1)
+                };
+                Collider.Shape = rect;
 			}
 		}
 	}
@@ -36,26 +40,6 @@ public class BuildPreview : Area2D
 	[Export] public Dictionary<string, Array<Blueprint>> Blueprints = new Dictionary<string, Array<Blueprint>>();
 
 	[Export] public PackedScene MenuItemScene;
-
-	public bool CanAfford
-    {
-		get
-        {
-			if (Blueprint == null)
-            {
-				return false;
-            }
-
-			foreach (Item item in Blueprint.Cost.Keys)
-            {
-				if (Globals.Core.Items[item] < Blueprint.Cost[item])
-				{
-					return false;
-				}
-            }
-			return true;
-        }
-    }
 
 	public bool Colliding
 	{
@@ -71,7 +55,6 @@ public class BuildPreview : Area2D
 		set
 		{
 			enabled = value;
-			Globals.BuildMode = value;
 			Border.Visible = value;
 			BuildMenu.Visible = value;
 			Globals.LastBuilding = null;
@@ -93,7 +76,14 @@ public class BuildPreview : Area2D
 
 	private Building deconstructBuilding;
 
-	public override void _Ready()
+    public override void _EnterTree()
+    {
+        base._EnterTree();
+
+		Globals.BuildPreview = this;
+    }
+
+    public override void _Ready()
 	{
 		base._Ready();
 
@@ -113,16 +103,20 @@ public class BuildPreview : Area2D
 		if (Blueprint == null)
 		{
 			Sprite.Texture = null;
-			var rect = new RectangleShape2D();
-			rect.Extents = Vector2.Zero;
-			Collider.Shape = rect;
+            var rect = new RectangleShape2D
+            {
+                Extents = Vector2.Zero
+            };
+            Collider.Shape = rect;
 		}
 		else
 		{
 			Sprite.Texture = Blueprint.BuildTexture;
-			var rect = new RectangleShape2D();
-			rect.Extents = Blueprint.Size * Globals.TileSize / 2 - new Vector2(1, 1);
-			Collider.Shape = rect;
+            var rect = new RectangleShape2D
+            {
+                Extents = Blueprint.Size * Globals.TileSize / 2 - new Vector2(1, 1)
+            };
+            Collider.Shape = rect;
 		}
 
 		foreach (string categoryName in Blueprints.Keys)
@@ -148,7 +142,7 @@ public class BuildPreview : Area2D
 	{
 		base._PhysicsProcess(delta);
 
-		if (!Colliding && CanAfford)
+		if (!Colliding && CanAfford(Blueprint))
 		{
 			AnimationPlayer.Play("Placeable");
 		}
@@ -231,21 +225,14 @@ public class BuildPreview : Area2D
 	{
 		base._UnhandledInput(@event);
 
-		if (Blueprint == null)
+		if (@event.IsActionPressed("build") && !Colliding && Blueprint != null && Enabled)
 		{
-			return;
-		}
+			Building building = BuildBuilding(blueprint);
 
-		if (@event.IsActionPressed("build") && !Colliding && CanAfford && Enabled)
-		{
-			foreach (Item item in Blueprint.Cost.Keys)
+			if (building != null)
 			{
-				Globals.Core.Items[item] -= Blueprint.Cost[item];
+				building.GlobalPosition = GlobalPosition;
 			}
-
-			var building = (Node2D)Blueprint.Scene.Instance();
-			building.GlobalPosition = GlobalPosition;
-			Buildings.AddChild(building);
 		}
 	}
 
@@ -264,5 +251,39 @@ public class BuildPreview : Area2D
 		{
 			DeconstructAnimationPlayer.Play("Spin");
 		}
+	}
+
+	public Building BuildBuilding(Blueprint blueprint)
+    {
+		if (CanAfford(blueprint))
+		{
+			foreach (Item item in blueprint.Cost.Keys)
+			{
+				Globals.Core.Items[item] -= blueprint.Cost[item];
+			}
+
+			var building = (Building)blueprint.Scene.Instance();
+			Buildings.AddChild(building);
+
+			return building;
+		}
+		return null;
+	}
+
+	public bool CanAfford(Blueprint blueprint)
+	{
+		if (blueprint == null)
+		{
+			return false;
+		}
+
+		foreach (Item item in blueprint.Cost.Keys)
+		{
+			if (Globals.Core.Items[item] < blueprint.Cost[item])
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 }

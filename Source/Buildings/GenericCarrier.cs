@@ -31,7 +31,7 @@ public class GenericCarrier : Building
 
     public void UpdateItemList()
     {
-        if (IsQueuedForDeletion())
+        if (Deleting)
         {
             return;
         }

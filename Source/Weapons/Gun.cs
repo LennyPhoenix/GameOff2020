@@ -54,7 +54,7 @@ public class Gun : Sprite
             return;
         }
 
-        if (@event.IsActionPressed("shoot") && Timer.IsStopped() && Globals.HoveringBuilding == null && !Globals.BuildMode)
+        if (@event.IsActionPressed("shoot") && Timer.IsStopped() && Globals.HoveringBuilding == null && !Globals.BuildPreview.Enabled)
         {
             Shoot();
         }
@@ -69,7 +69,7 @@ public class Gun : Sprite
             return;
         }
 
-        if (Input.IsActionPressed("shoot") && Timer.IsStopped() && Globals.DraggingBuilding == null && !Globals.BuildMode)
+        if (Input.IsActionPressed("shoot") && Timer.IsStopped() && Globals.DraggingBuilding == null && !Globals.BuildPreview.Enabled)
         {
             Shoot();
         }
