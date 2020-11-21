@@ -12,6 +12,12 @@ polygon = PoolVector2Array( -14, -16, 14, -16, 14, -15, 15, -15, 15, -14, 16, -1
 
 [node name="Storage" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+MaxStorage = {
+
+}
+Outputs = {
+
+}
 MaxInput = 1
 MaxOutput = 1
 CanStore = 150
@@ -36,4 +42,7 @@ scale = Vector2( 2, 2 )
 scale = Vector2( 2, 2 )
 
 [node name="StorageContainer" parent="UI" index="1"]
-visible = true
+margin_left = 16.0
+margin_top = -16.0
+margin_right = 34.0
+margin_bottom = 2.0

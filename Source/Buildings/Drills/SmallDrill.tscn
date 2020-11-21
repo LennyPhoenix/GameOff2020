@@ -58,3 +58,9 @@ scale = Vector2( 3, 3 )
 
 [node name="OutputConnection" parent="Highlights" index="1"]
 scale = Vector2( 3, 3 )
+
+[node name="StorageContainer" parent="UI" index="1"]
+margin_left = 24.0
+margin_top = -24.0
+margin_right = 42.0
+margin_bottom = -6.0
