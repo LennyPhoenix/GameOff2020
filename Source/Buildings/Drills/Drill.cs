@@ -4,7 +4,7 @@ using Godot.Collections;
 public class Drill : Building
 {
     [Export] public int Size = 3;
-    [Export] public int MiningAmount = 1;
+    [Export] public float MiningAmount = 1;
 
     public AnimationPlayer SpriteAnimationPlayer;
     public TileMap OreTiles;
@@ -13,6 +13,8 @@ public class Drill : Building
     public PanelContainer MiningContainer;
     public GridContainer MiningGridContainer;
     public Dictionary<Ore, StorageItem> MiningItems = new Dictionary<Ore, StorageItem>();
+
+    private Dictionary<Ore, float> minedCounters = new Dictionary<Ore, float>();
 
     public override void _Ready()
     {
@@ -39,10 +41,12 @@ public class Drill : Building
 
         foreach (Ore ore in Ores.Keys)
         {
+            minedCounters.Add(ore, 0f);
+
             var miningItem = (StorageItem)StorageItemScene.Instance();
             MiningGridContainer.AddChild(miningItem);
             miningItem.ItemType = (Item)ore;
-            miningItem.Count = Ores[ore] * MiningAmount;
+            miningItem.CountFloat = Ores[ore] * MiningAmount;
 
             MiningItems.Add(ore, miningItem);
         }
@@ -63,7 +67,12 @@ public class Drill : Building
         {
             var item = (Item)ore;
 
-            Items[item] += MiningAmount * Ores[ore];
+            minedCounters[ore] += MiningAmount * Ores[ore];
+
+            int count = Mathf.FloorToInt(minedCounters[ore]);
+            minedCounters[ore] %= 1;
+
+            Items[item] += count;
             Items[item] = Mathf.Min(Items[item], MaxStorage[item]);
         }
     }

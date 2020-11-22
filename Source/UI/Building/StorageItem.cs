@@ -33,6 +33,21 @@ public class StorageItem : PanelContainer
         }
     }
 
+    private float countFloat = 0f;
+    public float CountFloat
+    {
+        get => countFloat;
+        set
+        {
+            countFloat = value;
+
+            if (CountLabel != null)
+            {
+                CountLabel.Text = value.ToString();
+            }
+        }
+    }
+
     public TextureRect TextureRect;
     public Label CountLabel;
 
@@ -49,6 +64,13 @@ public class StorageItem : PanelContainer
             TextureRect.Texture = texture;
         }
 
-        CountLabel.Text = Count.ToString();
+        if (countFloat == 0)
+        {
+            CountLabel.Text = Count.ToString();
+        }
+        else
+        {
+            CountLabel.Text = CountFloat.ToString();
+        }
     }
 }
