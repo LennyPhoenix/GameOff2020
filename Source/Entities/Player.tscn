@@ -256,6 +256,7 @@ range_item_cull_mask = 8
 current = true
 limit_smoothed = true
 smoothing_enabled = true
+smoothing_speed = 7.5
 script = ExtResource( 3 )
 
 [node name="Rotate" type="Node2D" parent="."]
