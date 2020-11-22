@@ -21,7 +21,7 @@ Outputs = {
 
 }
 CanStore = 500
-CanOutput = 25
+CanOutput = 3
 
 [node name="MinimapIcons" parent="." index="0" instance=ExtResource( 2 )]
 Root = NodePath("../Sprite")

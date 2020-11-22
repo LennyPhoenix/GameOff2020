@@ -12,10 +12,16 @@ polygon = PoolVector2Array( -14, -16, 14, -16, 14, -15, 15, -15, 15, -14, 16, -1
 
 [node name="Storage" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+MaxStorage = {
+
+}
+Outputs = {
+
+}
 MaxInput = 1
 MaxOutput = 1
 CanStore = 150
-CanOutput = 20
+CanOutput = 2
 
 [node name="Sprite" parent="." index="2"]
 texture = ExtResource( 3 )

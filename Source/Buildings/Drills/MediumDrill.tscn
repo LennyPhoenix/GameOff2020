@@ -33,13 +33,12 @@ MaxStorage = {
 2: 15
 }
 Outputs = {
-0: 32,
-1: 32,
-2: 32
+0: 3,
+1: 3,
+2: 3
 }
-MaxOutput = 6
 Size = 4
-MiningAmount = 0.5
+MiningAmount = 0.05
 
 [node name="Sprite" parent="." index="3"]
 texture = ExtResource( 2 )

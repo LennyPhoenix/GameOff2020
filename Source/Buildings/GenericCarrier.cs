@@ -4,7 +4,7 @@ using Godot.Collections;
 public class GenericCarrier : Building
 {
     [Export] public int CanStore = 50;
-    [Export] public int CanOutput = 50;
+    [Export] public int CanOutput = 5;
 
     public override void _Ready()
     {

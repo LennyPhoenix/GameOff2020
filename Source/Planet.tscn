@@ -39,6 +39,7 @@ GroundNoise = SubResource( 1 )
 WallNoise = SubResource( 2 )
 
 [node name="BuildingClock" type="Timer" parent="."]
+wait_time = 0.1
 autostart = true
 
 [node name="Ground" type="TileMap" parent="."]
