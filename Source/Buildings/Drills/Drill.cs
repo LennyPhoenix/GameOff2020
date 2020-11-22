@@ -16,6 +16,8 @@ public class Drill : Building
 
         SpriteAnimationPlayer = GetNode<AnimationPlayer>("Sprite/AnimationPlayer");
         OreTiles = GetTree().CurrentScene.GetNode<TileMap>("Planet/Ore");
+
+        Ores = GetOres();
     }
 
     public override void Tick()
@@ -23,17 +25,6 @@ public class Drill : Building
         if (Deleting)
         {
             return;
-        }
-
-        if (Ores == null)
-        {
-            Ores = GetOres();
-
-            SpriteAnimationPlayer.PlaybackSpeed = Ores.Count / Mathf.Pow(Size, 2);
-            if (Ores.Count == 0)
-            {
-                WarningSprite.Visible = true;
-            }
         }
 
         base.Tick();

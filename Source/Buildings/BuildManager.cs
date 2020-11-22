@@ -231,6 +231,7 @@ public class BuildManager : Area2D
 			if (building != null)
 			{
 				building.GlobalPosition = GlobalPosition;
+				Buildings.AddChild(building);
 			}
 		}
 	}
@@ -262,7 +263,6 @@ public class BuildManager : Area2D
 			}
 
 			var building = (Building)blueprint.Scene.Instance();
-			Buildings.AddChild(building);
 
 			return building;
 		}

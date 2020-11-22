@@ -203,7 +203,7 @@ public class Building : StaticBody2D
                             x = Mathf.FloorToInt(mousePos.x / Globals.TileSize) * Globals.TileSize + 8,
                             y = Mathf.FloorToInt(mousePos.y / Globals.TileSize) * Globals.TileSize + 8
                         };
-                        AddOutput(pylon);
+                        Globals.BuildManager.Buildings.AddChild(pylon);
                     }
                 }
 
@@ -329,7 +329,7 @@ public class Building : StaticBody2D
 
     public void RemoveOutput(Building building)
     {
-        if (Deleting || building.Deleting)
+        if (Deleting)
         {
             return;
         }
