@@ -64,7 +64,7 @@ public class StorageItem : PanelContainer
             TextureRect.Texture = texture;
         }
 
-        if (countFloat == 0)
+        if (CountFloat == 0)
         {
             CountLabel.Text = Count.ToString();
         }
