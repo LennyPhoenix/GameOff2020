@@ -33,9 +33,9 @@ MaxStorage = {
 2: 15
 }
 Outputs = {
-0: 5,
-1: 5,
-2: 5
+0: 32,
+1: 32,
+2: 32
 }
 MaxOutput = 6
 Size = 4
@@ -74,4 +74,10 @@ margin_bottom = -14.0
 margin_left = -54.0
 margin_top = -32.0
 margin_right = -32.0
-margin_bottom = -17.0
+margin_bottom = -14.0
+
+[node name="MiningContainer" parent="UI" index="3"]
+margin_left = -50.0
+margin_top = -13.0
+margin_right = -32.0
+margin_bottom = 5.0
