@@ -13,7 +13,7 @@ public enum MinimapIconType
 	Turret,
 	Drill,
 	Core,
-	Enemy
+	Enemy,
 }
 
 public enum Item
@@ -22,6 +22,9 @@ public enum Item
 	Copper,
 	Iron,
 	Titanium,
+	CopperBar,
+	IronBar,
+	TitaniumBar,
 }
 
 public class Globals

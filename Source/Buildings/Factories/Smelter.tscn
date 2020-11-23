@@ -1,0 +1,130 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Source/Buildings/Factories/Factory.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Buildings/Factories/Recipes/CopperToCopperBar.tres" type="Resource" id=2]
+[ext_resource path="res://Assets/Buildings/Factories/Recipes/IronToIronBar.tres" type="Resource" id=3]
+[ext_resource path="res://Assets/Buildings/Factories/Recipes/TitaniumToTitaniumBar.tres" type="Resource" id=4]
+[ext_resource path="res://Assets/Buildings/Factories/Smelter.png" type="Texture" id=5]
+
+[sub_resource type="Animation" id=1]
+resource_name = "Off"
+length = 0.001
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 3 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "On"
+length = 0.5
+step = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 2 ), Vector2( 1, 2 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "PowerDown"
+step = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25, 0.5, 0.75 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 1 ), Vector2( 1, 1 ), Vector2( 2, 1 ), Vector2( 3, 1 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+step = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25, 0.5, 0.75 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 1, 0 ), Vector2( 2, 0 ), Vector2( 3, 0 ) ]
+}
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 24, 24 )
+
+[sub_resource type="OccluderPolygon2D" id=6]
+polygon = PoolVector2Array( -23, -24, 23, -24, 23, -23, 24, -23, 24, 23, 23, 23, 23, 24, -23, 24, -23, 23, -24, 23, -24, -23, -23, -23 )
+
+[node name="Smelter" instance=ExtResource( 1 )]
+MaxStorage = {
+
+}
+Outputs = {
+
+}
+Recipes = [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ) ]
+
+[node name="Sprite" parent="." index="2"]
+texture = ExtResource( 5 )
+vframes = 4
+hframes = 4
+frame = 8
+
+[node name="AnimationPlayer" parent="Sprite" index="0"]
+autoplay = "Off"
+anims/Off = SubResource( 1 )
+anims/On = SubResource( 2 )
+anims/PowerDown = SubResource( 3 )
+anims/PowerUp = SubResource( 4 )
+
+[node name="CollisionShape2D" parent="." index="3"]
+shape = SubResource( 5 )
+
+[node name="LightOccluder2D" parent="." index="4"]
+occluder = SubResource( 6 )
+
+[node name="Warning" parent="." index="5"]
+scale = Vector2( 3, 3 )
+
+[node name="InputConnection" parent="Highlights" index="0"]
+scale = Vector2( 3, 3 )
+
+[node name="OutputConnection" parent="Highlights" index="1"]
+scale = Vector2( 3, 3 )
+
+[node name="UI" parent="." index="7"]
+visible = true
+
+[node name="StorageContainer" parent="UI" index="1"]
+margin_left = 24.0
+margin_top = -24.0
+margin_right = 42.0
+margin_bottom = -6.0
+
+[node name="ConnectionContainer" parent="UI" index="2"]
+margin_left = -46.0
+margin_top = -24.0
+margin_right = -24.0
+margin_bottom = -6.0

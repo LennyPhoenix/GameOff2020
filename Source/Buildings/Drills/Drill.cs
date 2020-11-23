@@ -6,7 +6,6 @@ public class Drill : Building
     [Export] public int Size = 3;
     [Export] public float MiningAmount = 1;
 
-    public AnimationPlayer SpriteAnimationPlayer;
     public TileMap OreTiles;
     public Dictionary<Ore, int> Ores;
 
@@ -23,7 +22,6 @@ public class Drill : Building
 
         base._Ready();
 
-        SpriteAnimationPlayer = GetNode<AnimationPlayer>("Sprite/AnimationPlayer");
         OreTiles = GetTree().CurrentScene.GetNode<TileMap>("Planet/Ore");
 
         Ores = GetOres();
@@ -34,7 +32,7 @@ public class Drill : Building
             MiningContainer.Visible = false;
         }
 
-        int columns = Mathf.Min(4, Ores.Count);
+        int columns = Mathf.Clamp(Ores.Count, 1, 4);
         int rows = Mathf.CeilToInt((float)Ores.Count / 4);
         MiningContainer.RectSize = new Vector2(columns * 16 + 2 + Mathf.Min(columns - 1, 0), rows * 16 + 2 + Mathf.Min(rows - 1, 0));
         MiningGridContainer.Columns = columns;

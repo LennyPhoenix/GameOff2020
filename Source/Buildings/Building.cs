@@ -27,6 +27,7 @@ public class Building : StaticBody2D
     [Export] public int MaxOutput = 4;
 
     public AnimationPlayer AnimationPlayer;
+    public AnimationPlayer SpriteAnimationPlayer;
     public Pipe DraggingPipe;
     public Sprite InputConnectionHighlight;
     public Sprite OutputConnectionHighlight;
@@ -60,6 +61,7 @@ public class Building : StaticBody2D
         PylonBlueprint = ResourceLoader.Load<Blueprint>("res://Assets/Buildings/Pylon.tres");
 
         AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+        SpriteAnimationPlayer = GetNode<AnimationPlayer>("Sprite/AnimationPlayer");
         Pipes = GetTree().CurrentScene.GetNode<Node2D>("Planet/Pipes");
         BuildingUI = GetTree().CurrentScene.GetNode<Node2D>("Planet/BuildingUI");
         InputConnectionHighlight = GetNode<Sprite>("Highlights/InputConnection");
