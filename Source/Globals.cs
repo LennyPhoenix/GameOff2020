@@ -1,4 +1,5 @@
 ﻿using Godot;
+using Godot.Collections;
 
 public enum Ore
 {
@@ -39,6 +40,15 @@ public class Globals
 	public static Building LastBuilding;
 
 	public static Core Core;
+
+    public static Dictionary<Ore, Item> OreToItem = new Dictionary<Ore, Item>()
+    {
+		{ Ore.Stone, Item.Stone },
+		{ Ore.Copper, Item.Copper },
+		{ Ore.Iron, Item.Iron },
+		{ Ore.Titanium, Item.Titanium },
+	};
+
 
 	public static void Reset()
     {

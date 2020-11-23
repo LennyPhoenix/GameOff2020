@@ -90,7 +90,7 @@ Recipes = [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ) ]
 texture = ExtResource( 5 )
 vframes = 4
 hframes = 4
-frame = 8
+frame = 12
 
 [node name="AnimationPlayer" parent="Sprite" index="0"]
 autoplay = "Off"

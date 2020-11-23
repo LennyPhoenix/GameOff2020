@@ -43,7 +43,7 @@ public class Drill : Building
 
             var miningItem = (StorageItem)StorageItemScene.Instance();
             MiningGridContainer.AddChild(miningItem);
-            miningItem.ItemType = (Item)ore;
+            miningItem.ItemType = Globals.OreToItem[ore];
             miningItem.CountFloat = Ores[ore] * MiningAmount;
 
             MiningItems.Add(ore, miningItem);
@@ -63,12 +63,12 @@ public class Drill : Building
 
         foreach (Ore ore in Ores.Keys)
         {
-            var item = (Item)ore;
-
             minedCounters[ore] += MiningAmount * Ores[ore];
 
             int count = Mathf.FloorToInt(minedCounters[ore]);
             minedCounters[ore] %= 1;
+
+            var item = Globals.OreToItem[ore];
 
             Items[item] += count;
             Items[item] = Mathf.Min(Items[item], MaxStorage[item]);
@@ -89,7 +89,7 @@ public class Drill : Building
                 int oreId = OreTiles.GetCell(x + Mathf.FloorToInt(topLeft.x), y + Mathf.FloorToInt(topLeft.y));
                 var ore = (Ore)oreId;
 
-                if (oreId != -1 && MaxStorage.ContainsKey((Item)ore))
+                if (oreId != -1 && MaxStorage.ContainsKey(Globals.OreToItem[ore]))
                 {
                     if (!ores.ContainsKey(ore))
                     {

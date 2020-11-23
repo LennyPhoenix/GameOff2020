@@ -11,7 +11,6 @@ BuildTexture = ExtResource( 2 )
 Scene = ExtResource( 3 )
 Size = Vector2( 1, 1 )
 Cost = {
-0: 5,
-1: 10
+0: 8
 }
 Description = "Can have a large amount of connections at once."
