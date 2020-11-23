@@ -165,6 +165,9 @@ public class Minimap : MarginContainer
                         case 3: // Titanium
                             color = new Color("7084c4");
                             break;
+                        case 4: // Coal
+                            color = new Color("202020");
+                            break;
                         default:
                             color = new Color("cccccc");
                             break;
@@ -172,7 +175,7 @@ public class Minimap : MarginContainer
                 }
                 else
                 {
-                    color = new Color("101010");
+                    color = new Color("000000");
                 }
 
                 image.SetPixel(x + planet.PerimeterSize, y + planet.PerimeterSize, color);

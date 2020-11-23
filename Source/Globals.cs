@@ -7,6 +7,7 @@ public enum Ore
 	Copper,
 	Iron,
 	Titanium,
+	Coal,
 }
 
 public enum MinimapIconType
@@ -26,6 +27,7 @@ public enum Item
 	CopperBar,
 	IronBar,
 	TitaniumBar,
+	Coal,
 }
 
 public class Globals
@@ -47,6 +49,7 @@ public class Globals
 		{ Ore.Copper, Item.Copper },
 		{ Ore.Iron, Item.Iron },
 		{ Ore.Titanium, Item.Titanium },
+		{ Ore.Coal, Item.Coal },
 	};
 
 

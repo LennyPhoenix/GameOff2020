@@ -11,6 +11,7 @@ BuildTexture = ExtResource( 2 )
 Scene = ExtResource( 3 )
 Size = Vector2( 3, 3 )
 Cost = {
-0: 40
+0: 20,
+7: 15
 }
-Description = "Can smelt ores into bars."
+Description = "Can smelt ores with coal into bars."

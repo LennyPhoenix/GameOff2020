@@ -5,7 +5,8 @@
 [resource]
 script = ExtResource( 1 )
 Costs = {
-2: 10
+2: 10,
+7: 2
 }
 Produces = {
 5: 5
