@@ -89,7 +89,6 @@ tracks/0/keys = {
 }
 
 [node name="Pipe" type="Sprite"]
-light_mask = 8
 texture = ExtResource( 1 )
 centered = false
 offset = Vector2( 0, -4 )
