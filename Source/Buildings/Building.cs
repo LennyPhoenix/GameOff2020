@@ -331,11 +331,6 @@ public class Building : StaticBody2D
 
     public void RemoveOutput(Building building)
     {
-        if (Deleting)
-        {
-            return;
-        }
-
         Pipe pipe = OutputPipes[building];
         pipe.PlayDelete();
         OutputPipes.Remove(building);
