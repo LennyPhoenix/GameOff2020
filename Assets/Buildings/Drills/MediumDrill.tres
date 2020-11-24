@@ -12,7 +12,7 @@ Scene = ExtResource( 3 )
 Size = Vector2( 4, 4 )
 Radius = 0.0
 Cost = {
-0: 40,
-4: 15
+0: 60,
+4: 25
 }
 Description = "Can mine stone, copper and iron."
