@@ -13,6 +13,8 @@ public class Gun : Sprite
 
     public Timer Timer;
 
+    private bool shooting = false;
+
     public override void _Ready()
     {
         base._Ready();
@@ -26,7 +28,12 @@ public class Gun : Sprite
 
         if (@event.IsActionPressed("shoot") && Timer.IsStopped() && Globals.HoveringBuilding == null && !Globals.BuildManager.Enabled)
         {
+            shooting = true;
             Shoot();
+        }
+        else if (@event.IsActionReleased("shoot"))
+        {
+            shooting = false;
         }
     }
 
@@ -39,7 +46,7 @@ public class Gun : Sprite
             return;
         }
 
-        if (Input.IsActionPressed("shoot") && Timer.IsStopped() && Globals.DraggingBuilding == null && !Globals.BuildManager.Enabled)
+        if (shooting && Timer.IsStopped() && Globals.DraggingBuilding == null && !Globals.BuildManager.Enabled)
         {
             Shoot();
         }
@@ -47,6 +54,15 @@ public class Gun : Sprite
 
     public virtual void Shoot()
     {
+        GetTree().CallGroup(
+            "ShakeCamera", "Shake",
+            ShakeDuration,
+            ShakeFrequency,
+            ShakeAmplitude
+        );
+
+        Timer.Start(ShotCooldown);
+
         EmitSignal("Fired");
     }
 }

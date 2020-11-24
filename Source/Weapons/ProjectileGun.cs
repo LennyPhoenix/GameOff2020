@@ -15,15 +15,6 @@ public class ProjectileGun : Gun
     {
         ProjectileEmitter.Emit();
 
-        GetTree().CallGroup(
-            "ShakeCamera", "Shake",
-            ShakeDuration,
-            ShakeFrequency,
-            ShakeAmplitude
-        );
-
-        Timer.Start(ShotCooldown);
-
         base.Shoot();
     }
 }
