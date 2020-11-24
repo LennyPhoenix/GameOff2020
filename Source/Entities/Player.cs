@@ -1,51 +1,17 @@
 using Godot;
 
-public class Player : KinematicBody2D
+public class Player : Entity
 {
-    // State Machine
-    public enum State
-    {
-        Spawning,
-        Idle,
-        Move,
-        Sprint,
-    }
-    public State CurrentState;
-
     // Movement
-    [Export] public float Acceleration = 500f;
-    [Export] public float MaxSpeed = 60f;
-    [Export] public float SprintMult = 3f;
-    [Export] public float Friction = 400f;
     [Export] public float CameraForwardMult = 30f;
 
-    public float Drag;
-    public Vector2 Velocity = Vector2.Zero;
-    public Vector2 InputVec = Vector2.Zero;
-
-    // Rotation
-    [Export] public float RotationSpeed = 5f;
-    [Export] public float RotationTimerStart = 0.3f;
-
-    public float RotationStart = 0f;
-    public float RotationEnd = 0f;
-    public float RotationTimer;
-
-    public Node2D RotateGroup;
     public ShakeCamera2D Camera;
-    public AnimationPlayer AnimationPlayer;
 
     public override void _Ready()
     {
         base._Ready();
-
-        CurrentState = State.Spawning;
-
-        RotationTimer = RotationTimerStart;
         
-        RotateGroup = GetNode<Node2D>("Rotate");
         Camera = GetNode<ShakeCamera2D>("Camera");
-        AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
     }
 
     public override void _Process(float delta)
@@ -53,31 +19,16 @@ public class Player : KinematicBody2D
         base._Process(delta);
 
         // Get Input
-        InputVec = Vector2.Zero;
-        InputVec.x += Input.GetActionStrength("right");
-        InputVec.x -= Input.GetActionStrength("left");
-        InputVec.y += Input.GetActionStrength("down");
-        InputVec.y -= Input.GetActionStrength("up");
-        InputVec = InputVec.Normalized();
+        MoveVec = Vector2.Zero;
+        MoveVec.x += Input.GetActionStrength("right");
+        MoveVec.x -= Input.GetActionStrength("left");
+        MoveVec.y += Input.GetActionStrength("down");
+        MoveVec.y -= Input.GetActionStrength("up");
+        MoveVec = MoveVec.Normalized();
 
         // Rotate To Mouse
         float target = GetGlobalMousePosition().AngleToPoint(RotateGroup.GlobalPosition);
-
-        if (target != RotationEnd)
-        {
-            RotationStart = RotateGroup.GlobalRotation;
-            RotationEnd = target;
-            RotationTimer = RotationTimerStart;
-        }
-
-        if (RotateGroup.GlobalRotation != RotationEnd)
-        {
-            RotateGroup.GlobalRotation = Mathf.LerpAngle(RotateGroup.GlobalRotation, RotationEnd, RotationTimer);
-
-            RotationTimer += delta * RotationSpeed;
-
-            RotationTimer = Mathf.Min(RotationTimer, 1f);
-        }
+        Rotate(delta, target);
 
         switch (CurrentState)
         {
@@ -93,7 +44,7 @@ public class Player : KinematicBody2D
                 AnimationPlayer.Play("Move");
 
                 // Offset Camera
-                Camera.Position = InputVec * CameraForwardMult;
+                Camera.Position = MoveVec * CameraForwardMult;
 
                 break;
 
@@ -101,16 +52,16 @@ public class Player : KinematicBody2D
                 AnimationPlayer.Play("Sprint");
 
                 // Offset Camera
-                Camera.Position = InputVec * CameraForwardMult * SprintMult;
+                Camera.Position = MoveVec * CameraForwardMult * SprintMult;
 
                 break;
         }
 
-        Vector2 rotationalVec = InputVec;
+        Vector2 rotationalVec = MoveVec;
         rotationalVec.y *= -1;
         rotationalVec = rotationalVec.Rotated(target);
 
-        if (InputVec == Vector2.Zero)
+        if (MoveVec == Vector2.Zero)
         {
             CurrentState = State.Idle;
         }
@@ -121,43 +72,6 @@ public class Player : KinematicBody2D
         else
         {
             CurrentState = State.Move;
-        }
-    }
-
-    public override void _PhysicsProcess(float delta)
-    {
-        base._PhysicsProcess(delta);
-
-        switch (CurrentState)
-        {
-            case State.Spawning:
-                return;
-
-            case State.Idle:
-                Velocity = Velocity.MoveToward(Vector2.Zero, Friction * delta);
-
-                break;
-
-            case State.Move:
-                Velocity = Velocity.MoveToward(InputVec * MaxSpeed, Acceleration * delta);
-
-                break;
-
-            case State.Sprint:
-                Velocity = Velocity.MoveToward(InputVec * MaxSpeed * SprintMult, Acceleration * SprintMult * delta);
-
-                break;
-
-        }
-
-        Velocity = MoveAndSlide(Velocity);
-    }
-
-    public void _OnAnimationFinished(string animName)
-    {
-        if (animName == "Spawn")
-        {
-            CurrentState = State.Idle;
         }
     }
 }
