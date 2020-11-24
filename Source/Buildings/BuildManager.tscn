@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Source/Scanlines.shader" type="Shader" id=1]
 [ext_resource path="res://Source/Buildings/BuildManager.cs" type="Script" id=2]
@@ -12,6 +12,8 @@
 [ext_resource path="res://Source/UI/BuildMenu/BuildMenuItem.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Assets/Buildings/Storage.tres" type="Resource" id=11]
 [ext_resource path="res://Assets/Buildings/Factories/Smelter.tres" type="Resource" id=12]
+[ext_resource path="res://Assets/Buildings/Turrets/RockLauncher.tres" type="Resource" id=13]
+[ext_resource path="res://Source/UI/Building/CircleRenderer.tscn" type="PackedScene" id=14]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Obstructed"
@@ -176,7 +178,8 @@ script = ExtResource( 2 )
 Blueprints = {
 "Drills": [ ExtResource( 7 ), ExtResource( 6 ), ExtResource( 8 ) ],
 "Factories": [ ExtResource( 12 ) ],
-"Intermediary": [ ExtResource( 9 ), ExtResource( 11 ) ]
+"Intermediary": [ ExtResource( 9 ), ExtResource( 11 ) ],
+"Turrets": [ ExtResource( 13 ) ]
 }
 MenuItemScene = ExtResource( 10 )
 
@@ -189,6 +192,9 @@ anims/Placeable = SubResource( 2 )
 visible = false
 modulate = Color( 1, 0.54902, 0.54902, 0.784314 )
 material = SubResource( 3 )
+
+[node name="CircleRenderer" parent="Sprite" instance=ExtResource( 14 )]
+modulate = Color( 1, 0.65625, 0, 0.25098 )
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 

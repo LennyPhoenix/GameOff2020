@@ -1,0 +1,48 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Source/Buildings/Building.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Source/UI/Building/CircleRenderer.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Assets/UI/Unshaded.tres" type="Material" id=3]
+[ext_resource path="res://Source/Buildings/Turrets/Turret.cs" type="Script" id=4]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 128.0
+
+[node name="Turret" instance=ExtResource( 1 )]
+script = ExtResource( 4 )
+MaxStorage = {
+
+}
+Outputs = {
+
+}
+RotationSpeed = 1.0
+RotationTimerStart = 0.3
+
+[node name="ShootTimer" type="Timer" parent="." index="0"]
+wait_time = 0.25
+
+[node name="TargetArea" type="Area2D" parent="." index="3"]
+visible = false
+monitorable = false
+collision_layer = 0
+collision_mask = 4
+
+[node name="CircleRenderer" parent="TargetArea" index="0" instance=ExtResource( 2 )]
+modulate = Color( 1, 0.843137, 0, 0.12549 )
+Radius = 128.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TargetArea" index="1"]
+material = ExtResource( 3 )
+shape = SubResource( 1 )
+
+[node name="Rotate" type="Node2D" parent="." index="7"]
+
+[node name="Top" type="Sprite" parent="Rotate" index="0"]
+light_mask = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Rotate/Top" index="0"]
+
+[node name="Warning" parent="." index="8"]
+modulate = Color( 1, 1, 1, 0.501961 )
+[connection signal="timeout" from="ShootTimer" to="." method="_OnTimeout"]

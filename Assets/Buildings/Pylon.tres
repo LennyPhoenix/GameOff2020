@@ -10,6 +10,7 @@ script = ExtResource( 1 )
 BuildTexture = ExtResource( 2 )
 Scene = ExtResource( 3 )
 Size = Vector2( 1, 1 )
+Radius = 0.0
 Cost = {
 0: 8
 }

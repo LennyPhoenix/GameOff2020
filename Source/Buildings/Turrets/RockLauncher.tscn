@@ -1,0 +1,96 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Source/Buildings/Turrets/Turret.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Assets/Buildings/Turrets/RockLauncher.png" type="Texture" id=2]
+[ext_resource path="res://Source/Buildings/Turrets/ProjectileTurret.cs" type="Script" id=3]
+[ext_resource path="res://Source/Projectiles/ProjectileEmitter.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Source/Projectiles/Bullet.tscn" type="PackedScene" id=5]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 16, 16 )
+
+[sub_resource type="OccluderPolygon2D" id=2]
+polygon = PoolVector2Array( -15, -16, 15, -16, 15, -15, 16, -15, 16, 15, 15, 15, 15, 16, -15, 16, -15, 15, -16, 15, -16, -15, -15, -15 )
+
+[sub_resource type="Animation" id=3]
+length = 0.3
+step = 0.025
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.025, 0.1, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( -5, 0 ), Vector2( -3, 0 ), Vector2( 0, 0 ) ]
+}
+
+[node name="RockLauncher" instance=ExtResource( 1 )]
+script = ExtResource( 3 )
+MaxStorage = {
+0: 25
+}
+Outputs = {
+
+}
+MaxInput = 1
+MaxOutput = 0
+Uses = {
+0: 1
+}
+ProjectileEmitters = [ NodePath("Rotate/Top/TopEmitter"), NodePath("Rotate/Top/BottomEmitter") ]
+
+[node name="Sprite" parent="." index="4"]
+texture = ExtResource( 2 )
+vframes = 2
+
+[node name="CollisionShape2D" parent="." index="5"]
+shape = SubResource( 1 )
+
+[node name="LightOccluder2D" parent="." index="6"]
+occluder = SubResource( 2 )
+
+[node name="Top" parent="Rotate" index="0"]
+texture = ExtResource( 2 )
+vframes = 2
+frame = 1
+
+[node name="AnimationPlayer" parent="Rotate/Top" index="0"]
+anims/Shoot = SubResource( 3 )
+
+[node name="TopEmitter" parent="Rotate/Top" index="1" instance=ExtResource( 4 )]
+position = Vector2( 13.5, -4.5 )
+Projectile = ExtResource( 5 )
+AccuracySteps = 5
+
+[node name="BottomEmitter" parent="Rotate/Top" index="2" instance=ExtResource( 4 )]
+position = Vector2( 13.5, 4.5 )
+Projectile = ExtResource( 5 )
+AccuracySteps = 5
+
+[node name="Warning" parent="." index="8"]
+scale = Vector2( 2, 2 )
+
+[node name="InputConnection" parent="Highlights" index="0"]
+scale = Vector2( 2, 2 )
+
+[node name="OutputConnection" parent="Highlights" index="1"]
+scale = Vector2( 2, 2 )
+
+[node name="UI" parent="." index="10"]
+visible = true
+
+[node name="StorageContainer" parent="UI" index="1"]
+margin_left = 16.0
+margin_top = -16.0
+margin_right = 34.0
+margin_bottom = 2.0
+
+[node name="ConnectionContainer" parent="UI" index="2"]
+margin_left = -38.0
+margin_top = -16.0
+margin_right = -16.0
+margin_bottom = 2.0

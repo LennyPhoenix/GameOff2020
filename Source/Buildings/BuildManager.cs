@@ -19,6 +19,7 @@ public class BuildManager : Area2D
 			if (value == null)
 			{
 				Sprite.Texture = null;
+				CircleRenderer.Radius = 0f;
                 var rect = new RectangleShape2D
                 {
                     Extents = Vector2.Zero
@@ -28,7 +29,8 @@ public class BuildManager : Area2D
 			else
 			{
 				Sprite.Texture = value.BuildTexture;
-                var rect = new RectangleShape2D
+				CircleRenderer.Radius = Blueprint.Radius;
+				var rect = new RectangleShape2D
                 {
                     Extents = value.Size * Globals.TileSize / 2 - new Vector2(1, 1)
                 };
@@ -63,6 +65,7 @@ public class BuildManager : Area2D
 
 	public AnimationPlayer AnimationPlayer;
 	public Sprite Sprite;
+	public CircleRenderer CircleRenderer;
 	public Sprite DeconstructSprite;
 	public AnimationPlayer DeconstructAnimationPlayer;
 	public CollisionShape2D Collider;
@@ -89,6 +92,7 @@ public class BuildManager : Area2D
 
 		AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 		Sprite = GetNode<Sprite>("Sprite");
+		CircleRenderer = GetNode<CircleRenderer>("Sprite/CircleRenderer");
 		DeconstructSprite = GetNode<Sprite>("DeconstructSprite");
 		DeconstructAnimationPlayer = GetNode<AnimationPlayer>("DeconstructSprite/AnimationPlayer");
 		Collider = GetNode<CollisionShape2D>("Collider");
@@ -103,7 +107,8 @@ public class BuildManager : Area2D
 		if (Blueprint == null)
 		{
 			Sprite.Texture = null;
-            var rect = new RectangleShape2D
+			CircleRenderer.Radius = 0f;
+			var rect = new RectangleShape2D
             {
                 Extents = Vector2.Zero
             };
@@ -112,6 +117,7 @@ public class BuildManager : Area2D
 		else
 		{
 			Sprite.Texture = Blueprint.BuildTexture;
+			CircleRenderer.Radius = Blueprint.Radius;
             var rect = new RectangleShape2D
             {
                 Extents = Blueprint.Size * Globals.TileSize / 2 - new Vector2(1, 1)
