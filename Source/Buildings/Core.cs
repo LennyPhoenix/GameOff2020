@@ -18,7 +18,7 @@ public class Core : GenericCarrier
     {
         base._Ready();
 
-        Items[Item.Stone] = 150;
+        Items[Item.Stone] = 196;
     }
 
     public override void Tick()

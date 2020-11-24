@@ -62,12 +62,12 @@ frame = 1
 anims/Shoot = SubResource( 3 )
 
 [node name="TopEmitter" parent="Rotate/Top" index="1" instance=ExtResource( 4 )]
-position = Vector2( 13.5, -4.5 )
+position = Vector2( 13.5, -4 )
 Projectile = ExtResource( 5 )
 AccuracySteps = 5
 
 [node name="BottomEmitter" parent="Rotate/Top" index="2" instance=ExtResource( 4 )]
-position = Vector2( 13.5, 4.5 )
+position = Vector2( 13.5, 4 )
 Projectile = ExtResource( 5 )
 AccuracySteps = 5
 
