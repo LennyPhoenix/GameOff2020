@@ -363,12 +363,14 @@ public class Building : StaticBody2D
             DraggingPipe.QueueFree();
         }
 
-        foreach (Building output in OutputBuildings)
+        Array<Building> outputCopy = OutputBuildings;
+        foreach (Building output in outputCopy)
         {
             RemoveOutput(output);
         }
 
-        foreach (Building input in InputBuildings)
+        Array<Building> inputCopy = InputBuildings;
+        foreach (Building input in inputCopy)
         {
             input.RemoveOutput(this);
         }
