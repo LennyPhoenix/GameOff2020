@@ -20,6 +20,7 @@ Outputs = {
 }
 MaxInput = 10
 MaxOutput = 10
+CanStore = 5
 
 [node name="Sprite" parent="." index="2"]
 texture = ExtResource( 2 )
