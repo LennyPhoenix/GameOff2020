@@ -26,6 +26,13 @@ public class Drill : Building
 
         Ores = GetOres();
 
+        int coverage = 0;
+        foreach (Ore ore in Ores.Keys)
+        {
+            coverage += Ores[ore];
+        }
+        SpriteAnimationPlayer.PlaybackSpeed = coverage / Mathf.Pow(Size, 2);
+
         if (Ores.Count == 0)
         {
             WarningSprite.Visible = true;
