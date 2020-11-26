@@ -1,6 +1,14 @@
 ﻿using Godot;
 using Godot.Collections;
 
+public enum MinimapIconType
+{
+	Turret,
+	Drill,
+	Core,
+	Enemy,
+}
+
 public enum Ore
 {
 	Stone,
@@ -8,14 +16,7 @@ public enum Ore
 	Iron,
 	Titanium,
 	Coal,
-}
-
-public enum MinimapIconType
-{
-	Turret,
-	Drill,
-	Core,
-	Enemy,
+	Blastium,
 }
 
 public enum Item
@@ -28,6 +29,8 @@ public enum Item
 	IronBar,
 	TitaniumBar,
 	Coal,
+	Blastium,
+	BlastiumCell,
 }
 
 public class Globals
@@ -50,6 +53,7 @@ public class Globals
 		{ Ore.Iron, Item.Iron },
 		{ Ore.Titanium, Item.Titanium },
 		{ Ore.Coal, Item.Coal },
+		{ Ore.Blastium, Item.Blastium },
 	};
 
 

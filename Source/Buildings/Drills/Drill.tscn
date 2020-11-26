@@ -5,7 +5,9 @@
 [ext_resource path="res://Source/Buildings/Drills/Drill.cs" type="Script" id=3]
 [ext_resource path="res://Assets/UI/Building/Building.tres" type="StyleBox" id=4]
 
-[node name="Drill" instance=ExtResource( 2 )]
+[node name="Drill" groups=[
+"EnemyTarget",
+] instance=ExtResource( 2 )]
 script = ExtResource( 3 )
 MaxStorage = {
 
@@ -19,9 +21,6 @@ MaxInput = 0
 IconType = 1
 Root = NodePath("../Sprite")
 HideOutsideMap = false
-
-[node name="UI" parent="." index="8"]
-visible = true
 
 [node name="MiningContainer" type="PanelContainer" parent="UI" index="3"]
 margin_left = -26.0

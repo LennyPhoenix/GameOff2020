@@ -153,20 +153,23 @@ public class Minimap : MarginContainer
                 {
                     switch (ore.GetCell(x, y))
                     {
-                        case 0: // Stone
+                        case (int)Ore.Stone:
                             color = new Color("626262");
                             break;
-                        case 1: // Copper
+                        case (int)Ore.Copper:
                             color = new Color("c67a31");
                             break;
-                        case 2: // Iron
+                        case (int)Ore.Iron:
                             color = new Color("423444");
                             break;
-                        case 3: // Titanium
+                        case (int)Ore.Titanium:
                             color = new Color("7084c4");
                             break;
-                        case 4: // Coal
+                        case (int)Ore.Coal:
                             color = new Color("202020");
+                            break;
+                        case (int)Ore.Blastium:
+                            color = new Color("dd00f7");
                             break;
                         default:
                             color = new Color("cccccc");
