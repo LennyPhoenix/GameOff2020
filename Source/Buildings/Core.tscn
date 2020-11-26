@@ -6,13 +6,14 @@
 [ext_resource path="res://Assets/Lights/spot.png" type="Texture" id=4]
 [ext_resource path="res://Source/Buildings/Core.cs" type="Script" id=5]
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 40, 40 )
 
-[sub_resource type="OccluderPolygon2D" id=3]
+[sub_resource type="OccluderPolygon2D" id=2]
 polygon = PoolVector2Array( -40, -39, -39, -39, -39, -40, 39, -40, 39, -39, 40, -39, 40, 39, 39, 39, 39, 40, -39, 40, -39, 39, -40, 39 )
 
 [node name="Core" groups=[
+"EnemySpawnTarget",
 "EnemyTarget",
 ] instance=ExtResource( 1 )]
 script = ExtResource( 5 )
@@ -33,16 +34,13 @@ HideOutsideMap = false
 AdditionalOffsetPaths = [ NodePath("../Sprite"), NodePath("../LightOccluder2D"), NodePath("../Light2D"), NodePath("../CollisionShape2D") ]
 
 [node name="Sprite" parent="." index="3"]
-modulate = Color( 1, 1, 1, 0 )
-rotation = -0.523599
-scale = Vector2( 3, 3 )
 texture = ExtResource( 3 )
 
 [node name="CollisionShape2D" parent="." index="4"]
-shape = SubResource( 2 )
+shape = SubResource( 1 )
 
 [node name="LightOccluder2D" parent="." index="5"]
-occluder = SubResource( 3 )
+occluder = SubResource( 2 )
 
 [node name="Light2D" type="Light2D" parent="." index="6"]
 texture = ExtResource( 4 )
