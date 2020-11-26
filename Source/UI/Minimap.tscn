@@ -67,6 +67,7 @@ position = Vector2( 65, 65 )
 visible = false
 light_mask = 0
 position = Vector2( 65, 65 )
+scale = Vector2( 0.75, 0.75 )
 texture = ExtResource( 4 )
 
 [node name="CoreMarker" type="Sprite" parent="MarginContainer/Markers"]
@@ -79,12 +80,14 @@ texture = ExtResource( 2 )
 visible = false
 light_mask = 0
 position = Vector2( 65, 65 )
+scale = Vector2( 0.75, 0.75 )
 texture = ExtResource( 3 )
 
 [node name="TurretMarker" type="Sprite" parent="MarginContainer/Markers"]
 visible = false
 light_mask = 0
 position = Vector2( 65, 65 )
+scale = Vector2( 0.75, 0.75 )
 texture = ExtResource( 6 )
 
 [node name="PlayerMarker" type="Sprite" parent="MarginContainer"]
