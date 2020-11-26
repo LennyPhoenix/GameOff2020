@@ -1,12 +1,18 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moonshot", "Moonshot.csproj", "{735E2ACB-873C-4291-884F-288111F9DF96}"
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30621.155
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Moonshot", "Moonshot.csproj", "{735E2ACB-873C-4291-884F-288111F9DF96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProxyProject", "ProxyProject\ProxyProject.csproj", "{1BB0A772-EB66-42BB-80E5-5FFFF203477B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-	Debug|Any CPU = Debug|Any CPU
-	ExportDebug|Any CPU = ExportDebug|Any CPU
-	ExportRelease|Any CPU = ExportRelease|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		ExportDebug|Any CPU = ExportDebug|Any CPU
+		ExportRelease|Any CPU = ExportRelease|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{735E2ACB-873C-4291-884F-288111F9DF96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -15,5 +21,21 @@ Global
 		{735E2ACB-873C-4291-884F-288111F9DF96}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
 		{735E2ACB-873C-4291-884F-288111F9DF96}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
 		{735E2ACB-873C-4291-884F-288111F9DF96}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{735E2ACB-873C-4291-884F-288111F9DF96}.Release|Any CPU.ActiveCfg = ExportRelease|Any CPU
+		{735E2ACB-873C-4291-884F-288111F9DF96}.Release|Any CPU.Build.0 = ExportRelease|Any CPU
+		{1BB0A772-EB66-42BB-80E5-5FFFF203477B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BB0A772-EB66-42BB-80E5-5FFFF203477B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BB0A772-EB66-42BB-80E5-5FFFF203477B}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BB0A772-EB66-42BB-80E5-5FFFF203477B}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{1BB0A772-EB66-42BB-80E5-5FFFF203477B}.ExportRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{1BB0A772-EB66-42BB-80E5-5FFFF203477B}.ExportRelease|Any CPU.Build.0 = Release|Any CPU
+		{1BB0A772-EB66-42BB-80E5-5FFFF203477B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BB0A772-EB66-42BB-80E5-5FFFF203477B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B1C96B8A-0A24-43C6-8D8C-E77DC9FE77C3}
 	EndGlobalSection
 EndGlobal
