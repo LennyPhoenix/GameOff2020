@@ -15,4 +15,4 @@ Cost = {
 4: 35,
 5: 45
 }
-Description = "Can mine all ores."
+Description = "Can mine everything but blastium."

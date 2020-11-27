@@ -14,4 +14,4 @@ Radius = 0.0
 Cost = {
 0: 50
 }
-Description = "Can mine stone and copper."
+Description = "Can mine stone, copper and coal."
