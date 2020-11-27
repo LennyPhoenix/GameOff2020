@@ -1,0 +1,48 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Source/Entities/Entity.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Source/Entities/Enemies/Enemy.cs" type="Script" id=2]
+[ext_resource path="res://Source/Projectiles/ProjectileEmitter.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Source/UI/MinimapIcons.tscn" type="PackedScene" id=4]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 256.0
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 64.0
+
+[node name="Enemy" groups=[
+"Enemies",
+] instance=ExtResource( 1 )]
+collision_layer = 4
+script = ExtResource( 2 )
+MaxSpeed = 50.0
+SprintMult = 2.0
+
+[node name="ShootTimer" type="Timer" parent="." index="0"]
+wait_time = 0.4
+
+[node name="MinimapIcons" parent="." index="1" instance=ExtResource( 4 )]
+IconType = 3
+Root = NodePath("../Rotate")
+HideOutsideMap = false
+
+[node name="MapWrapper" parent="." index="2"]
+AdditionalOffsetPaths = [ NodePath("../Lights"), NodePath("../Rotate") ]
+
+[node name="TargetArea" type="Area2D" parent="." index="4"]
+collision_layer = 0
+collision_mask = 2147483682
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TargetArea" index="0"]
+shape = SubResource( 1 )
+
+[node name="PriorityTargetArea" type="Area2D" parent="." index="5"]
+collision_layer = 0
+collision_mask = 2147483680
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PriorityTargetArea" index="0"]
+shape = SubResource( 2 )
+
+[node name="ProjectileEmitter" parent="Rotate" index="1" instance=ExtResource( 3 )]
+[connection signal="timeout" from="ShootTimer" to="." method="_OnTimeout"]

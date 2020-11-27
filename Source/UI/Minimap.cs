@@ -108,6 +108,7 @@ public class Minimap : MarginContainer
                 objPosition.y = Mathf.Clamp(objPosition.y, 0, Markers.RectSize.y);
 
                 marker.Position = objPosition;
+                marker.Rotation = iconNode.GetNode<Node2D>(iconNode.Root).GlobalRotation;
             }
             else
             {

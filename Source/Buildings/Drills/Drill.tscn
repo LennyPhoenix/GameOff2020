@@ -6,7 +6,7 @@
 [ext_resource path="res://Assets/UI/Building/Building.tres" type="StyleBox" id=4]
 
 [node name="Drill" groups=[
-"EnemyTarget",
+"EnemyTargets",
 ] instance=ExtResource( 2 )]
 script = ExtResource( 3 )
 MaxStorage = {

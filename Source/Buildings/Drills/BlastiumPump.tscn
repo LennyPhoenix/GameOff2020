@@ -28,7 +28,7 @@ extents = Vector2( 32, 32 )
 polygon = PoolVector2Array( -31, -32, 31, -32, 31, -31, 32, -31, 32, 31, 31, 31, 31, 32, -31, 32, -31, 31, -32, 31, -32, -31, -31, -31 )
 
 [node name="BlastiumPump" groups=[
-"EnemySpawnTarget",
+"EnemySpawnTargets",
 ] instance=ExtResource( 1 )]
 MaxStorage = {
 8: 40

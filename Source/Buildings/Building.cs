@@ -104,6 +104,8 @@ public class Building : StaticBody2D
         }
 
         Globals.LastBuilding = this;
+
+        GetTree().CallGroup("Enemies", "RecalculatePath");
     }
 
     public void _OnMouseEntered()
@@ -380,6 +382,8 @@ public class Building : StaticBody2D
         AnimationPlayer.Play("Delete");
 
         Deleting = true;
+
+        GetTree().CallGroup("Enemies", "RecalculatePath");
     }
 
     public virtual void Tick() {
