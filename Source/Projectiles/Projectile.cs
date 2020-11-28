@@ -3,7 +3,10 @@ using Godot;
 public class Projectile : Area2D
 {
     [Export] public Vector2 Velocity = new Vector2(500f, 0f);
+    [Export] public float RotationSpeed = 0f;
     [Export] public float Lifetime = 1.5f;
+
+    public Sprite Sprite;
 
     public Vector2 Move;
 
@@ -11,10 +14,19 @@ public class Projectile : Area2D
     {
         base._Ready();
 
+        Sprite = GetNode<Sprite>("Sprite");
+
         Move = Velocity.Rotated(GlobalRotation);
 
         Timer timer = GetNode<Timer>("Timer");
         timer.Start(Lifetime);
+    }
+
+    public override void _Process(float delta)
+    {
+        base._Process(delta);
+
+        Sprite.RotationDegrees += RotationSpeed * delta;
     }
 
     public override void _PhysicsProcess(float delta)

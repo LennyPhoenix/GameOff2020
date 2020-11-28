@@ -4,7 +4,6 @@
 [ext_resource path="res://Source/Weapons/ProjectileGun.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Assets/Weapons/AR.png" type="Texture" id=3]
 
-
 [node name="AR" instance=ExtResource( 2 )]
 position = Vector2( 1, 8 )
 texture = ExtResource( 3 )
@@ -13,6 +12,6 @@ Automatic = true
 [node name="ProjectileEmitter" parent="." index="1"]
 position = Vector2( 4.5, -0.5 )
 Projectile = ExtResource( 1 )
-AccuracySteps = 5
-VelocityModifier = 25
 AccuracyAngle = 2
+VelocityModifier = 25
+AccuracySteps = 5

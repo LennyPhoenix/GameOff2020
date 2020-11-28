@@ -8,6 +8,7 @@ public class ProjectileEmitter : Node2D
     [Export] public int AccuracySteps = 2;
     [Export] public int ShotCount = 1;
     [Export] public int VelocityModifier = 0;
+    [Export] public int RotationModifier = 0;
 
     public Node2D Projectiles;
 
@@ -44,6 +45,7 @@ public class ProjectileEmitter : Node2D
             proj.GlobalRotation = GlobalRotation + Mathf.Deg2Rad(accuracyModifier);
 
             proj.Velocity.x += (float)GD.RandRange(-VelocityModifier, VelocityModifier);
+            proj.RotationSpeed += (float)GD.RandRange(-RotationModifier, RotationModifier);
 
             Projectiles.AddChild(proj);
         }

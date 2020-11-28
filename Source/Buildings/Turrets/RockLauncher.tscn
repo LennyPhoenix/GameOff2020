@@ -1,11 +1,13 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Source/Buildings/Turrets/Turret.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Buildings/Turrets/RockLauncher.png" type="Texture" id=2]
 [ext_resource path="res://Source/Buildings/Turrets/ProjectileTurret.cs" type="Script" id=3]
 [ext_resource path="res://Source/Projectiles/ProjectileEmitter.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Source/Projectiles/PlayerBullet.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Source/Projectiles/StoneProjectile.tscn" type="PackedScene" id=6]
 
+[sub_resource type="CircleShape2D" id=4]
+radius = 192.0
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 16 )
@@ -44,6 +46,12 @@ Uses = {
 }
 ProjectileEmitters = [ NodePath("Rotate/Top/TopEmitter"), NodePath("Rotate/Top/BottomEmitter") ]
 
+[node name="CircleRenderer" parent="TargetArea" index="0"]
+Radius = 192.0
+
+[node name="CollisionShape2D" parent="TargetArea" index="1"]
+shape = SubResource( 4 )
+
 [node name="Sprite" parent="." index="4"]
 texture = ExtResource( 2 )
 vframes = 2
@@ -64,13 +72,15 @@ anims/Shoot = SubResource( 3 )
 
 [node name="TopEmitter" parent="Rotate/Top" index="1" instance=ExtResource( 4 )]
 position = Vector2( 13.5, -4 )
-Projectile = ExtResource( 5 )
+Projectile = ExtResource( 6 )
 AccuracySteps = 5
+RotationModifier = 180
 
 [node name="BottomEmitter" parent="Rotate/Top" index="2" instance=ExtResource( 4 )]
 position = Vector2( 13.5, 4 )
-Projectile = ExtResource( 5 )
+Projectile = ExtResource( 6 )
 AccuracySteps = 5
+RotationModifier = 180
 
 [node name="Warning" parent="." index="8"]
 scale = Vector2( 2, 2 )

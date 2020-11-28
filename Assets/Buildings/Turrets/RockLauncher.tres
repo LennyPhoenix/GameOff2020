@@ -10,9 +10,9 @@ script = ExtResource( 1 )
 BuildTexture = ExtResource( 2 )
 Scene = ExtResource( 3 )
 Size = Vector2( 2, 2 )
-Radius = 128.0
+Radius = 192.0
 Cost = {
-0: 15,
-4: 30
+0: 0,
+4: 0
 }
 Description = "Very basic turret, fires stone as ammo."
