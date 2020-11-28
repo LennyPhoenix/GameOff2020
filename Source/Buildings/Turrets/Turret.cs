@@ -18,6 +18,11 @@ public class Turret : Building
     public Area2D TargetArea;
     public AnimationPlayer TopAnimationPlayer;
 
+    // Shake
+    [Export] public float ShakeDuration = .1f;
+    [Export] public float ShakeFrequency = 50f;
+    [Export] public float ShakeAmplitude = 0.5f;
+
     public override void _Ready()
     {
         ShootTimer = GetNode<Timer>("ShootTimer");
@@ -124,5 +129,12 @@ public class Turret : Building
     {
         TopAnimationPlayer.Play("Shoot");
         TopAnimationPlayer.Seek(0, true);
+
+        GetTree().CallGroup(
+            "ShakeCamera", "Shake",
+            ShakeDuration,
+            ShakeFrequency,
+            ShakeAmplitude
+        );
     }
 }

@@ -129,6 +129,13 @@ public class Enemy : Entity
     public void _OnTimeout()
     {
         ProjectileEmitter.Emit();
+
+        GetTree().CallGroup(
+            "ShakeCamera", "Shake",
+            0.15,
+            45,
+            0.75
+        );
     }
 
     public void RecalculatePath()

@@ -44,6 +44,8 @@ MaxOutput = 0
 Uses = {
 0: 1
 }
+ShakeDuration = 0.15
+ShakeAmplitude = 0.75
 ProjectileEmitters = [ NodePath("Rotate/Top/TopEmitter"), NodePath("Rotate/Top/BottomEmitter") ]
 
 [node name="CircleRenderer" parent="TargetArea" index="0"]
