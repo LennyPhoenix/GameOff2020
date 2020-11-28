@@ -5,6 +5,7 @@ public class Enemy : Entity
 {
     public Planet Planet;
     public Timer ShootTimer;
+    public Timer PathTimer;
     public Area2D TargetArea;
     public Area2D PriorityTargetArea;
     public ProjectileEmitter ProjectileEmitter;
@@ -20,6 +21,7 @@ public class Enemy : Entity
 
         Planet = GetTree().CurrentScene.GetNode<Planet>("Planet");
         ShootTimer = GetNode<Timer>("ShootTimer");
+        PathTimer = GetNode<Timer>("PathTimer");
         TargetArea = GetNode<Area2D>("TargetArea");
         PriorityTargetArea = GetNode<Area2D>("PriorityTargetArea");
 
@@ -139,6 +141,11 @@ public class Enemy : Entity
         );
     }
 
+    public void _OnPathTimerTimeout()
+    {
+        RecalculatePath();
+    }
+
     public void RecalculatePath()
     {
         Array targetBuildings = GetTree().GetNodesInGroup("EnemyTargets");
@@ -162,7 +169,11 @@ public class Enemy : Entity
         {
             if (calculatingPath)
             {
-                CallDeferred("RecalculatePath", this);
+                if (PathTimer.IsStopped())
+                {
+                    PathTimer.Start();
+                }
+                return;
             }
             else
             {
@@ -183,6 +194,11 @@ public class Enemy : Entity
         foreach (Vector2 point in newPath)
         {
             path.Add(point);
+        }
+
+        if (path.Count > 0)
+        {
+            path.RemoveAt(0);
         }
     }
 }

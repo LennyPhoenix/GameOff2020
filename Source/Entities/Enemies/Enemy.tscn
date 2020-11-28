@@ -17,27 +17,30 @@ radius = 64.0
 collision_layer = 4
 script = ExtResource( 2 )
 MaxSpeed = 50.0
-SprintMult = 2.0
 
 [node name="ShootTimer" type="Timer" parent="." index="0"]
 wait_time = 0.4
 
-[node name="MinimapIcons" parent="." index="1" instance=ExtResource( 4 )]
+[node name="PathTimer" type="Timer" parent="." index="1"]
+wait_time = 0.2
+one_shot = true
+
+[node name="MinimapIcons" parent="." index="2" instance=ExtResource( 4 )]
 IconType = 3
 Root = NodePath("../Rotate")
 HideOutsideMap = false
 
-[node name="MapWrapper" parent="." index="2"]
+[node name="MapWrapper" parent="." index="3"]
 AdditionalOffsetPaths = [ NodePath("../Lights"), NodePath("../Rotate") ]
 
-[node name="TargetArea" type="Area2D" parent="." index="4"]
+[node name="TargetArea" type="Area2D" parent="." index="5"]
 collision_layer = 0
 collision_mask = 2147483682
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TargetArea" index="0"]
 shape = SubResource( 1 )
 
-[node name="PriorityTargetArea" type="Area2D" parent="." index="5"]
+[node name="PriorityTargetArea" type="Area2D" parent="." index="6"]
 collision_layer = 0
 collision_mask = 2147483680
 
@@ -46,3 +49,4 @@ shape = SubResource( 2 )
 
 [node name="ProjectileEmitter" parent="Rotate" index="1" instance=ExtResource( 3 )]
 [connection signal="timeout" from="ShootTimer" to="." method="_OnTimeout"]
+[connection signal="timeout" from="PathTimer" to="." method="_OnPathTimerTimeout"]

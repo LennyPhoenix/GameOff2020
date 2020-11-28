@@ -36,6 +36,7 @@ public class Planet : Navigation2D
 	public Image WallNoiseImage;
 	public Array<Image> OreGenerationImages = new Array<Image>();
 
+	public Timer SpawningTimer;
 	public Area2D SpawnRadius;
 
 	public TileMap GroundTiles;
@@ -61,6 +62,7 @@ public class Planet : Navigation2D
 			return;
 		}
 
+		SpawningTimer = GetNode<Timer>("SpawningTimer");
 		SpawnRadius = GetNode<Area2D>("SpawnRadius");
 
 		GroundTiles = GetNode<TileMap>("Ground");
@@ -118,42 +120,43 @@ public class Planet : Navigation2D
 		GetTree().CallGroup("Buildings", "Tick");
 	}
 
-	public void _OnWaveTimerFinished()
-    {
-        int totalEnemies = 0;
-        int num = GetTree().GetNodesInGroup("EnemySpawnTargets").Count;
+	public async void _OnWaveTimerFinished()
+	{
+		int totalEnemies = 0;
+		int num = GetTree().GetNodesInGroup("EnemySpawnTargets").Count;
 
-        while (num > 0)
-        {
-            SpawnRadius.GlobalPosition = new Vector2()
-            {
-                x = (float)GD.RandRange(0, WorldSize) * Globals.TileSize,
-                y = (float)GD.RandRange(0, WorldSize) * Globals.TileSize
-            };
-			SpawnRadius.ForceUpdateTransform();
+		while (num > 0)
+		{
+			SpawnRadius.GlobalPosition = new Vector2()
+			{
+				x = (float)GD.RandRange(0, WorldSize) * Globals.TileSize,
+				y = (float)GD.RandRange(0, WorldSize) * Globals.TileSize
+			};
 
-            if (SpawnRadius.GetOverlappingBodies().Count == 0)
-            {
-                num--;
+			await ToSignal(SpawningTimer, "timeout");
 
-                for (int i = 0; i < Mathf.FloorToInt(WaveTimer.Wave / 2) + 1; i++)
-                {
-                    var enemy = (Enemy)EnemySmall.Instance();
-                    enemy.GlobalPosition = SpawnRadius.GlobalPosition + new Vector2(0, 64).Rotated(Mathf.Deg2Rad((float)GD.RandRange(0, 360)));
+			if (SpawnRadius.GetOverlappingBodies().Count == 0)
+			{
+				num--;
 
-                    GroundEntities.AddChild(enemy);
+				for (int i = 0; i < Mathf.FloorToInt(WaveTimer.Wave / 2) + 1; i++)
+				{
+					var enemy = (Enemy)EnemySmall.Instance();
+					enemy.GlobalPosition = SpawnRadius.GlobalPosition + new Vector2(0, 64).Rotated(Mathf.Deg2Rad((float)GD.RandRange(0, 360)));
+
+					GroundEntities.AddChild(enemy);
 					totalEnemies++;
-                }
-            }
+				}
+			}
 			else
-            {
+			{
 				Array overlapping = SpawnRadius.GetOverlappingBodies();
 				GD.Print(overlapping);
-            }
-        }
+			}
+		}
 
-        WaveTimer.EnemiesRemaining = totalEnemies;
-    }
+		WaveTimer.EnemiesRemaining = totalEnemies;
+	}
 
 	public void Generate()
 	{
