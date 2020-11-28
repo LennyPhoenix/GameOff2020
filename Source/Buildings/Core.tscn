@@ -23,6 +23,7 @@ MaxStorage = {
 Outputs = {
 
 }
+Size = 5
 CanStore = 500
 CanOutput = 3
 

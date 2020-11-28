@@ -41,6 +41,7 @@ Outputs = {
 }
 MaxInput = 1
 MaxOutput = 0
+Size = 2
 Uses = {
 0: 1
 }

@@ -12,6 +12,7 @@ public class Enemy : Entity
     private Building lastTarget;
     private Array<Vector2> path = new Array<Vector2>();
     private Thread pathThread = new Thread();
+    private bool calculatingPath = false;
 
     public override void _Ready()
     {
@@ -154,24 +155,31 @@ public class Enemy : Entity
                 closestDistance = dist;
             }
         }
+           
+        lastTarget = closest;
 
-        if (lastTarget != closest)
+        if (pathThread.IsActive())
         {
-            lastTarget = closest;
-
-            path = new Array<Vector2>();
-            if (pathThread.IsActive())
+            if (calculatingPath)
+            {
+                CallDeferred("RecalculatePath", this);
+            }
+            else
             {
                 pathThread.WaitToFinish();
             }
-            pathThread.Start(this, "PathThread");
         }
+
+        pathThread.Start(this, "PathThread");
     }
 
     public void PathThread(object userData)
     {
+        calculatingPath = true;
         Vector2[] newPath = Planet.GetSimplePath(GlobalPosition, lastTarget.GlobalPosition);
+        calculatingPath = false;
 
+        path = new Array<Vector2>();
         foreach (Vector2 point in newPath)
         {
             path.Add(point);

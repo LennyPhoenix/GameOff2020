@@ -39,6 +39,7 @@ public class Planet : Navigation2D
 	public Area2D SpawnRadius;
 
 	public TileMap GroundTiles;
+	public TileMap NavTiles;
 	public TileMap OreTiles;
 	public TileMap WallTiles;
 
@@ -63,6 +64,7 @@ public class Planet : Navigation2D
 		SpawnRadius = GetNode<Area2D>("SpawnRadius");
 
 		GroundTiles = GetNode<TileMap>("Ground");
+		NavTiles = GetNode<TileMap>("NavigationMap");
 		OreTiles = GetNode<TileMap>("Ore");
 		WallTiles = GetNode<TileMap>("Walls");
 
@@ -128,6 +130,7 @@ public class Planet : Navigation2D
                 x = (float)GD.RandRange(0, WorldSize) * Globals.TileSize,
                 y = (float)GD.RandRange(0, WorldSize) * Globals.TileSize
             };
+			SpawnRadius.ForceUpdateTransform();
 
             if (SpawnRadius.GetOverlappingBodies().Count == 0)
             {
@@ -161,6 +164,8 @@ public class Planet : Navigation2D
 		GroundNoiseImage = GroundNoise.GetSeamlessImage(WorldSize);
 		GroundNoiseImage.Lock();
 
+		NavTiles.Clear();
+
 		WallTiles.Clear();
 		WallNoise.Seed = (int)GD.Randi();
 		WallNoiseImage = WallNoise.GetSeamlessImage(WorldSize);
@@ -184,6 +189,7 @@ public class Planet : Navigation2D
 		var regionEnd = new Vector2(WorldSize + PerimeterSize, WorldSize + PerimeterSize);
 
 		GroundTiles.UpdateBitmaskRegion(regionStart, regionEnd);
+		NavTiles.UpdateBitmaskRegion(regionStart, regionEnd);
 		OreTiles.UpdateBitmaskRegion(regionStart, regionEnd);
 		WallTiles.UpdateBitmaskRegion(regionStart, regionEnd);
 
@@ -222,11 +228,13 @@ public class Planet : Navigation2D
 				if (wallId > -1 && midVec.DistanceTo(new Vector2(x, y)) > ClearRadius)
 				{
 					WallTiles.SetCell(x, y, wallId);
+					NavTiles.SetCell(x, y, -1);
 				}
 				else
 				{
 					int tileId = Mathf.FloorToInt(GroundNoiseImage.GetPixel(x, y).v * GroundTileRange);
 					GroundTiles.SetCell(x, y, tileId);
+					NavTiles.SetCell(x, y, 0);
 				}
 			}
 		}
@@ -263,6 +271,10 @@ public class Planet : Navigation2D
 				)
 				{
 					GroundTiles.SetCell(x, y, GroundTiles.GetCell(
+						(x + WorldSize * Mathf.CeilToInt((float)PerimeterSize / WorldSize)) % WorldSize,
+						(y + WorldSize * Mathf.CeilToInt((float)PerimeterSize / WorldSize)) % WorldSize
+					));
+					NavTiles.SetCell(x, y, NavTiles.GetCell(
 						(x + WorldSize * Mathf.CeilToInt((float)PerimeterSize / WorldSize)) % WorldSize,
 						(y + WorldSize * Mathf.CeilToInt((float)PerimeterSize / WorldSize)) % WorldSize
 					));

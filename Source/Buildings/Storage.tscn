@@ -20,6 +20,7 @@ Outputs = {
 }
 MaxInput = 1
 MaxOutput = 1
+Size = 2
 CanStore = 150
 CanOutput = 2
 

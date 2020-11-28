@@ -26,6 +26,8 @@ public class Building : StaticBody2D
     [Export] public int MaxInput = 4;
     [Export] public int MaxOutput = 4;
 
+    [Export] public int Size = 3;
+
     public AnimationPlayer AnimationPlayer;
     public AnimationPlayer SpriteAnimationPlayer;
     public Pipe DraggingPipe;
@@ -49,6 +51,7 @@ public class Building : StaticBody2D
 
     public Node2D Pipes;
     public Node2D BuildingUI;
+    public TileMap NavMap;
 
     public bool Deleting = false;
 
@@ -62,8 +65,6 @@ public class Building : StaticBody2D
 
         AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
         SpriteAnimationPlayer = GetNode<AnimationPlayer>("Sprite/AnimationPlayer");
-        Pipes = GetTree().CurrentScene.GetNode<Node2D>("Planet/Pipes");
-        BuildingUI = GetTree().CurrentScene.GetNode<Node2D>("Planet/BuildingUI");
         InputConnectionHighlight = GetNode<Sprite>("Highlights/InputConnection");
         OutputConnectionHighlight = GetNode<Sprite>("Highlights/OutputConnection");
         WarningSprite = GetNode<Sprite>("Warning");
@@ -74,6 +75,10 @@ public class Building : StaticBody2D
         StorageGridContainer = GetNode<GridContainer>("UI/StorageContainer/GridContainer");
         UIInputLabel = GetNode<Label>("UI/ConnectionContainer/VBoxContainer/Input/Label");
         UIOutputLabel = GetNode<Label>("UI/ConnectionContainer/VBoxContainer/Output/Label");
+
+        Pipes = GetTree().CurrentScene.GetNode<Node2D>("Planet/Pipes");
+        BuildingUI = GetTree().CurrentScene.GetNode<Node2D>("Planet/BuildingUI");
+        NavMap = GetTree().CurrentScene.GetNode<TileMap>("Planet/NavigationMap");
 
         RemoveChild(UI);
         BuildingUI.AddChild(UI);
@@ -104,6 +109,15 @@ public class Building : StaticBody2D
         }
 
         Globals.LastBuilding = this;
+
+        Array<Vector2> covers = GetCoveredTiles();
+        foreach (Vector2 pos in covers)
+        {
+            int x = Mathf.RoundToInt(pos.x);
+            int y = Mathf.RoundToInt(pos.y);
+            NavMap.SetCell(x, y, -1);
+            NavMap.UpdateBitmaskArea(new Vector2(x, y));
+        }
 
         GetTree().CallGroup("Enemies", "RecalculatePath");
     }
@@ -346,6 +360,24 @@ public class Building : StaticBody2D
         UIOutputLabel.Text = OutputBuildings.Count + "/" + MaxOutput;
     }
 
+    public Array<Vector2> GetCoveredTiles()
+    {
+        var offset = new Vector2(Mathf.FloorToInt(Size / 2), Mathf.FloorToInt(Size / 2));
+        Vector2 topLeft = (GlobalPosition / Globals.TileSize) - offset;
+
+        var positions = new Array<Vector2>();
+
+        for (int x = 0; x < Size; x++)
+        {
+            for (int y = 0; y < Size; y++)
+            {
+                positions.Add(new Vector2(x + Mathf.FloorToInt(topLeft.x), y + Mathf.FloorToInt(topLeft.y)));
+            }
+        }
+
+        return positions;
+    }
+
     public void Destroy()
     {
         SetSelected(false);
@@ -382,6 +414,15 @@ public class Building : StaticBody2D
         AnimationPlayer.Play("Delete");
 
         Deleting = true;
+
+        Array<Vector2> covers = GetCoveredTiles();
+        foreach (Vector2 pos in covers)
+        {
+            int x = Mathf.RoundToInt(pos.x);
+            int y = Mathf.RoundToInt(pos.y);
+            NavMap.SetCell(x, y, 0);
+            NavMap.UpdateBitmaskArea(new Vector2(x, y));
+        }
 
         GetTree().CallGroup("Enemies", "RecalculatePath");
     }

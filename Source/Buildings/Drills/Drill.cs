@@ -3,7 +3,6 @@ using Godot.Collections;
 
 public class Drill : Building
 {
-    [Export] public int Size = 3;
     [Export] public float MiningAmount = 1;
 
     public TileMap OreTiles;
@@ -84,28 +83,23 @@ public class Drill : Building
 
     private Dictionary<Ore, int> GetOres()
     {
-        Vector2 offset = new Vector2(Mathf.FloorToInt(Size / 2), Mathf.FloorToInt(Size / 2));
-        Vector2 topLeft = (GlobalPosition / 16) - offset;
-
         var ores = new Dictionary<Ore, int>();
 
-        for (int x = 0; x < Size; x++)
+        Array<Vector2> positions = GetCoveredTiles();
+        foreach (Vector2 pos in positions)
         {
-            for (int y = 0; y < Size; y++)
-            {
-                int oreId = OreTiles.GetCell(x + Mathf.FloorToInt(topLeft.x), y + Mathf.FloorToInt(topLeft.y));
-                var ore = (Ore)oreId;
+            int oreId = OreTiles.GetCell(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y));
+            var ore = (Ore)oreId;
 
-                if (oreId != -1 && MaxStorage.ContainsKey(Globals.OreToItem[ore]))
+            if (oreId != -1 && MaxStorage.ContainsKey(Globals.OreToItem[ore]))
+            {
+                if (!ores.ContainsKey(ore))
                 {
-                    if (!ores.ContainsKey(ore))
-                    {
-                        ores.Add(ore, 1);
-                    }
-                    else
-                    {
-                        ores[ore] += 1;
-                    }
+                    ores.Add(ore, 1);
+                }
+                else
+                {
+                    ores[ore] += 1;
                 }
             }
         }
