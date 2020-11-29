@@ -366,8 +366,16 @@ public class Building : StaticBody2D
         Pipe pipe = OutputPipes[building];
         pipe.PlayDelete();
         OutputPipes.Remove(building);
-        OutputBuildings.Remove(building);
-        building.InputBuildings.Remove(this);
+
+        if (!Deleting)
+        {
+            OutputBuildings.Remove(building);
+        }
+
+        if (!building.Deleting)
+        {
+            building.InputBuildings.Remove(this);
+        }
 
         if (building.UIInputLabel != null)
         {
@@ -413,14 +421,12 @@ public class Building : StaticBody2D
             DraggingPipe.QueueFree();
         }
 
-        Array<Building> outputCopy = OutputBuildings;
-        foreach (Building output in outputCopy)
+        foreach (Building output in OutputBuildings)
         {
             RemoveOutput(output);
         }
 
-        Array<Building> inputCopy = InputBuildings;
-        foreach (Building input in inputCopy)
+        foreach (Building input in InputBuildings)
         {
             input.RemoveOutput(this);
         }

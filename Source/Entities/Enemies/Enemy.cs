@@ -40,6 +40,7 @@ public class Enemy : Entity
         {
             CurrentState = State.Idle;
             ShootTimer.Stop();
+            RecalculatePath();
             return;
         }
 
@@ -130,6 +131,11 @@ public class Enemy : Entity
     public async void RecalculatePath()
     {
         Array targetBuildings = GetTree().GetNodesInGroup("EnemyTargets");
+
+        if (targetBuildings.Count == 0)
+        {
+            return;
+        }
 
         var closest = (Building)targetBuildings[0];
         float closestDistance = GlobalPosition.DistanceTo(closest.GlobalPosition);
