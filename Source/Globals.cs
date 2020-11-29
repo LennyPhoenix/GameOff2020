@@ -31,6 +31,9 @@ public enum Item
 	Coal,
 	Blastium,
 	BlastiumCell,
+	CopperBullets,
+	IronSlugs,
+	TitaniumHardpointRounds,
 }
 
 public class Globals
