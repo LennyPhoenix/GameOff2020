@@ -34,6 +34,9 @@ HideOutsideMap = false
 AdditionalOffsetPaths = [ NodePath("../Lights"), NodePath("../Rotate") ]
 
 [node name="TargetArea" type="Area2D" parent="." index="5"]
+[node name="HealthManager" parent="." index="3"]
+collision_mask = 8
+
 collision_layer = 0
 collision_mask = 2147483682
 

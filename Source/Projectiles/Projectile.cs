@@ -5,6 +5,7 @@ public class Projectile : Area2D
     [Export] public Vector2 Velocity = new Vector2(500f, 0f);
     [Export] public float RotationSpeed = 0f;
     [Export] public float Lifetime = 1.5f;
+    [Export] public float Damage = 10f;
 
     public Sprite Sprite;
 

@@ -3,19 +3,6 @@ using Godot.Collections;
 
 public class Building : StaticBody2D
 {
-    public new Vector2 GlobalPosition
-    {
-        get => base.GlobalPosition;
-        set
-        {
-            base.GlobalPosition = value;
-            if (UI != null)
-            {
-                UI.RectGlobalPosition = value;
-            }
-        }
-    }
-
     [Export] public PackedScene PipeScene;
     [Export] public PackedScene StorageItemScene;
     public Blueprint PylonBlueprint;
@@ -41,6 +28,7 @@ public class Building : StaticBody2D
     public GridContainer StorageGridContainer;
     public Label UIInputLabel;
     public Label UIOutputLabel;
+    public HealthBar HealthBar;
 
     public Dictionary<Item, int> Items = new Dictionary<Item, int>();
 
@@ -75,10 +63,11 @@ public class Building : StaticBody2D
         StorageGridContainer = GetNode<GridContainer>("UI/StorageContainer/GridContainer");
         UIInputLabel = GetNode<Label>("UI/ConnectionContainer/VBoxContainer/Input/Label");
         UIOutputLabel = GetNode<Label>("UI/ConnectionContainer/VBoxContainer/Output/Label");
+        HealthBar = GetNode<HealthBar>("UI/HealthBar");
 
         Pipes = GetTree().CurrentScene.GetNode<Node2D>("Planet/Pipes");
         BuildingUI = GetTree().CurrentScene.GetNode<Node2D>("Planet/BuildingUI");
-        NavMap = GetTree().CurrentScene.GetNode<TileMap>("Planet/NavigationMap");
+        NavMap = GetTree().CurrentScene.GetNode<TileMap>("Planet/NavigationManager/Map");
 
         RemoveChild(UI);
         BuildingUI.AddChild(UI);
@@ -120,67 +109,6 @@ public class Building : StaticBody2D
         }
 
         GetTree().CallGroup("Enemies", "RecalculatePath");
-    }
-
-    public void _OnMouseEntered()
-    {
-        if (Deleting)
-        {
-            return;
-        }
-
-        hovering = true;
-        Globals.HoveringBuilding = this;
-
-        if (Globals.SelectedBuilding == null)
-        {
-            foreach (Building output in OutputBuildings)
-            {
-                output.InputConnectionHighlight.Show();
-            }
-
-            foreach (Building input in InputBuildings)
-            {
-                input.OutputConnectionHighlight.Show();
-            }
-
-            UIAnimationPlayer.Play("Show");
-        }
-    }
-
-    public void _OnMouseExited()
-    {
-        if (Deleting)
-        {
-            return;
-        }
-
-        hovering = false;
-        if (Globals.HoveringBuilding == this)
-        {
-            Globals.HoveringBuilding = null;
-        }
-
-        if (Globals.SelectedBuilding == null)
-        {
-            foreach (Building output in OutputBuildings)
-            {
-                if (Globals.HoveringBuilding == null || !Globals.HoveringBuilding.OutputBuildings.Contains(output))
-                {
-                    output.InputConnectionHighlight.Hide();
-                }
-            }
-
-            foreach (Building input in InputBuildings)
-            {
-                if (Globals.HoveringBuilding == null || !Globals.HoveringBuilding.InputBuildings.Contains(input))
-                {
-                    input.OutputConnectionHighlight.Hide();
-                }
-            }
-
-            UIAnimationPlayer.Play("Hide");
-        }
     }
 
     public override void _Process(float delta)
@@ -265,6 +193,81 @@ public class Building : StaticBody2D
             Pipes.AddChild(DraggingPipe);
             DraggingPipe.PlayPlacing();
             Globals.DraggingBuilding = this;
+        }
+
+        UI.RectGlobalPosition = GlobalPosition;
+    }
+
+    public void _OnMouseEntered()
+    {
+        if (Deleting)
+        {
+            return;
+        }
+
+        hovering = true;
+        Globals.HoveringBuilding = this;
+
+        if (Globals.SelectedBuilding == null)
+        {
+            foreach (Building output in OutputBuildings)
+            {
+                output.InputConnectionHighlight.Show();
+            }
+
+            foreach (Building input in InputBuildings)
+            {
+                input.OutputConnectionHighlight.Show();
+            }
+
+            UIAnimationPlayer.Play("Show");
+        }
+    }
+
+    public void _OnMouseExited()
+    {
+        if (Deleting)
+        {
+            return;
+        }
+
+        hovering = false;
+        if (Globals.HoveringBuilding == this)
+        {
+            Globals.HoveringBuilding = null;
+        }
+
+        if (Globals.SelectedBuilding == null)
+        {
+            foreach (Building output in OutputBuildings)
+            {
+                if (Globals.HoveringBuilding == null || !Globals.HoveringBuilding.OutputBuildings.Contains(output))
+                {
+                    output.InputConnectionHighlight.Hide();
+                }
+            }
+
+            foreach (Building input in InputBuildings)
+            {
+                if (Globals.HoveringBuilding == null || !Globals.HoveringBuilding.InputBuildings.Contains(input))
+                {
+                    input.OutputConnectionHighlight.Hide();
+                }
+            }
+
+            UIAnimationPlayer.Play("Hide");
+        }
+    }
+
+    public void _OnHit(float newHealth, float maxHealth)
+    {
+        HealthBar.Health = newHealth / maxHealth;
+
+        if (newHealth <= 0)
+        {
+            Destroy();
+
+            AnimationPlayer.Play("Destroy");
         }
     }
 

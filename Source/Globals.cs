@@ -56,7 +56,6 @@ public class Globals
 		{ Ore.Blastium, Item.Blastium },
 	};
 
-
 	public static void Reset()
     {
 		BuildManager = null;

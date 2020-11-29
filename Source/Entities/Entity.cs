@@ -34,6 +34,12 @@ public class Entity : KinematicBody2D
     public Node2D RotateGroup;
     public AnimationPlayer AnimationPlayer;
 
+    public Control UI;
+    public HealthBar HealthBar;
+    public AnimationPlayer HealthBarAnimationPlayer;
+
+    public Node2D EntityUI;
+
     public override void _Ready()
     {
         base._Ready();
@@ -44,6 +50,17 @@ public class Entity : KinematicBody2D
 
         RotateGroup = GetNode<Node2D>("Rotate");
         AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+
+        UI = GetNode<Control>("UI");
+        HealthBar = GetNode<HealthBar>("UI/HealthBar");
+        HealthBarAnimationPlayer = GetNode<AnimationPlayer>("UI/HealthBar/AnimationPlayer");
+
+        EntityUI = GetTree().CurrentScene.GetNode<Node2D>("Planet/EntityUI");
+
+        RemoveChild(UI);
+        EntityUI.AddChild(UI);
+        UI.RectGlobalPosition = GlobalPosition;
+        UI.Name = Name;
     }
 
     public override void _PhysicsProcess(float delta)
@@ -69,6 +86,8 @@ public class Entity : KinematicBody2D
         }
 
         Velocity = MoveAndSlide(Velocity);
+
+        UI.RectGlobalPosition = GlobalPosition;
     }
 
     public void _OnAnimationFinished(string animName)
@@ -77,6 +96,31 @@ public class Entity : KinematicBody2D
         {
             CurrentState = State.Idle;
         }
+    }
+
+    public virtual void _OnHit(float newHealth, float maxHealth)
+    {
+        HealthBar.Health = newHealth / maxHealth;
+
+        if (HealthBarAnimationPlayer.CurrentAnimation == "Show")
+        {
+            HealthBarAnimationPlayer.Seek(0.2f);
+        }
+        else
+        {
+            HealthBarAnimationPlayer.Play("Show");
+        }
+
+        if (newHealth <= 0)
+        {
+            Kill();
+        }
+    }
+
+    public virtual void Kill()
+    {
+        UI.QueueFree();
+        QueueFree();
     }
 
     public void Rotate(float delta, float target)

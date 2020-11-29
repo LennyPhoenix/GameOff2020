@@ -113,6 +113,8 @@ cell_size = Vector2( 16, 16 )
 collision_mask = 0
 format = 1
 
+[node name="EntityUI" type="Node2D" parent="."]
+
 [node name="BuildingUI" type="Node2D" parent="."]
 
 [node name="BuildManager" parent="." instance=ExtResource( 11 )]

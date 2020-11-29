@@ -5,13 +5,25 @@ public class Player : Entity
     // Movement
     [Export] public float CameraForwardMult = 30f;
 
+    // Health
+    [Export] public float RegenTime = 1.5f;
+    [Export] public float RegenAcceleration = 0.1f;
+    [Export] public float RegenAmount = 5f;
+    private float currentRegenTime;
+
     public ShakeCamera2D Camera;
+    public Timer RegenTimer;
+    public HealthManager HealthManager;
 
     public override void _Ready()
     {
         base._Ready();
         
         Camera = GetNode<ShakeCamera2D>("Camera");
+        RegenTimer = GetNode<Timer>("RegenTimer");
+        HealthManager = GetNode<HealthManager>("HealthManager");
+
+        currentRegenTime = RegenTime;
     }
 
     public override void _Process(float delta)
@@ -72,6 +84,40 @@ public class Player : Entity
         else
         {
             CurrentState = State.Move;
+        }
+    }
+
+    public override void _OnHit(float newHealth, float maxHealth)
+    {
+        base._OnHit(newHealth, maxHealth);
+
+        RegenTimer.Start(RegenTime);
+        currentRegenTime = RegenTime;
+    }
+
+    public void _OnRegenTimeout()
+    {
+        currentRegenTime -= RegenAcceleration;
+        currentRegenTime = Mathf.Max(currentRegenTime, 0.2f);
+        RegenTimer.Start(currentRegenTime);
+
+        HealthManager.Health += RegenAmount;
+        HealthManager.Health = Mathf.Min(HealthManager.Health, HealthManager.MaxHealth);
+
+        HealthBar.Health = HealthManager.Health / HealthManager.MaxHealth;
+
+        if (Mathf.RoundToInt(HealthManager.Health) == Mathf.RoundToInt(HealthManager.MaxHealth))
+        {
+            return;
+        }
+
+        if (HealthBarAnimationPlayer.CurrentAnimation == "Show")
+        {
+            HealthBarAnimationPlayer.Seek(0.2f);
+        }
+        else
+        {
+            HealthBarAnimationPlayer.Play("Show");
         }
     }
 }

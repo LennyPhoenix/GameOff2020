@@ -168,15 +168,14 @@ tracks/1/keys = {
 }
 
 [node name="Runner" instance=ExtResource( 1 )]
-collision_mask = 35
 
 [node name="ShootTimer" parent="." index="0"]
 wait_time = 0.3
 
-[node name="MapWrapper" parent="." index="3"]
-RootPath = NodePath("../../Runner")
+[node name="HealthManager" parent="." index="3"]
+MaxHealth = 75.0
 
-[node name="AnimationPlayer" parent="." index="4"]
+[node name="AnimationPlayer" parent="." index="6"]
 autoplay = "Spawn"
 anims/Idle = SubResource( 1 )
 anims/Move = SubResource( 2 )

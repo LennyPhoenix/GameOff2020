@@ -13,8 +13,8 @@ script = ExtResource( 1 )
 [node name="Timer" type="Timer" parent="."]
 
 [node name="MapWrapper" parent="." instance=ExtResource( 2 )]
-AdditionalOffsetPaths = [ NodePath("../Sprite"), NodePath("../Lights") ]
 RootPath = NodePath("..")
+AdditionalOffsetPaths = [ NodePath("../Sprite"), NodePath("../Lights") ]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 

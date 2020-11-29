@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Source/Buildings/Building.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Source/UI/MinimapIcons.tscn" type="PackedScene" id=2]
@@ -7,9 +7,12 @@
 [ext_resource path="res://Source/Buildings/Core.cs" type="Script" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 41, 41 )
+
+[sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 40, 40 )
 
-[sub_resource type="OccluderPolygon2D" id=2]
+[sub_resource type="OccluderPolygon2D" id=3]
 polygon = PoolVector2Array( -40, -39, -39, -39, -39, -40, 39, -40, 39, -39, 40, -39, 40, 39, 39, 39, 39, 40, -39, 40, -39, 39, -40, 39 )
 
 [node name="Core" groups=[
@@ -34,14 +37,15 @@ HideOutsideMap = false
 [node name="MapWrapper" parent="." index="1"]
 AdditionalOffsetPaths = [ NodePath("../Sprite"), NodePath("../LightOccluder2D"), NodePath("../Light2D"), NodePath("../CollisionShape2D") ]
 
-[node name="Sprite" parent="." index="3"]
+[node name="HealthManager" parent="." index="2"]
+MaxHealth = 1000.0
+Collider = SubResource( 1 )
+
+[node name="Sprite" parent="." index="4"]
 texture = ExtResource( 3 )
 
-[node name="CollisionShape2D" parent="." index="4"]
-shape = SubResource( 1 )
-
-[node name="LightOccluder2D" parent="." index="5"]
-occluder = SubResource( 2 )
+[node name="CollisionShape2D" parent="." index="5"]
+shape = SubResource( 2 )
 
 [node name="Light2D" type="Light2D" parent="." index="6"]
 texture = ExtResource( 4 )
@@ -49,7 +53,10 @@ texture_scale = 3.0
 energy = 0.5
 range_item_cull_mask = 3
 
-[node name="Warning" parent="." index="7"]
+[node name="LightOccluder2D" parent="." index="7"]
+occluder = SubResource( 3 )
+
+[node name="Warning" parent="." index="8"]
 scale = Vector2( 5, 5 )
 
 [node name="InputConnection" parent="Highlights" index="0"]
@@ -69,3 +76,9 @@ margin_left = -62.0
 margin_top = -40.0
 margin_right = -40.0
 margin_bottom = -25.0
+
+[node name="HealthBar" parent="UI" index="3"]
+margin_left = -40.0
+margin_top = -44.0
+margin_right = 40.0
+margin_bottom = -41.0
