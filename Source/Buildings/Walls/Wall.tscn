@@ -14,6 +14,7 @@ polygon = PoolVector2Array( -23, -24, 23, -24, 23, -23, 24, -23, 24, 23, 23, 23,
 [node name="Wall" instance=ExtResource( 1 )]
 MaxInput = 0
 MaxOutput = 0
+BlockNavigation = false
 
 [node name="HealthManager" parent="." index="1"]
 MaxHealth = 200.0

@@ -16,6 +16,7 @@ Outputs = {
 
 }
 MaxInput = 0
+BlockNavigation = false
 
 [node name="MinimapIcons" parent="." index="0" instance=ExtResource( 1 )]
 IconType = 1

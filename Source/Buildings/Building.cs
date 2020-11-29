@@ -15,6 +15,8 @@ public class Building : StaticBody2D
 
     [Export] public int Size = 3;
 
+    [Export] public bool BlockNavigation = true;
+
     public AnimationPlayer AnimationPlayer;
     public AnimationPlayer SpriteAnimationPlayer;
     public Pipe DraggingPipe;
@@ -85,7 +87,7 @@ public class Building : StaticBody2D
         int columns = Mathf.Min(4, MaxStorage.Count);
         int rows = Mathf.CeilToInt((float)MaxStorage.Count / 4);
         StorageContainer.RectSize = new Vector2(columns * 16 + 2 + Mathf.Min(columns-1, 0), rows * 16 + 2 + Mathf.Min(rows - 1, 0));
-        StorageGridContainer.Columns = columns;
+        StorageGridContainer.Columns = Mathf.Max(columns, 1);
 
         foreach (Item item in MaxStorage.Keys)
         {
@@ -99,16 +101,22 @@ public class Building : StaticBody2D
 
         Globals.LastBuilding = this;
 
-        Array<Vector2> covers = GetCoveredTiles();
-        foreach (Vector2 pos in covers)
+        if (BlockNavigation)
         {
-            int x = Mathf.RoundToInt(pos.x);
-            int y = Mathf.RoundToInt(pos.y);
-            NavMap.SetCell(x, y, -1);
-            NavMap.UpdateBitmaskArea(new Vector2(x, y));
-        }
+            Array<Vector2> covers = GetCoveredTiles();
+            foreach (Vector2 pos in covers)
+            {
+                int x = Mathf.RoundToInt(pos.x);
+                int y = Mathf.RoundToInt(pos.y);
+                NavMap.SetCell(x, y, -1);
+                NavMap.UpdateBitmaskArea(new Vector2(x, y));
+            }
 
-        GetTree().CallGroup("Enemies", "RecalculatePath");
+            if (IsInGroup("EnemyTargets"))
+            {
+                GetTree().CallGroup("Enemies", "RecalculatePath");
+            }
+        }
     }
 
     public override void _Process(float delta)
@@ -261,6 +269,11 @@ public class Building : StaticBody2D
 
     public void _OnHit(float newHealth, float maxHealth)
     {
+        if (Deleting)
+        {
+            return;
+        }
+
         HealthBar.Health = newHealth / maxHealth;
 
         if (newHealth <= 0)
@@ -418,16 +431,22 @@ public class Building : StaticBody2D
 
         Deleting = true;
 
-        Array<Vector2> covers = GetCoveredTiles();
-        foreach (Vector2 pos in covers)
+        if (BlockNavigation)
         {
-            int x = Mathf.RoundToInt(pos.x);
-            int y = Mathf.RoundToInt(pos.y);
-            NavMap.SetCell(x, y, 0);
-            NavMap.UpdateBitmaskArea(new Vector2(x, y));
-        }
+            Array<Vector2> covers = GetCoveredTiles();
+            foreach (Vector2 pos in covers)
+            {
+                int x = Mathf.RoundToInt(pos.x);
+                int y = Mathf.RoundToInt(pos.y);
+                NavMap.SetCell(x, y, 0);
+                NavMap.UpdateBitmaskArea(new Vector2(x, y));
+            }
 
-        GetTree().CallGroup("Enemies", "RecalculatePath");
+            if (IsInGroup("EnemyTargets"))
+            {
+                GetTree().CallGroup("Enemies", "RecalculatePath");
+            }
+        }
     }
 
     public virtual void Tick() {

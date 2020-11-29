@@ -13,6 +13,7 @@ MaxStorage = {
 Outputs = {
 
 }
+BlockNavigation = false
 RotationSpeed = 1.0
 RotationTimerStart = 0.3
 
