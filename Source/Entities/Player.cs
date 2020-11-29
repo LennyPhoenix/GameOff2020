@@ -95,6 +95,14 @@ public class Player : Entity
         currentRegenTime = RegenTime;
     }
 
+    public override void Kill()
+    {
+        base.Kill();
+
+        GlobalPosition = Globals.Core.GlobalPosition + new Vector2(0, 80);
+        AnimationPlayer.Play("Spawn");
+    }
+
     public void _OnRegenTimeout()
     {
         currentRegenTime -= RegenAcceleration;

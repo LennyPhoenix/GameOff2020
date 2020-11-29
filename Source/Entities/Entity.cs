@@ -129,7 +129,7 @@ public class Entity : KinematicBody2D
     public virtual void Kill()
     {
         UI.QueueFree();
-        QueueFree();
+        AnimationPlayer.Play("Die");
 
         CurrentState = State.Dead;
     }
