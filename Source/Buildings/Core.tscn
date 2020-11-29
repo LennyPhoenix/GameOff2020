@@ -78,7 +78,7 @@ margin_right = -40.0
 margin_bottom = -25.0
 
 [node name="HealthBar" parent="UI" index="3"]
-margin_left = -40.0
-margin_top = -44.0
-margin_right = 40.0
-margin_bottom = -41.0
+margin_left = -38.0
+margin_top = -38.0
+margin_right = 38.0
+margin_bottom = -35.0

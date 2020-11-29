@@ -28,6 +28,7 @@ CanStore = 150
 CanOutput = 2
 
 [node name="HealthManager" parent="." index="1"]
+MaxHealth = 150.0
 Collider = SubResource( 1 )
 
 [node name="Sprite" parent="." index="3"]

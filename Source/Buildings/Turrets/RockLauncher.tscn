@@ -6,16 +6,16 @@
 [ext_resource path="res://Source/Projectiles/ProjectileEmitter.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Source/Projectiles/StoneProjectile.tscn" type="PackedScene" id=6]
 
-[sub_resource type="RectangleShape2D" id=5]
+[sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 17, 17 )
 
-[sub_resource type="CircleShape2D" id=1]
+[sub_resource type="CircleShape2D" id=2]
 radius = 192.0
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 16, 16 )
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=4]
 length = 0.3
 step = 0.025
 tracks/0/type = "value"
@@ -31,7 +31,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( -5, 0 ), Vector2( -3, 0 ), Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="OccluderPolygon2D" id=4]
+[sub_resource type="OccluderPolygon2D" id=5]
 polygon = PoolVector2Array( -15, -16, 15, -16, 15, -15, 16, -15, 16, 15, 15, 15, 15, 16, -15, 16, -15, 15, -16, 15, -16, -15, -15, -15 )
 
 [node name="RockLauncher" instance=ExtResource( 1 )]
@@ -53,20 +53,21 @@ ShakeAmplitude = 0.75
 ProjectileEmitters = [ NodePath("Rotate/Top/TopEmitter"), NodePath("Rotate/Top/BottomEmitter") ]
 
 [node name="HealthManager" parent="." index="2"]
-Collider = SubResource( 5 )
+MaxHealth = 150.0
+Collider = SubResource( 1 )
 
 [node name="CircleRenderer" parent="TargetArea" index="0"]
 Radius = 192.0
 
 [node name="CollisionShape2D" parent="TargetArea" index="1"]
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
 [node name="Sprite" parent="." index="5"]
 texture = ExtResource( 2 )
 vframes = 2
 
 [node name="CollisionShape2D" parent="." index="6"]
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 
 [node name="Top" parent="Rotate" index="0"]
 texture = ExtResource( 2 )
@@ -74,22 +75,22 @@ vframes = 2
 frame = 1
 
 [node name="AnimationPlayer" parent="Rotate/Top" index="0"]
-anims/Shoot = SubResource( 3 )
+anims/Shoot = SubResource( 4 )
 
 [node name="TopEmitter" parent="Rotate/Top" index="1" instance=ExtResource( 4 )]
 position = Vector2( 13.5, -4 )
+Projectile = ExtResource( 6 )
 AccuracySteps = 5
 RotationModifier = 180
-Projectile = ExtResource( 6 )
 
 [node name="BottomEmitter" parent="Rotate/Top" index="2" instance=ExtResource( 4 )]
 position = Vector2( 13.5, 4 )
+Projectile = ExtResource( 6 )
 AccuracySteps = 5
 RotationModifier = 180
-Projectile = ExtResource( 6 )
 
 [node name="LightOccluder2D" parent="." index="8"]
-occluder = SubResource( 4 )
+occluder = SubResource( 5 )
 
 [node name="Warning" parent="." index="9"]
 scale = Vector2( 2, 2 )
