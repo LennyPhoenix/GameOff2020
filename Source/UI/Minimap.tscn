@@ -40,17 +40,23 @@ custom_constants/margin_top = 5
 custom_constants/margin_left = 5
 custom_constants/margin_bottom = 5
 
-[node name="Markers" type="Control" parent="MarginContainer"]
+[node name="TilesClipper" type="Control" parent="MarginContainer"]
 margin_left = 5.0
 margin_top = 5.0
 margin_right = 135.0
 margin_bottom = 135.0
 rect_clip_content = true
-mouse_filter = 2
 
-[node name="Tiles" type="Sprite" parent="MarginContainer/Markers"]
+[node name="Tiles" type="Sprite" parent="MarginContainer/TilesClipper"]
 modulate = Color( 1, 1, 1, 0.768627 )
 position = Vector2( 65, 65 )
+
+[node name="Markers" type="Control" parent="MarginContainer"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 135.0
+margin_bottom = 135.0
+mouse_filter = 2
 
 [node name="EnemyMarker" type="Sprite" parent="MarginContainer/Markers"]
 visible = false

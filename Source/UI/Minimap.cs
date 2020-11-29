@@ -31,7 +31,7 @@ public class Minimap : MarginContainer
 
         PlayerMarker = GetNode<Sprite>("MarginContainer/PlayerMarker");
 
-        Tiles = GetNode<Sprite>("MarginContainer/Markers/Tiles");
+        Tiles = GetNode<Sprite>("MarginContainer/TilesClipper/Tiles");
 
         CoreMarker = GetNode<Sprite>("MarginContainer/Markers/CoreMarker");
         DrillMarker = GetNode<Sprite>("MarginContainer/Markers/DrillMarker");
