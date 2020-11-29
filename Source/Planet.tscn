@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://Source/Entities/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/TileSets/Barren/Wall.tres" type="TileSet" id=2]
@@ -30,27 +30,31 @@
 [ext_resource path="res://Assets/Ores/Copper.tres" type="OpenSimplexNoise" id=28]
 [ext_resource path="res://Assets/TileSets/Navigation.tres" type="TileSet" id=29]
 [ext_resource path="res://Assets/Ores/Blastium.tres" type="OpenSimplexNoise" id=30]
+[ext_resource path="res://Assets/Buildings/Walls/StoneWall.tres" type="Resource" id=31]
+[ext_resource path="res://Assets/Buildings/Walls/IronWall.tres" type="Resource" id=32]
+[ext_resource path="res://Assets/Buildings/Walls/TitaniumWall.tres" type="Resource" id=33]
+[ext_resource path="res://Assets/Buildings/Walls/CopperWall.tres" type="Resource" id=34]
 
-[sub_resource type="OpenSimplexNoise" id=3]
+[sub_resource type="OpenSimplexNoise" id=1]
 octaves = 9
 period = 32.0
 
-[sub_resource type="OpenSimplexNoise" id=4]
+[sub_resource type="OpenSimplexNoise" id=2]
 octaves = 5
 period = 24.0
 
-[sub_resource type="CircleShape2D" id=1]
+[sub_resource type="CircleShape2D" id=3]
 radius = 384.0
 
-[sub_resource type="DynamicFont" id=2]
+[sub_resource type="DynamicFont" id=4]
 font_data = ExtResource( 18 )
 
 [node name="Planet" type="Node2D"]
 script = ExtResource( 4 )
-GroundNoise = SubResource( 3 )
-EnemySmall = ExtResource( 8 )
-WallNoise = SubResource( 4 )
+GroundNoise = SubResource( 1 )
 OreGenerators = [ ExtResource( 9 ), ExtResource( 28 ), ExtResource( 22 ), ExtResource( 25 ), ExtResource( 10 ), ExtResource( 30 ) ]
+WallNoise = SubResource( 2 )
+EnemySmall = ExtResource( 8 )
 
 [node name="BuildingClock" type="Timer" parent="."]
 wait_time = 0.1
@@ -61,7 +65,7 @@ collision_layer = 0
 collision_mask = 33
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SpawnRadius"]
-shape = SubResource( 1 )
+shape = SubResource( 3 )
 
 [node name="Ground" type="TileMap" parent="."]
 tile_set = ExtResource( 5 )
@@ -122,7 +126,8 @@ Blueprints = {
 "Drills": [ ExtResource( 23 ), ExtResource( 21 ), ExtResource( 16 ), ExtResource( 26 ) ],
 "Factories": [ ExtResource( 15 ), ExtResource( 27 ) ],
 "Intermediary": [ ExtResource( 17 ), ExtResource( 19 ) ],
-"Turrets": [ ExtResource( 14 ) ]
+"Turrets": [ ExtResource( 14 ) ],
+"Walls": [ ExtResource( 31 ), ExtResource( 34 ), ExtResource( 32 ), ExtResource( 33 ) ]
 }
 
 [node name="DaylightCycle" parent="." instance=ExtResource( 3 )]
@@ -161,7 +166,7 @@ __meta__ = {
 margin_top = 31.0
 margin_right = 184.0
 margin_bottom = 44.0
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 4 )
 text = "E - Build Mode"
 align = 2
 

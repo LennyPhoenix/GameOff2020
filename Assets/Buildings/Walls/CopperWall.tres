@@ -1,0 +1,17 @@
+[gd_resource type="Resource" load_steps=4 format=2]
+
+[ext_resource path="res://Source/Resources/Blueprint.cs" type="Script" id=1]
+[ext_resource path="res://Assets/Buildings/Walls/CopperWall.png" type="Texture" id=2]
+[ext_resource path="res://Source/Buildings/Walls/CopperWall.tscn" type="PackedScene" id=3]
+
+[resource]
+resource_name = "Copper Wall"
+script = ExtResource( 1 )
+BuildTexture = ExtResource( 2 )
+Scene = ExtResource( 3 )
+Size = Vector2( 3, 3 )
+Radius = 0.0
+Cost = {
+4: 50
+}
+Description = "The second tier of wall. Has 200 HP."

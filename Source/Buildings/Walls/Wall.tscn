@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Source/Buildings/Building.tscn" type="PackedScene" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 25, 25 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 24, 24 )
+
+[sub_resource type="OccluderPolygon2D" id=3]
+polygon = PoolVector2Array( -23, -24, 23, -24, 23, -23, 24, -23, 24, 23, 23, 23, 23, 24, -23, 24, -23, 23, -24, 23, -24, -23, -23, -23 )
+
+[node name="Wall" instance=ExtResource( 1 )]
+MaxInput = 0
+MaxOutput = 0
+
+[node name="HealthManager" parent="." index="1"]
+MaxHealth = 200.0
+Collider = SubResource( 1 )
+
+[node name="CollisionShape2D" parent="." index="4"]
+shape = SubResource( 2 )
+
+[node name="LightOccluder2D" parent="." index="5"]
+occluder = SubResource( 3 )
+
+[node name="Warning" parent="." index="6"]
+scale = Vector2( 3, 3 )
+
+[node name="InputConnection" parent="Highlights" index="0"]
+scale = Vector2( 3, 3 )
+
+[node name="OutputConnection" parent="Highlights" index="1"]
+scale = Vector2( 3, 3 )
+
+[node name="StorageContainer" parent="UI" index="1"]
+visible = false
+
+[node name="ConnectionContainer" parent="UI" index="2"]
+visible = false
+
+[node name="HealthBar" parent="UI" index="3"]
+margin_left = -22.0
+margin_top = -22.0
+margin_right = 22.0
+margin_bottom = -19.0
