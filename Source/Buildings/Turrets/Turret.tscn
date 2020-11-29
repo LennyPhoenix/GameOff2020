@@ -19,6 +19,9 @@ RotationTimerStart = 0.3
 [node name="ShootTimer" type="Timer" parent="." index="0"]
 wait_time = 0.25
 
+[node name="HealthManager" parent="." index="2"]
+MaxHealth = 200.0
+
 [node name="TargetArea" type="Area2D" parent="." index="3"]
 visible = false
 monitorable = false
