@@ -31,7 +31,7 @@ public class Enemy : Entity
     {
         base._Process(delta);
 
-        if (CurrentState == State.Spawning)
+        if (CurrentState == State.Spawning || CurrentState == State.Dead)
         {
             return;
         }
@@ -135,6 +135,10 @@ public class Enemy : Entity
         float closestDistance = GlobalPosition.DistanceTo(closest.GlobalPosition);
         foreach (Building building in targetBuildings)
         {
+            if (!IsInstanceValid(building))
+            {
+                continue;
+            }
             float dist = GlobalPosition.DistanceTo(building.GlobalPosition);
 
             if (dist < closestDistance && !building.Deleting)

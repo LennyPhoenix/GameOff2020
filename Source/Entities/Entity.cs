@@ -10,6 +10,7 @@ public class Entity : KinematicBody2D
         Idle,
         Move,
         Sprint,
+        Dead,
     }
     public State CurrentState;
 
@@ -83,6 +84,9 @@ public class Entity : KinematicBody2D
             case State.Sprint:
                 Velocity = Velocity.MoveToward(MoveVec * MaxSpeed * SprintMult, Acceleration * SprintMult * delta);
                 break;
+
+            case State.Dead:
+                return;
         }
 
         Velocity = MoveAndSlide(Velocity);
@@ -100,6 +104,11 @@ public class Entity : KinematicBody2D
 
     public virtual void _OnHit(float newHealth, float maxHealth)
     {
+        if (CurrentState == State.Dead)
+        {
+            return;
+        }
+
         HealthBar.Health = newHealth / maxHealth;
 
         if (HealthBarAnimationPlayer.CurrentAnimation == "Show")
@@ -121,6 +130,8 @@ public class Entity : KinematicBody2D
     {
         UI.QueueFree();
         QueueFree();
+
+        CurrentState = State.Dead;
     }
 
     public void Rotate(float delta, float target)
