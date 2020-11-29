@@ -36,7 +36,6 @@ public class Planet : Node2D
 	public Image WallNoiseImage;
 	public Array<Image> OreGenerationImages = new Array<Image>();
 
-	public Timer SpawningTimer;
 	public Area2D SpawnRadius;
 
 	public NavigationManager NavigationManager;
@@ -55,6 +54,8 @@ public class Planet : Node2D
 
 	public WaveTimer WaveTimer;
 
+	private bool waveStarted = false;
+
 	public override void _Ready()
 	{
 		base._Ready();
@@ -64,7 +65,6 @@ public class Planet : Node2D
 			return;
 		}
 
-		SpawningTimer = GetNode<Timer>("SpawningTimer");
 		SpawnRadius = GetNode<Area2D>("SpawnRadius");
 
 		NavigationManager = GetNode<NavigationManager>("NavigationManager");
@@ -86,7 +86,7 @@ public class Planet : Node2D
         Generate();
 
 		WaveTimer.Wave = 1;
-        WaveTimer.StartTimer(4); // 150
+        WaveTimer.StartTimer(150);
     }
 
 	public override string _GetConfigurationWarning()
@@ -101,6 +101,24 @@ public class Planet : Node2D
 		}
 		return "";
 	}
+
+    public override void _Process(float delta)
+    {
+        base._Process(delta);
+
+		if (waveStarted)
+		{
+			int enemiesRemaining = GetTree().GetNodesInGroup("Enemies").Count;
+			WaveTimer.EnemiesRemaining = enemiesRemaining;
+
+			if (enemiesRemaining == 0)
+			{
+				WaveTimer.Wave += 1;
+				WaveTimer.StartTimer(120 + (WaveTimer.Wave-2) * 5);
+				waveStarted = false;
+			}
+		}
+    }
 
     public override void _PhysicsProcess(float delta)
 	{
@@ -133,17 +151,17 @@ public class Planet : Node2D
 		{
 			SpawnRadius.GlobalPosition = new Vector2()
 			{
-				x = (float)GD.RandRange(0, WorldSize) * Globals.TileSize,
-				y = (float)GD.RandRange(0, WorldSize) * Globals.TileSize
+				x = Mathf.Clamp((float)GD.RandRange(0, WorldSize) * Globals.TileSize, 256, WorldSize * Globals.TileSize - 256),
+				y = Mathf.Clamp((float)GD.RandRange(0, WorldSize) * Globals.TileSize, 256, WorldSize * Globals.TileSize - 256)
 			};
 
-			await ToSignal(SpawningTimer, "timeout");
+			await ToSignal(GetTree().CreateTimer(0.05f), "timeout");
 
 			if (SpawnRadius.GetOverlappingBodies().Count == 0)
 			{
 				num--;
 
-				for (int i = 0; i < Mathf.FloorToInt(WaveTimer.Wave / 2) + 3; i++)
+				for (int i = 0; i < Mathf.FloorToInt(WaveTimer.Wave / 2) + 2; i++)
 				{
 					var enemy = (Enemy)EnemySmall.Instance();
 					enemy.GlobalPosition = SpawnRadius.GlobalPosition + new Vector2(0, (float)GD.RandRange(0, 256)).Rotated(Mathf.Deg2Rad((float)GD.RandRange(0, 360)));
@@ -151,12 +169,12 @@ public class Planet : Node2D
 					GroundEntities.AddChild(enemy);
 					totalEnemies++;
 
-					await ToSignal(SpawningTimer, "timeout");
+					await ToSignal(GetTree().CreateTimer(0.01f), "timeout");
 				}
 			}
 		}
 
-		WaveTimer.EnemiesRemaining = totalEnemies;
+		waveStarted = true;
 	}
 
 	public void Generate()
