@@ -133,7 +133,6 @@ Blueprints = {
 color = Color( 0.988235, 0.968627, 0.843137, 1 )
 
 [node name="UI" type="CanvasLayer" parent="."]
-layer = 0
 
 [node name="Minimap" parent="UI" instance=ExtResource( 12 )]
 anchor_left = 1.0

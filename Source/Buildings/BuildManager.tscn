@@ -213,7 +213,6 @@ anims/Deleted = SubResource( 5 )
 anims/Spin = SubResource( 6 )
 
 [node name="UI" type="CanvasLayer" parent="."]
-layer = 0
 
 [node name="Border" type="NinePatchRect" parent="UI"]
 visible = false
