@@ -3,28 +3,25 @@ using Godot.Collections;
 
 public class Enemy : Entity
 {
-    public Planet Planet;
+    public NavigationManager NavigationManager;
+
     public Timer ShootTimer;
-    public Timer PathTimer;
     public Area2D TargetArea;
     public Area2D PriorityTargetArea;
     public ProjectileEmitter ProjectileEmitter;
 
-    private Building lastTarget;
+    private Building target;
     private Array<Vector2> path = new Array<Vector2>();
-    private Thread pathThread = new Thread();
-    private bool calculatingPath = false;
 
     public override void _Ready()
     {
         base._Ready();
 
-        Planet = GetTree().CurrentScene.GetNode<Planet>("Planet");
+        NavigationManager = GetTree().CurrentScene.GetNode<NavigationManager>("Planet/NavigationManager");
+
         ShootTimer = GetNode<Timer>("ShootTimer");
-        PathTimer = GetNode<Timer>("PathTimer");
         TargetArea = GetNode<Area2D>("TargetArea");
         PriorityTargetArea = GetNode<Area2D>("PriorityTargetArea");
-
         ProjectileEmitter = GetNode<ProjectileEmitter>("Rotate/ProjectileEmitter");
 
         RecalculatePath();
@@ -46,7 +43,7 @@ public class Enemy : Entity
             return;
         }
 
-        if (GlobalPosition.DistanceTo(path[0]) < 12)
+        if (GlobalPosition.DistanceTo(path[0]) < 12 || (IsInstanceValid(target) && GlobalPosition.DistanceTo(path[0]) < 32 && path[0].DistanceTo(target.GlobalPosition) > GlobalPosition.DistanceTo(target.GlobalPosition)))
         {
             path.RemoveAt(0);
 
@@ -64,7 +61,7 @@ public class Enemy : Entity
             CurrentState = State.Sprint;
             ShootTimer.Stop();
         }
-        else if (PriorityTargetArea.GetOverlappingBodies().Contains(lastTarget))
+        else if (PriorityTargetArea.GetOverlappingBodies().Contains(target))
         {
             CurrentState = State.Idle;
             if (ShootTimer.IsStopped())
@@ -89,7 +86,7 @@ public class Enemy : Entity
 
             case State.Idle:
                 AnimationPlayer.Play("Idle");
-                rotateTarget = lastTarget.GlobalPosition.AngleToPoint(RotateGroup.GlobalPosition);
+                rotateTarget = target.GlobalPosition.AngleToPoint(RotateGroup.GlobalPosition);
                 Rotate(delta, rotateTarget);
                 break;
 
@@ -119,20 +116,9 @@ public class Enemy : Entity
         }
     }
 
-    public override void _ExitTree()
-    {
-        base._ExitTree();
-
-        if (pathThread.IsActive())
-        {
-            pathThread.WaitToFinish();
-        }
-    }
-
     public void _OnTimeout()
     {
         ProjectileEmitter.Emit();
-
         GetTree().CallGroup(
             "ShakeCamera", "Shake",
             0.15,
@@ -141,12 +127,7 @@ public class Enemy : Entity
         );
     }
 
-    public void _OnPathTimerTimeout()
-    {
-        RecalculatePath();
-    }
-
-    public void RecalculatePath()
+    public async void RecalculatePath()
     {
         Array targetBuildings = GetTree().GetNodesInGroup("EnemyTargets");
 
@@ -161,44 +142,21 @@ public class Enemy : Entity
                 closest = building;
                 closestDistance = dist;
             }
+            await ToSignal(GetTree().CreateTimer(0.01f), "timeout");
         }
-           
-        lastTarget = closest;
 
-        if (pathThread.IsActive())
+        target = closest;
+
+        NavigationManager.QueueAgent(this, target.GlobalPosition, (Array<Vector2> newPath) =>
         {
-            if (calculatingPath)
-            {
-                if (PathTimer.IsStopped())
-                {
-                    PathTimer.Start();
-                }
-                return;
-            }
-            else
-            {
-                pathThread.WaitToFinish();
-            }
-        }
-
-        pathThread.Start(this, "PathThread");
+            path = newPath;
+        });
     }
 
-    public void PathThread(object userData)
+    public override void Kill()
     {
-        calculatingPath = true;
-        Vector2[] newPath = Planet.GetSimplePath(GlobalPosition, lastTarget.GlobalPosition);
-        calculatingPath = false;
+        base.Kill();
 
-        path = new Array<Vector2>();
-        foreach (Vector2 point in newPath)
-        {
-            path.Add(point);
-        }
-
-        if (path.Count > 0)
-        {
-            path.RemoveAt(0);
-        }
+        NavigationManager.RemoveAgent(this);
     }
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://Source/Entities/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/TileSets/Barren/Wall.tres" type="TileSet" id=2]
@@ -6,10 +6,10 @@
 [ext_resource path="res://Source/Planet.cs" type="Script" id=4]
 [ext_resource path="res://Assets/TileSets/Barren/Floor.tres" type="TileSet" id=5]
 [ext_resource path="res://Assets/TileSets/Ores.tres" type="TileSet" id=6]
-[ext_resource path="res://Assets/Ores/Stone.tres" type="OpenSimplexNoise" id=7]
-[ext_resource path="res://Assets/Ores/Titanium.tres" type="OpenSimplexNoise" id=8]
-[ext_resource path="res://Assets/Ores/Copper.tres" type="OpenSimplexNoise" id=9]
-[ext_resource path="res://Assets/Ores/Iron.tres" type="OpenSimplexNoise" id=10]
+[ext_resource path="res://Source/NavigationManager.cs" type="Script" id=7]
+[ext_resource path="res://Source/Entities/Enemies/Runner.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Assets/Ores/Stone.tres" type="OpenSimplexNoise" id=9]
+[ext_resource path="res://Assets/Ores/Coal.tres" type="OpenSimplexNoise" id=10]
 [ext_resource path="res://Source/Buildings/BuildManager.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Source/UI/Minimap.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Source/Buildings/Core.tscn" type="PackedScene" id=13]
@@ -21,35 +21,36 @@
 [ext_resource path="res://Assets/Buildings/Storage.tres" type="Resource" id=19]
 [ext_resource path="res://Assets/UI/ResourceBar.png" type="Texture" id=20]
 [ext_resource path="res://Assets/Buildings/Drills/MediumDrill.tres" type="Resource" id=21]
-[ext_resource path="res://Assets/Ores/Coal.tres" type="OpenSimplexNoise" id=22]
+[ext_resource path="res://Assets/Ores/Iron.tres" type="OpenSimplexNoise" id=22]
 [ext_resource path="res://Assets/Buildings/Drills/SmallDrill.tres" type="Resource" id=23]
 [ext_resource path="res://Source/UI/WaveTimer.tscn" type="PackedScene" id=24]
-[ext_resource path="res://Assets/Ores/Blastium.tres" type="OpenSimplexNoise" id=25]
+[ext_resource path="res://Assets/Ores/Titanium.tres" type="OpenSimplexNoise" id=25]
 [ext_resource path="res://Assets/Buildings/Drills/BlastiumPump.tres" type="Resource" id=26]
 [ext_resource path="res://Assets/Buildings/Factories/BlastiumCellPlant.tres" type="Resource" id=27]
-[ext_resource path="res://Source/Entities/Enemies/Runner.tscn" type="PackedScene" id=28]
+[ext_resource path="res://Assets/Ores/Copper.tres" type="OpenSimplexNoise" id=28]
 [ext_resource path="res://Assets/TileSets/Navigation.tres" type="TileSet" id=29]
+[ext_resource path="res://Assets/Ores/Blastium.tres" type="OpenSimplexNoise" id=30]
 
-[sub_resource type="OpenSimplexNoise" id=1]
+[sub_resource type="OpenSimplexNoise" id=3]
 octaves = 9
 period = 32.0
 
-[sub_resource type="OpenSimplexNoise" id=2]
+[sub_resource type="OpenSimplexNoise" id=4]
 octaves = 5
 period = 24.0
 
-[sub_resource type="CircleShape2D" id=3]
-radius = 64.0
+[sub_resource type="CircleShape2D" id=1]
+radius = 384.0
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=2]
 font_data = ExtResource( 18 )
 
-[node name="Planet" type="Navigation2D"]
+[node name="Planet" type="Node2D"]
 script = ExtResource( 4 )
-GroundNoise = SubResource( 1 )
-WallNoise = SubResource( 2 )
-EnemySmall = ExtResource( 28 )
-OreGenerators = [ ExtResource( 7 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 8 ), ExtResource( 22 ), ExtResource( 25 ) ]
+GroundNoise = SubResource( 3 )
+EnemySmall = ExtResource( 8 )
+WallNoise = SubResource( 4 )
+OreGenerators = [ ExtResource( 9 ), ExtResource( 28 ), ExtResource( 22 ), ExtResource( 25 ), ExtResource( 10 ), ExtResource( 30 ) ]
 
 [node name="BuildingClock" type="Timer" parent="."]
 wait_time = 0.1
@@ -64,7 +65,7 @@ collision_layer = 0
 collision_mask = 33
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SpawnRadius"]
-shape = SubResource( 3 )
+shape = SubResource( 1 )
 
 [node name="Ground" type="TileMap" parent="."]
 tile_set = ExtResource( 5 )
@@ -72,7 +73,10 @@ cell_size = Vector2( 16, 16 )
 collision_mask = 0
 format = 1
 
-[node name="NavigationMap" type="TileMap" parent="."]
+[node name="NavigationManager" type="Navigation2D" parent="."]
+script = ExtResource( 7 )
+
+[node name="Map" type="TileMap" parent="NavigationManager"]
 visible = false
 tile_set = ExtResource( 29 )
 cell_size = Vector2( 16, 16 )
@@ -162,7 +166,7 @@ __meta__ = {
 margin_top = 31.0
 margin_right = 184.0
 margin_bottom = 44.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 2 )
 text = "E - Build Mode"
 align = 2
 

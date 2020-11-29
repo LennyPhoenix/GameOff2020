@@ -2,7 +2,7 @@ using Godot;
 using Godot.Collections;
 
 [Tool]
-public class Planet : Navigation2D
+public class Planet : Node2D
 {
 	[Signal] public delegate void Generated();
 
@@ -39,6 +39,8 @@ public class Planet : Navigation2D
 	public Timer SpawningTimer;
 	public Area2D SpawnRadius;
 
+	public NavigationManager NavigationManager;
+
 	public TileMap GroundTiles;
 	public TileMap NavTiles;
 	public TileMap OreTiles;
@@ -65,8 +67,10 @@ public class Planet : Navigation2D
 		SpawningTimer = GetNode<Timer>("SpawningTimer");
 		SpawnRadius = GetNode<Area2D>("SpawnRadius");
 
+		NavigationManager = GetNode<NavigationManager>("NavigationManager");
+
 		GroundTiles = GetNode<TileMap>("Ground");
-		NavTiles = GetNode<TileMap>("NavigationMap");
+		NavTiles = GetNode<TileMap>("NavigationManager/Map");
 		OreTiles = GetNode<TileMap>("Ore");
 		WallTiles = GetNode<TileMap>("Walls");
 
@@ -139,19 +143,16 @@ public class Planet : Navigation2D
 			{
 				num--;
 
-				for (int i = 0; i < Mathf.FloorToInt(WaveTimer.Wave / 2) + 1; i++)
+				for (int i = 0; i < Mathf.FloorToInt(WaveTimer.Wave / 2) + 3; i++)
 				{
 					var enemy = (Enemy)EnemySmall.Instance();
-					enemy.GlobalPosition = SpawnRadius.GlobalPosition + new Vector2(0, 64).Rotated(Mathf.Deg2Rad((float)GD.RandRange(0, 360)));
+					enemy.GlobalPosition = SpawnRadius.GlobalPosition + new Vector2(0, (float)GD.RandRange(0, 256)).Rotated(Mathf.Deg2Rad((float)GD.RandRange(0, 360)));
 
 					GroundEntities.AddChild(enemy);
 					totalEnemies++;
+
+					await ToSignal(SpawningTimer, "timeout");
 				}
-			}
-			else
-			{
-				Array overlapping = SpawnRadius.GetOverlappingBodies();
-				GD.Print(overlapping);
 			}
 		}
 
