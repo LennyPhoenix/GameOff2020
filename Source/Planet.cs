@@ -96,7 +96,7 @@ public class Planet : Node2D
         Generate();
 
 		WaveTimer.Wave = 1;
-        WaveTimer.StartTimer(2);
+        WaveTimer.StartTimer(150);
     }
 
 	public override string _GetConfigurationWarning()

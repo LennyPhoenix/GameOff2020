@@ -41,6 +41,9 @@ AdditionalOffsetPaths = [ NodePath("../Sprite"), NodePath("../LightOccluder2D"),
 MaxHealth = 1000.0
 Collider = SubResource( 1 )
 
+[node name="AnimationPlayer" parent="." index="3"]
+pause_mode = 2
+
 [node name="Sprite" parent="." index="4"]
 texture = ExtResource( 3 )
 
