@@ -97,10 +97,14 @@ public class Player : Entity
 
     public override void Kill()
     {
-        base.Kill();
+        CurrentState = State.Dead;
 
         GlobalPosition = Globals.Core.GlobalPosition + new Vector2(0, 80);
         AnimationPlayer.Play("Spawn");
+        CurrentState = State.Spawning;
+
+        HealthManager.Health = HealthManager.MaxHealth;
+        HealthBar.Health = HealthManager.Health / HealthManager.MaxHealth;
     }
 
     public void _OnRegenTimeout()
