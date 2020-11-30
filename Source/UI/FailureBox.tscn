@@ -1,0 +1,137 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Source/UI/FailureBox.cs" type="Script" id=1]
+[ext_resource path="res://Assets/Fonts/m5x7.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Assets/Fonts/m3x6.ttf" type="DynamicFontData" id=3]
+
+[sub_resource type="StyleBoxFlat" id=1]
+content_margin_left = 25.0
+content_margin_right = 25.0
+content_margin_top = 10.0
+content_margin_bottom = 10.0
+bg_color = Color( 0.196078, 0.196078, 0.196078, 0.894118 )
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color( 0, 0, 0, 0.501961 )
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+anti_aliasing = false
+
+[sub_resource type="DynamicFont" id=2]
+size = 32
+extra_spacing_top = -4
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 32
+font_data = ExtResource( 3 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.278431, 0.278431, 0.278431, 1 )
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+corner_detail = 7
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.0588235, 0.0588235, 0.0588235, 1 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0, 0, 0, 1 )
+border_blend = true
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+corner_detail = 7
+anti_aliasing = false
+
+[sub_resource type="StyleBoxEmpty" id=6]
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.145098, 0.145098, 0.145098, 1 )
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color( 0.372549, 0.372549, 0.372549, 1 )
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+corner_detail = 7
+anti_aliasing = false
+
+[sub_resource type="DynamicFont" id=8]
+size = 32
+extra_spacing_top = -4
+font_data = ExtResource( 2 )
+
+[node name="FailureBox" type="PanelContainer"]
+pause_mode = 2
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -155.0
+margin_top = -80.0
+margin_right = 155.0
+margin_bottom = 80.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_styles/panel = SubResource( 1 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_left = 25.0
+margin_top = 10.0
+margin_right = 285.0
+margin_bottom = 150.0
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+margin_right = 260.0
+margin_bottom = 22.0
+custom_fonts/font = SubResource( 2 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.501961 )
+text = "The Core Was Destroyed!"
+align = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer"]
+margin_top = 26.0
+margin_right = 260.0
+margin_bottom = 112.0
+size_flags_vertical = 3
+custom_fonts/normal_font = SubResource( 3 )
+custom_colors/default_color = Color( 0.823529, 0.823529, 0.823529, 1 )
+bbcode_enabled = true
+bbcode_text = "[center]The core contained [color=#b040c0]5[/color]/25 Blastium Fuel Cells.[/center]"
+text = "The core contained 5/25 Blastium Fuel Cells."
+
+[node name="MainMenu" type="Button" parent="VBoxContainer"]
+margin_top = 116.0
+margin_right = 260.0
+margin_bottom = 140.0
+custom_styles/hover = SubResource( 4 )
+custom_styles/pressed = SubResource( 5 )
+custom_styles/focus = SubResource( 6 )
+custom_styles/normal = SubResource( 7 )
+custom_fonts/font = SubResource( 8 )
+text = "Main Menu"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="button_up" from="VBoxContainer/MainMenu" to="." method="_OnMainMenuButtonUp"]

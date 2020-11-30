@@ -402,7 +402,7 @@ public class Building : StaticBody2D
         return positions;
     }
 
-    public void Destroy()
+    public virtual void Destroy()
     {
         SetSelected(false);
 

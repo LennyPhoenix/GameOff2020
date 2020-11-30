@@ -27,13 +27,6 @@ public class NavigationManager : Navigation2D
         Start();
     }
 
-    public override void _ExitTree()
-    {
-        base._ExitTree();
-
-        Stop();
-    }
-
     public void QueueAgent(Node2D agent, Vector2 targetLocation, Action<Godot.Collections.Array<Vector2>> callback)
     {
         if (navQueue.ContainsKey(agent))

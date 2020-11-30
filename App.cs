@@ -17,11 +17,20 @@ public class App : Node
         StartButton = GetNode<Button>("UI/MainMenu/StartButton");
     }
 
+    public void _OnQuit()
+    {
+        Planet = null;
+
+        MainMenu.Visible = true;
+    }
+
     public void _OnStartButtonUp()
     {
         MainMenu.Visible = false;
 
         Planet = (Planet)PlanetScene.Instance();
         AddChild(Planet);
+
+        Planet.Connect("Quit", this, "_OnQuit");
     }
 }

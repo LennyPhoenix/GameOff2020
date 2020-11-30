@@ -3,6 +3,8 @@ using Godot.Collections;
 
 public class Core : GenericCarrier
 {
+    [Signal] public delegate void Destroyed(int score);
+
     [Export] public NodePath ResourcesUIPath;
 
     public Dictionary<Item, StorageItem> ResourcesUIItems = new Dictionary<Item, StorageItem>();
@@ -19,6 +21,13 @@ public class Core : GenericCarrier
         base._Ready();
 
         Items[Item.Stone] = 196;
+    }
+
+    public override void Destroy()
+    {
+        EmitSignal("Destroyed", Items[Item.BlastiumCell]);
+
+        base.Destroy();
     }
 
     public override void Tick()

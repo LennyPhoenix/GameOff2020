@@ -5,6 +5,7 @@ using Godot.Collections;
 public class Planet : Node2D
 {
 	[Signal] public delegate void Generated();
+	[Signal] public delegate void Quit();
 
 	[Export] public PackedScene EnemySmall;
 	[Export] public PackedScene EnemyMedium;
@@ -53,10 +54,18 @@ public class Planet : Node2D
 	public Player Player;
 
 	public WaveTimer WaveTimer;
+	public FailureBox FailureBox;
 
 	private bool waveStarted = false;
 
-	public override void _Ready()
+    public override void _EnterTree()
+    {
+        base._EnterTree();
+
+		Globals.Reset();
+    }
+
+    public override void _Ready()
 	{
 		base._Ready();
 
@@ -82,11 +91,12 @@ public class Planet : Node2D
 		Player = GroundEntities.GetNode<Player>("Player");
 
         WaveTimer = GetNode<WaveTimer>("UI/WaveTimer");
+		FailureBox = GetNode<FailureBox>("UI/FailureBox");
 
         Generate();
 
 		WaveTimer.Wave = 1;
-        WaveTimer.StartTimer(150);
+        WaveTimer.StartTimer(2);
     }
 
 	public override string _GetConfigurationWarning()
@@ -137,6 +147,12 @@ public class Planet : Node2D
 		);
 	}
 
+	public void _OnQuit()
+    {
+		QueueFree();
+		EmitSignal("Quit");
+    }
+
 	public void _OnBuildingClockTimeout()
 	{
 		GetTree().CallGroup("Buildings", "Tick");
@@ -176,6 +192,13 @@ public class Planet : Node2D
 
 		waveStarted = true;
 	}
+
+	public void _OnCoreDestroyed(int score)
+	{
+		FailureBox.Score = score;
+		FailureBox.Visible = true;
+		GetTree().Paused = true;
+    }
 
 	public void Generate()
 	{
