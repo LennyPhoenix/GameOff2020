@@ -17,6 +17,7 @@ public class Building : StaticBody2D
 
     [Export] public bool BlockNavigation = true;
 
+    public AudioStreamPlayer2D Hit;
     public AnimationPlayer AnimationPlayer;
     public AnimationPlayer SpriteAnimationPlayer;
     public Pipe DraggingPipe;
@@ -53,6 +54,7 @@ public class Building : StaticBody2D
 
         PylonBlueprint = ResourceLoader.Load<Blueprint>("res://Assets/Buildings/Pylon.tres");
 
+        Hit = GetNode<AudioStreamPlayer2D>("Hit");
         AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
         SpriteAnimationPlayer = GetNode<AnimationPlayer>("Sprite/AnimationPlayer");
         InputConnectionHighlight = GetNode<Sprite>("Highlights/InputConnection");
@@ -269,6 +271,8 @@ public class Building : StaticBody2D
 
     public void _OnHit(float newHealth, float maxHealth)
     {
+        Hit.Play();
+
         if (Deleting)
         {
             return;
@@ -421,6 +425,8 @@ public class Building : StaticBody2D
             DraggingPipe.QueueFree();
         }
 
+        Deleting = true;
+
         foreach (Building output in OutputBuildings)
         {
             RemoveOutput(output);
@@ -434,8 +440,6 @@ public class Building : StaticBody2D
         UI.QueueFree();
 
         AnimationPlayer.Play("Delete");
-
-        Deleting = true;
 
         if (BlockNavigation)
         {

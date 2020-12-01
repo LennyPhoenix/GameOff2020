@@ -57,12 +57,12 @@ public class ShakeCamera2D : Camera2D
     }
 
     // Kick off a new screenshake effect.
-    public void Shake(float duration, float frequency, float amplitude) {
+    public void Shake(float duration, float frequency, float amplitude, Vector2 rootPosition) {
         // Initialize variables.
         this.duration = duration;
         timer = duration;
         periodInMs = 1f / frequency;
-        this.amplitude = amplitude;
+        this.amplitude = amplitude / Mathf.Max(1, rootPosition.DistanceTo(GlobalPosition) / 128);
         previousX = (float)GD.RandRange(-1, 1);
         previousY = (float)GD.RandRange(-1, 1);
 

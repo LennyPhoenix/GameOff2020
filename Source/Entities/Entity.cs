@@ -32,6 +32,7 @@ public class Entity : KinematicBody2D
     public float RotationEnd = 0f;
     public float RotationTimer;
 
+    public AudioStreamPlayer2D Hit;
     public Node2D RotateGroup;
     public AnimationPlayer AnimationPlayer;
 
@@ -49,6 +50,7 @@ public class Entity : KinematicBody2D
 
         RotationTimer = RotationTimerStart;
 
+        Hit = GetNode<AudioStreamPlayer2D>("Hit");
         RotateGroup = GetNode<Node2D>("Rotate");
         AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 
@@ -104,6 +106,8 @@ public class Entity : KinematicBody2D
 
     public virtual void _OnHit(float newHealth, float maxHealth)
     {
+        Hit.Play();
+
         if (CurrentState == State.Dead)
         {
             return;

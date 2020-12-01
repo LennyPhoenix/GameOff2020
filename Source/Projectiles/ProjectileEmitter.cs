@@ -12,6 +12,8 @@ public class ProjectileEmitter : Node2D
 
     public Node2D Projectiles;
 
+    public AudioStreamPlayer2D AudioStreamPlayer2D;
+
     public override void _Ready()
     {
         base._Ready();
@@ -22,6 +24,8 @@ public class ProjectileEmitter : Node2D
         }
 
         Projectiles = GetTree().CurrentScene.GetNode<Node2D>("Planet/Projectiles");
+
+        AudioStreamPlayer2D = GetNode<AudioStreamPlayer2D>("AudioStreamPlayer2D");
     }
 
     public override string _GetConfigurationWarning()
@@ -35,6 +39,8 @@ public class ProjectileEmitter : Node2D
 
     public void Emit()
     {
+        AudioStreamPlayer2D.Play();
+
         for (int i = 0; i < ShotCount; i++)
         {
             Projectile proj = (Projectile)Projectile.Instance();

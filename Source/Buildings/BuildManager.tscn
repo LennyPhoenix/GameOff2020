@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://Source/Scanlines.shader" type="Shader" id=1]
 [ext_resource path="res://Source/Buildings/BuildManager.cs" type="Script" id=2]
@@ -21,6 +21,7 @@
 [ext_resource path="res://Assets/Buildings/Walls/TitaniumWall.tres" type="Resource" id=19]
 [ext_resource path="res://Assets/Buildings/Walls/CopperWall.tres" type="Resource" id=20]
 [ext_resource path="res://Assets/Buildings/Factories/AmmoFactory.tres" type="Resource" id=21]
+[ext_resource path="res://Assets/Buildings/Turrets/Minigun.tres" type="Resource" id=22]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Obstructed"
@@ -186,7 +187,7 @@ Blueprints = {
 "Drills": [ ExtResource( 7 ), ExtResource( 6 ), ExtResource( 8 ), ExtResource( 15 ) ],
 "Factories": [ ExtResource( 12 ), ExtResource( 16 ), ExtResource( 21 ) ],
 "Intermediary": [ ExtResource( 9 ), ExtResource( 11 ) ],
-"Turrets": [ ExtResource( 13 ) ],
+"Turrets": [ ExtResource( 13 ), ExtResource( 22 ) ],
 "Walls": [ ExtResource( 17 ), ExtResource( 20 ), ExtResource( 18 ), ExtResource( 19 ) ]
 }
 MenuItemScene = ExtResource( 10 )

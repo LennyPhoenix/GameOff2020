@@ -6,11 +6,11 @@ public class Planet : Node2D
 {
 	[Signal] public delegate void Generated();
 	[Signal] public delegate void Quit();
+	[Signal] public delegate void Win();
 
 	[Export] public PackedScene EnemySmall;
-	[Export] public PackedScene EnemyMedium;
+	[Export] public PackedScene EnemyFlying;
 	[Export] public PackedScene EnemyLarge;
-	[Export] public PackedScene EnemyBoss;
 
 	[Export] public OpenSimplexNoise GroundNoise;
 	[Export] public OpenSimplexNoise WallNoise;
@@ -48,13 +48,18 @@ public class Planet : Node2D
 
 	public Node2D Buildings;
 	public Node2D GroundEntities;
+	public Node2D FlyingEntities;
 	public Node2D Pipes;
 
 	public Building Core;
 	public Player Player;
 
+	public Control NormalControls;
+	public Control BuildControls;
 	public WaveTimer WaveTimer;
+	public Button LaunchButton;
 	public FailureBox FailureBox;
+	public AnimationPlayer FadeAnimationPlayer;
 
 	private bool waveStarted = false;
 
@@ -85,15 +90,20 @@ public class Planet : Node2D
 
 		Buildings = GetNode<Node2D>("Buildings");
 		GroundEntities = GetNode<Node2D>("GroundEntities");
+		FlyingEntities = GetNode<Node2D>("FlyingEntities");
 		Pipes = GetNode<Node2D>("Pipes");
 
 		Core = Buildings.GetNode<Building>("Core");
 		Player = GroundEntities.GetNode<Player>("Player");
 
+		NormalControls = GetNode<Control>("UI/NormalControls");
+		BuildControls = GetNode<Control>("UI/BuildMenuControls");
         WaveTimer = GetNode<WaveTimer>("UI/WaveTimer");
+		LaunchButton = GetNode<Button>("UI/LaunchButton");
 		FailureBox = GetNode<FailureBox>("UI/FailureBox");
+		FadeAnimationPlayer = GetNode<AnimationPlayer>("UI/ColorRect/AnimationPlayer");
 
-        Generate();
+		CallDeferred("Generate");
 
 		WaveTimer.Wave = 1;
         WaveTimer.StartTimer(150);
@@ -115,6 +125,35 @@ public class Planet : Node2D
     public override void _Process(float delta)
     {
         base._Process(delta);
+
+		if (Engine.EditorHint)
+        {
+			return;
+        }
+
+		NormalControls.Visible = !Globals.BuildManager.Enabled;
+		BuildControls.Visible = Globals.BuildManager.Enabled;
+
+		if (IsInstanceValid(Core))
+        {
+			LaunchButton.Text = "Launch: " + Core.Items[Item.BlastiumCell] + "/25 Blastium Cells";
+
+			if (Core.Items[Item.BlastiumCell] >= 25)
+            {
+				LaunchButton.Disabled = false;
+				LaunchButton.SelfModulate = new Color(1, 1, 1, 1);
+            }
+			else
+            {
+				LaunchButton.Disabled = true;
+				LaunchButton.SelfModulate = new Color(1, 1, 1, 0.75f);
+			}
+
+			if (Input.IsKeyPressed((int)KeyList.Alt))
+            {
+				Core.Items[Item.BlastiumCell]++;
+            }
+        }
 
 		if (waveStarted)
 		{
@@ -153,6 +192,11 @@ public class Planet : Node2D
 		EmitSignal("Quit");
     }
 
+	public void _OnLaunchButtonUp()
+    {
+		FadeAnimationPlayer.Play("Fade");
+    }
+
 	public void _OnBuildingClockTimeout()
 	{
 		GetTree().CallGroup("Buildings", "Tick");
@@ -180,6 +224,28 @@ public class Planet : Node2D
 				for (int i = 0; i < Mathf.FloorToInt(WaveTimer.Wave / 2) + 2; i++)
 				{
 					var enemy = (Enemy)EnemySmall.Instance();
+					enemy.GlobalPosition = SpawnRadius.GlobalPosition + new Vector2(0, (float)GD.RandRange(0, 256)).Rotated(Mathf.Deg2Rad((float)GD.RandRange(0, 360)));
+
+					GroundEntities.AddChild(enemy);
+					totalEnemies++;
+
+					await ToSignal(GetTree().CreateTimer(0.01f), "timeout");
+				}
+
+				for (int i = 0; i < Mathf.FloorToInt(WaveTimer.Wave / 3); i++)
+				{
+					var enemy = (FlyingEnemy)EnemyFlying.Instance();
+					enemy.GlobalPosition = SpawnRadius.GlobalPosition + new Vector2(0, (float)GD.RandRange(0, 256)).Rotated(Mathf.Deg2Rad((float)GD.RandRange(0, 360)));
+
+					FlyingEntities.AddChild(enemy);
+					totalEnemies++;
+
+					await ToSignal(GetTree().CreateTimer(0.01f), "timeout");
+				}
+
+				for (int i = 0; i < Mathf.FloorToInt(WaveTimer.Wave / 5); i++)
+				{
+					var enemy = (Enemy)EnemyLarge.Instance();
 					enemy.GlobalPosition = SpawnRadius.GlobalPosition + new Vector2(0, (float)GD.RandRange(0, 256)).Rotated(Mathf.Deg2Rad((float)GD.RandRange(0, 360)));
 
 					GroundEntities.AddChild(enemy);

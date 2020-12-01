@@ -27,11 +27,8 @@ IconType = 3
 Root = NodePath("../Rotate")
 HideOutsideMap = false
 
-[node name="MapWrapper" parent="." index="2"]
+[node name="MapWrapper" parent="." index="3"]
 AdditionalOffsetPaths = [ NodePath("../Lights"), NodePath("../Rotate") ]
-
-[node name="HealthManager" parent="." index="3"]
-collision_mask = 8
 
 [node name="TargetArea" type="Area2D" parent="." index="4"]
 collision_layer = 0
@@ -46,6 +43,9 @@ collision_mask = 2147483680
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PriorityTargetArea" index="0"]
 shape = SubResource( 2 )
+
+[node name="HealthManager" parent="." index="6"]
+collision_mask = 8
 
 [node name="ProjectileEmitter" parent="Rotate" index="1" instance=ExtResource( 3 )]
 [connection signal="timeout" from="ShootTimer" to="." method="_OnTimeout"]

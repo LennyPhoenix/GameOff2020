@@ -6,7 +6,7 @@ public class Player : Entity
     [Export] public float CameraForwardMult = 30f;
 
     // Health
-    [Export] public float RegenTime = 3f;
+    [Export] public float RegenTime = 2f;
     [Export] public float RegenAcceleration = 0.15f;
     [Export] public float RegenAmount = 5f;
     private float currentRegenTime;

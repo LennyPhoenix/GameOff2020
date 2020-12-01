@@ -52,7 +52,7 @@ ShakeDuration = 0.15
 ShakeAmplitude = 0.75
 ProjectileEmitters = [ NodePath("Rotate/Top/TopEmitter"), NodePath("Rotate/Top/BottomEmitter") ]
 
-[node name="HealthManager" parent="." index="2"]
+[node name="HealthManager" parent="." index="3"]
 MaxHealth = 150.0
 Collider = SubResource( 1 )
 
@@ -62,11 +62,11 @@ Radius = 192.0
 [node name="CollisionShape2D" parent="TargetArea" index="1"]
 shape = SubResource( 2 )
 
-[node name="Sprite" parent="." index="5"]
+[node name="Sprite" parent="." index="6"]
 texture = ExtResource( 2 )
 vframes = 2
 
-[node name="CollisionShape2D" parent="." index="6"]
+[node name="CollisionShape2D" parent="." index="7"]
 shape = SubResource( 3 )
 
 [node name="Top" parent="Rotate" index="0"]
@@ -89,10 +89,10 @@ Projectile = ExtResource( 6 )
 AccuracySteps = 5
 RotationModifier = 180
 
-[node name="LightOccluder2D" parent="." index="8"]
+[node name="LightOccluder2D" parent="." index="9"]
 occluder = SubResource( 5 )
 
-[node name="Warning" parent="." index="9"]
+[node name="Warning" parent="." index="10"]
 scale = Vector2( 2, 2 )
 
 [node name="InputConnection" parent="Highlights" index="0"]

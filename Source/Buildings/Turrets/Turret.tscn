@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Source/Buildings/Building.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Source/UI/Building/CircleRenderer.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Assets/UI/Unshaded.tres" type="Material" id=3]
 [ext_resource path="res://Source/Buildings/Turrets/Turret.cs" type="Script" id=4]
+[ext_resource path="res://Source/UI/MinimapIcons.tscn" type="PackedScene" id=5]
 
 [node name="Turret" instance=ExtResource( 1 )]
 script = ExtResource( 4 )
@@ -20,10 +21,17 @@ RotationTimerStart = 0.3
 [node name="ShootTimer" type="Timer" parent="." index="0"]
 wait_time = 0.25
 
-[node name="HealthManager" parent="." index="2"]
+[node name="MinimapIcons" parent="." index="1" instance=ExtResource( 5 )]
+IconType = 0
+Root = NodePath("../Rotate")
+
+[node name="MapWrapper" parent="." index="2"]
+AdditionalOffsetPaths = [ NodePath("../Sprite"), NodePath("../LightOccluder2D"), NodePath("../CollisionShape2D"), NodePath("../Rotate") ]
+
+[node name="HealthManager" parent="." index="3"]
 MaxHealth = 200.0
 
-[node name="TargetArea" type="Area2D" parent="." index="3"]
+[node name="TargetArea" type="Area2D" parent="." index="4"]
 visible = false
 monitorable = false
 collision_layer = 0
@@ -36,13 +44,13 @@ Radius = 128.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TargetArea" index="1"]
 material = ExtResource( 3 )
 
-[node name="Rotate" type="Node2D" parent="." index="7"]
+[node name="Rotate" type="Node2D" parent="." index="8"]
 
 [node name="Top" type="Sprite" parent="Rotate" index="0"]
 light_mask = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Rotate/Top" index="0"]
 
-[node name="Warning" parent="." index="9"]
+[node name="Warning" parent="." index="10"]
 modulate = Color( 1, 1, 1, 0.501961 )
 [connection signal="timeout" from="ShootTimer" to="." method="_OnTimeout"]

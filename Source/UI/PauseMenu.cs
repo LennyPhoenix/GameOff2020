@@ -59,6 +59,11 @@ public class PauseMenu : PanelContainer
         }
     }
 
+    public void _OnFullscreenButtonUp()
+    {
+        OS.WindowFullscreen = !OS.WindowFullscreen;
+    }
+
     public void _OnExitButtonUp()
     {
         Main.Visible = false;

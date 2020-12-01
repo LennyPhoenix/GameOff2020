@@ -15,7 +15,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Moonshot"
+config/name="HAZE-3"
 run/main_scene="res://App.tscn"
 boot_splash/image="res://Jank-Studios.png"
 boot_splash/bg_color=Color( 0, 0, 0, 1 )

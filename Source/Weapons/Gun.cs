@@ -58,7 +58,8 @@ public class Gun : Sprite
             "ShakeCamera", "Shake",
             ShakeDuration,
             ShakeFrequency,
-            ShakeAmplitude
+            ShakeAmplitude,
+            GlobalPosition
         );
 
         Timer.Start(ShotCooldown);

@@ -26,6 +26,7 @@ MaxStorage = {
 Outputs = {
 
 }
+MaxInput = 20
 Size = 5
 CanStore = 500
 CanOutput = 3
@@ -34,21 +35,12 @@ CanOutput = 3
 Root = NodePath("../Sprite")
 HideOutsideMap = false
 
-[node name="MapWrapper" parent="." index="1"]
+[node name="MapWrapper" parent="." index="4"]
 AdditionalOffsetPaths = [ NodePath("../Sprite"), NodePath("../LightOccluder2D"), NodePath("../Light2D"), NodePath("../CollisionShape2D") ]
 
-[node name="HealthManager" parent="." index="2"]
+[node name="HealthManager" parent="." index="5"]
 MaxHealth = 1000.0
 Collider = SubResource( 1 )
-
-[node name="AnimationPlayer" parent="." index="3"]
-pause_mode = 2
-
-[node name="Sprite" parent="." index="4"]
-texture = ExtResource( 3 )
-
-[node name="CollisionShape2D" parent="." index="5"]
-shape = SubResource( 2 )
 
 [node name="Light2D" type="Light2D" parent="." index="6"]
 texture = ExtResource( 4 )
@@ -56,10 +48,19 @@ texture_scale = 3.0
 energy = 0.5
 range_item_cull_mask = 3
 
-[node name="LightOccluder2D" parent="." index="7"]
+[node name="AnimationPlayer" parent="." index="7"]
+pause_mode = 2
+
+[node name="Sprite" parent="." index="8"]
+texture = ExtResource( 3 )
+
+[node name="CollisionShape2D" parent="." index="9"]
+shape = SubResource( 2 )
+
+[node name="LightOccluder2D" parent="." index="10"]
 occluder = SubResource( 3 )
 
-[node name="Warning" parent="." index="8"]
+[node name="Warning" parent="." index="11"]
 scale = Vector2( 5, 5 )
 
 [node name="InputConnection" parent="Highlights" index="0"]

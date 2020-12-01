@@ -17,28 +17,25 @@ public class NavigationManager : Navigation2D
 
     private Dictionary<Node2D, NavQueueItem> navQueue = new Dictionary<Node2D, NavQueueItem>();
 
-    private Thread pathThread = new Thread();
+    private Thread pathThread;
     private bool run = true;
 
     public override void _Ready()
     {
         base._Ready();
 
+#if !(GODOT_WEB || GODOT_HTML5)
+        pathThread = new Thread();
+#endif
+
         Start();
     }
 
     public void QueueAgent(Node2D agent, Vector2 targetLocation, Action<Godot.Collections.Array<Vector2>> callback)
     {
-        if (navQueue.ContainsKey(agent))
+        if (navQueue.ContainsKey(agent) && navQueue[agent].Target.Round() == targetLocation.Round())
         {
-            if (navQueue[agent].Target.Round() != targetLocation.Round())
-            {
-                navQueue.Remove(agent);
-            }
-            else
-            {
-                return;
-            }
+            return;
         }
 
         var queueItem = new NavQueueItem()
@@ -60,10 +57,14 @@ public class NavigationManager : Navigation2D
 
     public void Start()
     {
+#if GODOT_WEB || GODOT_HTML5
+        CalculatePathsAsync();
+#else
         if (!pathThread.IsActive())
         {
-            pathThread.Start(this, "CalculatePaths");
+            pathThread.Start(this, "CalculatePathsThreaded");
         }
+#endif
         run = true;
     }
 
@@ -72,7 +73,7 @@ public class NavigationManager : Navigation2D
         run = false;
     }
 
-    public void CalculatePaths(object userData)
+    public async void CalculatePathsAsync()
     {
         while (run)
         {
@@ -88,6 +89,44 @@ public class NavigationManager : Navigation2D
                 }
                 else
                 {
+                    Vector2[] points = GetSimplePath(nextAgent.GlobalPosition, queueItem.Target);
+
+                    newPath = new Godot.Collections.Array<Vector2>();
+                    foreach (Vector2 point in points)
+                    {
+                        newPath.Add(point);
+                    }
+                }
+
+                navQueue.Remove(nextAgent);
+
+                LastAgent = nextAgent;
+                LastTarget = queueItem.Target;
+                LastPath = newPath;
+
+                queueItem.Callback(newPath);
+            }
+            await ToSignal(GetTree().CreateTimer(0.05f), "timeout");
+        }
+    }
+
+    public void CalculatePathsThreaded(object userData)
+    {
+        while (run)
+        {
+            if (navQueue.Count > 0)
+            {
+                Node2D nextAgent = navQueue.Keys.First();
+                NavQueueItem queueItem = navQueue[nextAgent];
+
+                Godot.Collections.Array<Vector2> newPath;
+                if (LastAgent != null && IsInstanceValid(LastAgent) && LastTarget.Round() == queueItem.Target.Round() && LastAgent.GlobalPosition.DistanceTo(nextAgent.GlobalPosition) < 256)
+                {
+                    newPath = LastPath;
+                }
+                else
+                {
+                    GD.Print("Calculating.");
                     Vector2[] points = GetSimplePath(nextAgent.GlobalPosition, queueItem.Target);
 
                     newPath = new Godot.Collections.Array<Vector2>();

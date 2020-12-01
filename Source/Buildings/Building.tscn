@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Source/MapWrapper.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Source/Buildings/Building.cs" type="Script" id=2]
@@ -14,6 +14,9 @@
 [ext_resource path="res://Assets/UI/Building/InputArrow.png" type="Texture" id=12]
 [ext_resource path="res://Source/HealthManager.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Source/UI/HealthBar.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Assets/SFX/PlaceBuilding.wav" type="AudioStream" id=15]
+[ext_resource path="res://Assets/SFX/Explode.wav" type="AudioStream" id=16]
+[ext_resource path="res://Assets/SFX/Hit.wav" type="AudioStream" id=17]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Default"
@@ -85,8 +88,22 @@ tracks/1/keys = {
 "method": "queue_free"
 } ]
 }
+tracks/2/type = "method"
+tracks/2/path = NodePath("Destroy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+} ]
+}
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=3]
 resource_name = "Destroy"
 length = 0.08
 step = 0.005
@@ -117,7 +134,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=4]
 length = 1.5
 loop = true
 tracks/0/type = "value"
@@ -157,7 +174,7 @@ tracks/2/keys = {
 "values": [ Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=5]
 length = 0.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:rotation_degrees")
@@ -195,9 +212,22 @@ tracks/2/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
+tracks/3/type = "method"
+tracks/3/path = NodePath("Place")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+} ]
+}
 
-[sub_resource type="Animation" id=5]
-resource_name = "Hide"
+[sub_resource type="Animation" id=6]
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
@@ -224,8 +254,7 @@ tracks/1/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=6]
-resource_name = "Show"
+[sub_resource type="Animation" id=7]
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
@@ -252,7 +281,7 @@ tracks/1/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="DynamicFont" id=7]
+[sub_resource type="DynamicFont" id=8]
 extra_spacing_top = -4
 extra_spacing_bottom = -1
 font_data = ExtResource( 11 )
@@ -267,9 +296,30 @@ script = ExtResource( 2 )
 PipeScene = ExtResource( 3 )
 StorageItemScene = ExtResource( 7 )
 
+[node name="Place" type="AudioStreamPlayer2D" parent="." groups=[
+"SFXAudio2D",
+]]
+stream = ExtResource( 15 )
+max_distance = 1024.0
+bus = "SFX"
+
+[node name="Destroy" type="AudioStreamPlayer2D" parent="." groups=[
+"SFXAudio2D",
+]]
+stream = ExtResource( 16 )
+max_distance = 1024.0
+bus = "SFX"
+
+[node name="Hit" type="AudioStreamPlayer2D" parent="." groups=[
+"SFXAudio2D",
+]]
+stream = ExtResource( 17 )
+max_distance = 1024.0
+bus = "SFX"
+
 [node name="MapWrapper" parent="." instance=ExtResource( 1 )]
-RootPath = NodePath("..")
 AdditionalOffsetPaths = [ NodePath("../Sprite"), NodePath("../LightOccluder2D"), NodePath("../CollisionShape2D") ]
+RootPath = NodePath("..")
 
 [node name="HealthManager" parent="." instance=ExtResource( 13 )]
 collision_mask = 16
@@ -278,9 +328,9 @@ collision_mask = 16
 autoplay = "Spawn"
 anims/Default = SubResource( 1 )
 anims/Delete = SubResource( 2 )
-anims/Destroy = SubResource( 8 )
-anims/Selected = SubResource( 3 )
-anims/Spawn = SubResource( 4 )
+anims/Destroy = SubResource( 3 )
+anims/Selected = SubResource( 4 )
+anims/Spawn = SubResource( 5 )
 
 [node name="Sprite" type="Sprite" parent="."]
 light_mask = 2
@@ -320,8 +370,8 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="UI"]
-anims/Hide = SubResource( 5 )
-anims/Show = SubResource( 6 )
+anims/Hide = SubResource( 6 )
+anims/Show = SubResource( 7 )
 
 [node name="StorageContainer" type="PanelContainer" parent="UI"]
 material = ExtResource( 8 )
@@ -386,7 +436,7 @@ material = ExtResource( 8 )
 margin_left = 8.0
 margin_right = 20.0
 margin_bottom = 8.0
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 8 )
 text = "1/4"
 
 [node name="Output" type="HBoxContainer" parent="UI/ConnectionContainer/VBoxContainer"]
@@ -408,7 +458,7 @@ material = ExtResource( 8 )
 margin_left = 8.0
 margin_right = 20.0
 margin_bottom = 8.0
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 8 )
 text = "1/4"
 
 [node name="HealthBar" parent="UI" instance=ExtResource( 14 )]
