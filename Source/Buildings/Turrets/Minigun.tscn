@@ -6,17 +6,13 @@
 [ext_resource path="res://Source/Projectiles/ProjectileEmitter.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Assets/Buildings/Turrets/Minigun.png" type="Texture" id=5]
 
-[sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 25, 25 )
-
 [sub_resource type="CircleShape2D" id=1]
 radius = 192.0
 
-[sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 24, 24 )
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 25, 25 )
 
-[sub_resource type="Animation" id=2]
-resource_name = "Shoot"
+[sub_resource type="Animation" id=3]
 length = 0.15
 step = 0.013
 tracks/0/type = "value"
@@ -31,6 +27,9 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Vector2( 0, 0 ), Vector2( -2, 0 ), Vector2( -3, 0 ), Vector2( 0, 0 ) ]
 }
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 24, 24 )
 
 [sub_resource type="OccluderPolygon2D" id=5]
 polygon = PoolVector2Array( -23, -24, 23, -24, 23, -23, 24, -23, 24, 23, 23, 23, 23, 24, -23, 24, -23, 23, -24, 23, -24, -23, -23, -23 )
@@ -55,22 +54,19 @@ ProjectileEmitters = [ NodePath("Rotate/Top/TopEmitter"), NodePath("Rotate/Top/M
 [node name="ShootTimer" parent="." index="0"]
 wait_time = 0.05
 
-[node name="HealthManager" parent="." index="3"]
-MaxHealth = 300.0
-Collider = SubResource( 4 )
-
 [node name="CircleRenderer" parent="TargetArea" index="0"]
 Radius = 192.0
 
 [node name="CollisionShape2D" parent="TargetArea" index="1"]
 shape = SubResource( 1 )
 
-[node name="Sprite" parent="." index="6"]
+[node name="HealthManager" parent="." index="7"]
+MaxHealth = 300.0
+Collider = SubResource( 2 )
+
+[node name="Sprite" parent="." index="9"]
 texture = ExtResource( 5 )
 vframes = 2
-
-[node name="CollisionShape2D" parent="." index="7"]
-shape = SubResource( 3 )
 
 [node name="Top" parent="Rotate" index="0"]
 texture = ExtResource( 5 )
@@ -78,33 +74,36 @@ vframes = 2
 frame = 1
 
 [node name="AnimationPlayer" parent="Rotate/Top" index="0"]
-anims/Shoot = SubResource( 2 )
+anims/Shoot = SubResource( 3 )
 
 [node name="TopEmitter" parent="Rotate/Top" index="1" instance=ExtResource( 4 )]
 position = Vector2( 18, -3 )
 Projectile = ExtResource( 2 )
+AccuracySteps = 10
 AccuracyAngle = 6
 VelocityModifier = 150
-AccuracySteps = 10
 
 [node name="MiddleEmitter" parent="Rotate/Top" index="2" instance=ExtResource( 4 )]
 position = Vector2( 18, 0 )
 Projectile = ExtResource( 2 )
+AccuracySteps = 10
 AccuracyAngle = 6
 VelocityModifier = 150
-AccuracySteps = 10
 
 [node name="BottomEmitter" parent="Rotate/Top" index="3" instance=ExtResource( 4 )]
 position = Vector2( 18, 3 )
 Projectile = ExtResource( 2 )
+AccuracySteps = 10
 AccuracyAngle = 6
 VelocityModifier = 150
-AccuracySteps = 10
 
-[node name="LightOccluder2D" parent="." index="9"]
+[node name="CollisionShape2D" parent="." index="11"]
+shape = SubResource( 4 )
+
+[node name="LightOccluder2D" parent="." index="12"]
 occluder = SubResource( 5 )
 
-[node name="Warning" parent="." index="10"]
+[node name="Warning" parent="." index="13"]
 scale = Vector2( 3, 3 )
 
 [node name="InputConnection" parent="Highlights" index="0"]

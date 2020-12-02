@@ -146,6 +146,7 @@ public class Enemy : Entity
             {
                 continue;
             }
+
             float dist = GlobalPosition.DistanceTo(building.GlobalPosition);
 
             if (dist < closestDistance && !building.Deleting)
@@ -154,6 +155,12 @@ public class Enemy : Entity
                 closestDistance = dist;
             }
             await ToSignal(GetTree().CreateTimer(0.01f), "timeout");
+        }
+
+        if (!IsInstanceValid(closest))
+        {
+            RecalculatePath();
+            return;
         }
 
         target = closest;

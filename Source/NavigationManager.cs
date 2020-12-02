@@ -33,7 +33,7 @@ public class NavigationManager : Navigation2D
 
     public void QueueAgent(Node2D agent, Vector2 targetLocation, Action<Godot.Collections.Array<Vector2>> callback)
     {
-        if (navQueue.ContainsKey(agent) && navQueue[agent].Target.Round() == targetLocation.Round())
+        if (navQueue.ContainsKey(agent))
         {
             return;
         }

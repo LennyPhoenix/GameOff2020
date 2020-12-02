@@ -148,11 +148,6 @@ public class Planet : Node2D
 				LaunchButton.Disabled = true;
 				LaunchButton.SelfModulate = new Color(1, 1, 1, 0.75f);
 			}
-
-			if (Input.IsKeyPressed((int)KeyList.Alt))
-            {
-				Core.Items[Item.BlastiumCell]++;
-            }
         }
 
 		if (waveStarted)

@@ -29,6 +29,10 @@ public class FlyingEnemy : Entity
         {
             Rotate(delta, target.GlobalPosition.AngleToPoint(GlobalPosition));
         }
+        else
+        {
+            RecalculatePath();
+        }
 
         MoveVec = new Vector2(1, 0).Rotated(RotateGroup.GlobalRotation);
 

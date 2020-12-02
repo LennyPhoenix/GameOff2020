@@ -50,6 +50,8 @@ public class App : Node
         UpdateMasterVolume(Settings.MasterVolume * 100);
         UpdateSFXVolume(Settings.SFXVolume * 100);
         UpdateMusicVolume(Settings.MusicVolume * 100);
+
+        UpdateVolume();
     }
 
     public override void _Process(float delta)
@@ -66,26 +68,7 @@ public class App : Node
             IntroAnimationPlayer.Play("Show");
         }
 
-        Array sfx2D = GetTree().GetNodesInGroup("SFXAudio2D");
-
-        foreach (AudioStreamPlayer2D audioStream in sfx2D)
-        {
-            audioStream.VolumeDb = -20 + (20 * Settings.MasterVolume * Settings.SFXVolume);
-        }
-
-        Array sfx = GetTree().GetNodesInGroup("SFXAudio");
-
-        foreach (AudioStreamPlayer audioStream in sfx)
-        {
-            audioStream.VolumeDb = -20 + (20 * Settings.MasterVolume * Settings.SFXVolume);
-        }
-
-        Array music = GetTree().GetNodesInGroup("MusicAudio");
-
-        foreach (AudioStreamPlayer audioStream in music)
-        {
-            audioStream.VolumeDb = -20 + (20 * Settings.MasterVolume * Settings.MusicVolume);
-        }
+        UpdateVolume();
     }
 
     public void _OnWin()
@@ -174,5 +157,29 @@ public class App : Node
             MusicVolumeSlider.Value = value;
         }
         MusicVolumeLabel.Text = "Music Volume: " + value.ToString() + "%";
+    }
+
+    public void UpdateVolume()
+    {
+        Array sfx2D = GetTree().GetNodesInGroup("SFXAudio2D");
+
+        foreach (AudioStreamPlayer2D audioStream in sfx2D)
+        {
+            audioStream.VolumeDb = -50f + (50f * Settings.MasterVolume * Settings.SFXVolume);
+        }
+
+        Array sfx = GetTree().GetNodesInGroup("SFXAudio");
+
+        foreach (AudioStreamPlayer audioStream in sfx)
+        {
+            audioStream.VolumeDb = -50f + (50f * Settings.MasterVolume * Settings.SFXVolume);
+        }
+
+        Array music = GetTree().GetNodesInGroup("MusicAudio");
+
+        foreach (AudioStreamPlayer audioStream in music)
+        {
+            audioStream.VolumeDb = -50f + (50f * Settings.MasterVolume * Settings.MusicVolume);
+        }
     }
 }
