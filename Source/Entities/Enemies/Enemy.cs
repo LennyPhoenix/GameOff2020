@@ -3,6 +3,8 @@ using Godot.Collections;
 
 public class Enemy : Entity
 {
+    [Export] public float NextPathPoint = 12f;
+
     public NavigationManager NavigationManager;
 
     public Timer ShootTimer;
@@ -44,7 +46,7 @@ public class Enemy : Entity
             return;
         }
 
-        if (GlobalPosition.DistanceTo(path[0]) < 12 || (IsInstanceValid(target) && GlobalPosition.DistanceTo(path[0]) < 32 && path[0].DistanceTo(target.GlobalPosition) > GlobalPosition.DistanceTo(target.GlobalPosition)))
+        if (GlobalPosition.DistanceTo(path[0]) < NextPathPoint || (IsInstanceValid(target) && GlobalPosition.DistanceTo(path[0]) < 32 && path[0].DistanceTo(target.GlobalPosition) > GlobalPosition.DistanceTo(target.GlobalPosition)))
         {
             path.RemoveAt(0);
 
