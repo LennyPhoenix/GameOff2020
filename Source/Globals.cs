@@ -48,6 +48,7 @@ public class Globals
 	public static Building LastBuilding;
 
 	public static Core Core;
+	public static Minimap Minimap;
 
     public static Dictionary<Ore, Item> OreToItem = new Dictionary<Ore, Item>()
     {
@@ -69,5 +70,6 @@ public class Globals
 		LastBuilding = null;
 
 		Core = null;
+		Minimap = null;
 	}
 }

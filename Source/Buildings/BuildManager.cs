@@ -248,6 +248,11 @@ public class BuildManager : Area2D
 		{
 			if (deconstructBuilding == Globals.HoveringBuilding)
 			{
+				foreach (Item item in deconstructBuilding.Refunds.Keys)
+                {
+					Globals.Core.Items[item] += deconstructBuilding.Refunds[item];
+					Globals.Core.Items[item] = Mathf.Min(Globals.Core.Items[item], Globals.Core.MaxStorage[item]);
+                }
 				deconstructBuilding.Destroy();
 				deconstructBuilding = null;
 				DeconstructAnimationPlayer.Play("Deleted");

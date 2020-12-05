@@ -39,13 +39,16 @@ Outputs = {
 1: 1,
 7: 1
 }
+Refunds = {
+0: 50
+}
 MiningAmount = 0.03
 
-[node name="HealthManager" parent="." index="2"]
+[node name="HealthManager" parent="." index="5"]
 MaxHealth = 150.0
 Collider = SubResource( 1 )
 
-[node name="Sprite" parent="." index="4"]
+[node name="Sprite" parent="." index="7"]
 texture = ExtResource( 2 )
 hframes = 11
 
@@ -53,13 +56,13 @@ hframes = 11
 autoplay = "Default"
 anims/Default = SubResource( 2 )
 
-[node name="CollisionShape2D" parent="." index="5"]
+[node name="CollisionShape2D" parent="." index="8"]
 shape = SubResource( 3 )
 
-[node name="LightOccluder2D" parent="." index="6"]
+[node name="LightOccluder2D" parent="." index="9"]
 occluder = SubResource( 4 )
 
-[node name="Warning" parent="." index="7"]
+[node name="Warning" parent="." index="10"]
 scale = Vector2( 3, 3 )
 
 [node name="InputConnection" parent="Highlights" index="0"]

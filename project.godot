@@ -20,6 +20,8 @@ run/main_scene="res://App.tscn"
 boot_splash/image="res://Jank-Studios.png"
 boot_splash/bg_color=Color( 0, 0, 0, 1 )
 config/icon="res://icon.png"
+config/macos_native_icon="res://icon.icns"
+config/windows_native_icon="res://icon.ico"
 
 [display]
 

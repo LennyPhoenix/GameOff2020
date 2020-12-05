@@ -20,8 +20,8 @@ public class Minimap : MarginContainer
 
     private Dictionary<MinimapIconType, Sprite> icons;
 
-    private Array<MinimapIcon> iconNodes = new Array<MinimapIcon>();
-    private Array<Sprite> markers = new Array<Sprite>();
+    public Player Player;
+    public Planet Planet;
 
     public override void _Ready()
     {
@@ -48,15 +48,15 @@ public class Minimap : MarginContainer
 
         PlayerMarker.Position = Markers.RectSize / 2 + Markers.RectPosition;
 
-        Array mapObjects = GetTree().GetNodesInGroup("MinimapIcons");
-        foreach (MinimapIcon minimapIcon in mapObjects)
-        {
-            Sprite newMarker = (Sprite)icons[minimapIcon.IconType].Duplicate();
-            Markers.AddChild(newMarker);
-            newMarker.Show();
-            iconNodes.Add(minimapIcon);
-            markers.Add(newMarker);
-        }
+        Globals.Minimap = this;
+    }
+
+    public Sprite AddMarker(MinimapIconType iconType)
+    {
+        Sprite newMarker = (Sprite)icons[iconType].Duplicate();
+        Markers.AddChild(newMarker);
+        newMarker.Show();
+        return newMarker;
     }
 
     public override void _Process(float delta)
@@ -68,61 +68,11 @@ public class Minimap : MarginContainer
             return;
         }
 
-        var player = GetNode<Player>(PlayerPath);
-        var planet = GetNode<Planet>(RootPlanetPath);
+        Player = GetNode<Player>(PlayerPath);
+        Planet = GetNode<Planet>(RootPlanetPath);
 
-        PlayerMarker.Rotation = player.RotateGroup.GlobalRotation;
-        Tiles.Position = (-player.GlobalPosition) / Globals.TileSize + Markers.RectSize / 2 + new Vector2(planet.WorldSize / 2, planet.WorldSize / 2);
-
-        Array globalIconNodes = GetTree().GetNodesInGroup("MinimapIcons");
-
-        foreach (MinimapIcon iconNode in globalIconNodes)
-        {
-            if (!iconNodes.Contains(iconNode))
-            {
-                Sprite newMarker = (Sprite)icons[iconNode.IconType].Duplicate();
-                Markers.AddChild(newMarker);
-                newMarker.Show();
-                iconNodes.Add(iconNode);
-                markers.Add(newMarker);
-            }
-        }
-
-        Array<Sprite> removeMarkers = new Array<Sprite>();
-
-        for (int i = 0; i < iconNodes.Count; i++)
-        {
-            MinimapIcon iconNode = iconNodes[i];
-            Sprite marker = markers[i];
-
-            if (globalIconNodes.Contains(iconNode))
-            {
-                Vector2 objPosition = (iconNode.GetNode<Node2D>(iconNode.Root).GlobalPosition - player.GlobalPosition) / Globals.TileSize + Markers.RectSize / 2;
-
-                if (iconNode.HideOutsideMap)
-                {
-                    marker.Visible = Markers.GetRect().HasPoint(objPosition);
-                }
-
-                objPosition.x = Mathf.Clamp(objPosition.x, 0, Markers.RectSize.x);
-                objPosition.y = Mathf.Clamp(objPosition.y, 0, Markers.RectSize.y);
-
-                marker.Position = objPosition;
-                marker.Rotation = iconNode.GetNode<Node2D>(iconNode.Root).GlobalRotation;
-            }
-            else
-            {
-                marker.QueueFree();
-                removeMarkers.Add(marker);
-            }
-        }
-
-        foreach (Sprite marker in removeMarkers)
-        {
-            int i = markers.IndexOf(marker);
-            markers.RemoveAt(i);
-            iconNodes.RemoveAt(i);
-        }
+        PlayerMarker.Rotation = Player.RotateGroup.GlobalRotation;
+        Tiles.Position = (-Player.GlobalPosition) / Globals.TileSize + Markers.RectSize / 2 + new Vector2(Planet.WorldSize / 2, Planet.WorldSize / 2);
     }
 
     public void _OnPlanetGenerated()
@@ -137,17 +87,17 @@ public class Minimap : MarginContainer
             return;
         }
 
-        var planet = GetNode<Planet>(RootPlanetPath);
+        Planet = GetNode<Planet>(RootPlanetPath);
         var ore = GetNode<TileMap>(OrePath);
         var wall = GetNode<TileMap>(WallPath);
 
         Image image = new Image();
-        image.Create(planet.WorldSize + planet.PerimeterSize * 2, planet.WorldSize + planet.PerimeterSize * 2, false, Image.Format.Rgba8);
+        image.Create(Planet.WorldSize + Planet.PerimeterSize * 2, Planet.WorldSize + Planet.PerimeterSize * 2, false, Image.Format.Rgba8);
         image.Lock();
 
-        for (int x = 0 - planet.PerimeterSize; x < (planet.WorldSize + planet.PerimeterSize); x++)
+        for (int x = 0 - Planet.PerimeterSize; x < (Planet.WorldSize + Planet.PerimeterSize); x++)
         {
-            for (int y = 0 - planet.PerimeterSize; y < (planet.WorldSize + planet.PerimeterSize); y++)
+            for (int y = 0 - Planet.PerimeterSize; y < (Planet.WorldSize + Planet.PerimeterSize); y++)
             {
                 Color color;
                 if (wall.GetCell(x, y) == -1)
@@ -182,7 +132,7 @@ public class Minimap : MarginContainer
                     color = new Color("000000");
                 }
 
-                image.SetPixel(x + planet.PerimeterSize, y + planet.PerimeterSize, color);
+                image.SetPixel(x + Planet.PerimeterSize, y + Planet.PerimeterSize, color);
             }
         }
         image.Unlock();

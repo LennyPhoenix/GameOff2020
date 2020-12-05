@@ -6,11 +6,11 @@
 [ext_resource path="res://Source/Projectiles/ProjectileEmitter.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Assets/Buildings/Turrets/Minigun.png" type="Texture" id=5]
 
-[sub_resource type="CircleShape2D" id=1]
-radius = 192.0
-
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 25, 25 )
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 192.0
 
 [sub_resource type="Animation" id=3]
 length = 0.15
@@ -52,17 +52,17 @@ RotationSpeed = 5.0
 ProjectileEmitters = [ NodePath("Rotate/Top/TopEmitter"), NodePath("Rotate/Top/MiddleEmitter"), NodePath("Rotate/Top/BottomEmitter") ]
 
 [node name="ShootTimer" parent="." index="0"]
-wait_time = 0.05
+wait_time = 0.075
+
+[node name="HealthManager" parent="." index="6"]
+MaxHealth = 300.0
+Collider = SubResource( 1 )
 
 [node name="CircleRenderer" parent="TargetArea" index="0"]
 Radius = 192.0
 
 [node name="CollisionShape2D" parent="TargetArea" index="1"]
-shape = SubResource( 1 )
-
-[node name="HealthManager" parent="." index="7"]
-MaxHealth = 300.0
-Collider = SubResource( 2 )
+shape = SubResource( 2 )
 
 [node name="Sprite" parent="." index="9"]
 texture = ExtResource( 5 )
@@ -78,24 +78,24 @@ anims/Shoot = SubResource( 3 )
 
 [node name="TopEmitter" parent="Rotate/Top" index="1" instance=ExtResource( 4 )]
 position = Vector2( 18, -3 )
-Projectile = ExtResource( 2 )
 AccuracySteps = 10
 AccuracyAngle = 6
 VelocityModifier = 150
+Projectile = ExtResource( 2 )
 
 [node name="MiddleEmitter" parent="Rotate/Top" index="2" instance=ExtResource( 4 )]
 position = Vector2( 18, 0 )
-Projectile = ExtResource( 2 )
 AccuracySteps = 10
 AccuracyAngle = 6
 VelocityModifier = 150
+Projectile = ExtResource( 2 )
 
 [node name="BottomEmitter" parent="Rotate/Top" index="3" instance=ExtResource( 4 )]
 position = Vector2( 18, 3 )
-Projectile = ExtResource( 2 )
 AccuracySteps = 10
 AccuracyAngle = 6
 VelocityModifier = 150
+Projectile = ExtResource( 2 )
 
 [node name="CollisionShape2D" parent="." index="11"]
 shape = SubResource( 4 )

@@ -9,6 +9,7 @@ public class Building : StaticBody2D
 
     [Export] public Dictionary<Item, int> MaxStorage = new Dictionary<Item, int>();
     [Export] public Dictionary<Item, int> Outputs = new Dictionary<Item, int>();
+    [Export] public Dictionary<Item, int> Refunds = new Dictionary<Item, int>();
 
     [Export] public int MaxInput = 4;
     [Export] public int MaxOutput = 4;

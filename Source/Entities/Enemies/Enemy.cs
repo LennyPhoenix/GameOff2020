@@ -159,7 +159,7 @@ public class Enemy : Entity
 
         if (!IsInstanceValid(closest))
         {
-            RecalculatePath();
+            CallDeferred("RecalculatePath");
             return;
         }
 
